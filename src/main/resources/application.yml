@@ -1,0 +1,61 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  server:
+    port: 8010
+  security:
+      user:
+        name: user
+        password: 1234
+
+
+  datasource:
+#    username: root
+#    password: root
+    url: jdbc:mysql://43.143.250.239:3306/bikebackend?userSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: bikebackend
+    password: laststand
+    driverClassName: com.mysql.cj.jdbc.Driver
+    hikari: # 使用springboot默认的连接池hikari
+      minimum-idle: 10 # 池中维护的最小空闲连接数，默认为 10 个
+      maximum-pool-size: 100 # 池中最大连接数，包括闲置和使用中的连接
+
+  data:
+    redis:
+      host: 43.143.250.239
+      port: 1764
+      password: myredis_ch1234567
+      database: 0
+      timeout: 6000ms
+  redis:
+    lettuce:
+        pool:
+          max-idle: 16
+          max-active: 32
+          min-idle: 8
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: org.pp.boot3
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
