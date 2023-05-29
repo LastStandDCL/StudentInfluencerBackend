@@ -69,6 +69,7 @@ public class Menu implements Serializable {
      * 是否删除（0未删除 1已删除）
      */
     private Integer delFlag;
+
     /**
      * 备注
      */
