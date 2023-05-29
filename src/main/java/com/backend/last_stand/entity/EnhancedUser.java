@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginUser implements UserDetails {
+public class EnhancedUser implements UserDetails {
 
         private User user;
 
         //存储权限信息
         private List<String> permissions;
 
-        public LoginUser(User user,List<String> permissions) {
+        public EnhancedUser(User user, List<String> permissions) {
             this.user = user;
             this.permissions = permissions;
         }

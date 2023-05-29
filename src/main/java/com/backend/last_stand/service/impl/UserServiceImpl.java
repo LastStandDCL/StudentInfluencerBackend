@@ -1,8 +1,8 @@
 package com.backend.last_stand.service.impl;
 
+import com.backend.last_stand.entity.EnhancedUser;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.backend.last_stand.entity.LoginUser;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.mapper.UserMapper;
@@ -49,15 +49,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         //从authenticate中获取loginUser对象
-        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+        EnhancedUser enhancedUser = (EnhancedUser) authenticate.getPrincipal();
 
         //使用userid生成token
-        String userId = loginUser.getUser().getId().toString();
+        String userId = enhancedUser.getUser().getId().toString();
         //使用jwt工具类来生成token
         String jwt = JwtUtils.createJWT(userId);
 
         //authenticate存入redis
-        redisCache.setCacheObject("login:"+userId, loginUser);
+        redisCache.setCacheObject("login:"+userId, enhancedUser);
 
         //把token响应给前端
         HashMap<String,String> map = new HashMap<>();
@@ -74,8 +74,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //获取authentication对象
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //从authentication中取出用户信息
-        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        Long userid = loginUser.getUser().getId();
+        EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
+        Long userid = enhancedUser.getUser().getId();
         //从redis缓存中删除用户信息
         redisCache.deleteObject("login:"+userid);
         return new ResponseResult(200,"退出成功");

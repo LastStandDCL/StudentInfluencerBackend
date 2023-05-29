@@ -1,7 +1,7 @@
 package com.backend.last_stand.service.impl;
 
+import com.backend.last_stand.entity.EnhancedUser;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.backend.last_stand.entity.LoginUser;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.mapper.MenuMapper;
 import com.backend.last_stand.mapper.UserMapper;
@@ -42,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         //根据用户信息获取权限，并且封装到LoginUser类中
         List<String> permissionKeyList =  menuMapper.selectPermsByUserId(user.getId());
-        return new LoginUser(user,permissionKeyList);
+        return new EnhancedUser(user,permissionKeyList);
     }
 
 }
