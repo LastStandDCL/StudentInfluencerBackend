@@ -37,6 +37,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private RedisCache redisCache;
 
+    /**
+     * 次方法封装会将用户登录信息和数据库中信息进行比对，然后为uid生成一个token,再将autenticate存入redis，便于提取信息
+     * @param user
+     * @return
+     */
     @Override
     public ResponseResult login(User user) {
         //获取封装的信息
@@ -48,7 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new RuntimeException("用户名或密码错误");
         }
 
-        //从authenticate中获取loginUser对象
+        //从authenticate中获取EnhancedUser对象
         EnhancedUser enhancedUser = (EnhancedUser) authenticate.getPrincipal();
 
         //使用userid生成token
@@ -79,6 +84,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //从redis缓存中删除用户信息
         redisCache.deleteObject("login:"+userid);
         return new ResponseResult(200,"退出成功");
+    }
+
+    @Override
+    public ResponseResult register(User user) {
+        return null;
     }
 
     @Override

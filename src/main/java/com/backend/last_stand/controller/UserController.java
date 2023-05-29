@@ -43,6 +43,11 @@ public class UserController {
         return userService.logout();
     }
 
+    @PostMapping("/user/register")
+    public ResponseResult register(@RequestBody User user) {
+        return userService.register(user);
+    }
+
 
     @GetMapping("/user/hello")
     public ResponseResult hello() {
