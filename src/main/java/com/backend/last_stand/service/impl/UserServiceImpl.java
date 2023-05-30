@@ -115,7 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseResult update(User user) {
         int i = userMapper.updateById(user);
         if (i != 1) {
-            return new ResponseResult(303, "更新信息失败");
+            throw new RuntimeException("更新信息失败");
         }
 
         return new ResponseResult<>(200, "更新信息成功");
@@ -126,7 +126,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         int i = userMapper.deleteById(user);
         if (i != 1) {
-            return new ResponseResult(304, "删除信息失败");
+            throw new RuntimeException("删除信息失败");
         }
         return new ResponseResult<>(200, "删除信息成功");
     }
