@@ -100,7 +100,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //要求学号是唯一存在的
         User user1 = userMapper.selectByUserName(userName);
         if (user1 != null) {// 如果能够在数据库中查询到这个账号，那么冲突了
-            return new ResponseResult<>(209, "注册失败");
+            throw new RuntimeException("注册失败，用户名存在");
         }
         //针对用户密码进行加密处理
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -123,12 +123,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public ResponseResult delete(User user) {
+
         int i = userMapper.deleteById(user);
         if (i != 1) {
             return new ResponseResult(304, "删除信息失败");
         }
         return new ResponseResult<>(200, "删除信息成功");
     }
+
+
 
     @Override
     public boolean saveBatch(Collection<User> entityList, int batchSize) {
