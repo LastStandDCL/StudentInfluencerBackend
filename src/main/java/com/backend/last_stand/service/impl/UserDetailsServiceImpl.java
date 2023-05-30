@@ -40,6 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(Objects.isNull(user)){
             throw new RuntimeException("用户名或密码错误");
         }
+
         //根据用户信息获取权限，并且封装到LoginUser类中
         List<String> permissionKeyList =  menuMapper.selectPermsByUserId(user.getId());
         return new EnhancedUser(user,permissionKeyList);

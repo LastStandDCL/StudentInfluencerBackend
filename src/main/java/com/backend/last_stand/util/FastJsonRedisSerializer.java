@@ -22,8 +22,6 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
-
-
     private Class<T> clazz;
 
     static {

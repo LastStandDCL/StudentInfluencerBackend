@@ -14,12 +14,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -36,6 +34,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 次方法封装会将用户登录信息和数据库中信息进行比对，然后为uid生成一个token,再将autenticate存入redis，便于提取信息
@@ -86,9 +87,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return new ResponseResult(200,"退出成功");
     }
 
+
+
+
     @Override
     public ResponseResult register(User user) {
-        return null;
+        user.setCreateTime(new Date());//用户创建日期
+        //注册的时候前端传入的json需要指定 创建的用户是 1:学生还是2:老师
+        String userName = user.getUserName();
+        //要求学号是唯一存在的
+        User user1 = userMapper.selectByUserName(userName);
+        if (user1 != null) {//如果能够在数据库中查询这个账号，那么冲突了
+            return new ResponseResult<>(209, "注册失败");
+        }
+        //针对用户密码进行加密处理
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encode = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encode);
+
+        userMapper.insert(user);
+        return new ResponseResult(200, "注册成功");
     }
 
     @Override

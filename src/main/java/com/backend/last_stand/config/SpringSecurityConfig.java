@@ -61,11 +61,13 @@ public class SpringSecurityConfig {
                 //不通过Session获取SecurityContext，通过前后端互相传递json数据来进行操作
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                // jwt认证
                 .addFilterBefore(JwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 // 对于登录接口 允许匿名访问
                 .requestMatchers("/user/login").permitAll()
                 .requestMatchers("/user/hello").permitAll()
+                .requestMatchers("/user/register").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
 

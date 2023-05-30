@@ -3,6 +3,7 @@ package com.backend.last_stand.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.backend.last_stand.entity.User;
+import io.lettuce.core.dynamic.annotation.Param;
 
 
 /**
@@ -14,5 +15,7 @@ import com.backend.last_stand.entity.User;
 
 
 public interface UserMapper extends BaseMapper<User> {
+
+   User selectByUserName(@Param("userName") String userName);
 
 }

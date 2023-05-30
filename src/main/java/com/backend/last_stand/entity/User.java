@@ -23,7 +23,7 @@ public class User implements Serializable {
     @TableId
     private Long id;
     /**
-     * 用户名
+     * 姓名
      */
     private String userName;
     /**
@@ -35,27 +35,44 @@ public class User implements Serializable {
      */
     private String password;
     /**
-     * 账号状态（0正常 1停用）
-     */
-    private String status;
-    /**
      * 邮箱
      */
     private String email;
     /**
      * 手机号
      */
-    private String phonenumber;
+    private String telephone;
+
+    /**
+     * 所在的高中学校
+     */
+    private String school;
+
+    /**
+     * 所在省份
+     */
+    private String province;
+
+    /**
+     * 所在城市
+     */
+    private String city;
+
+
     /**
      * 用户性别（0男，1女，2未知）
      */
     private String sex;
     /**
+     * 账号状态（0正常 1停用）
+     */
+    private String status;
+    /**
      * 头像
      */
     private String avatar;
     /**
-     * 用户类型（0管理员，1普通用户）
+     * 用户类型（0管理员，1普通用户, 2老师, 3学生大使）
      */
     private String userType;
     /**

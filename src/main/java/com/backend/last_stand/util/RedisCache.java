@@ -15,7 +15,6 @@ import java.util.*;
  * @description redis工具类,可以帮助完成redis的取值和存值相关操作
  * @date 2023/5/23 17:29
  */
-@SuppressWarnings(value = { "unchecked", "rawtypes" })
 @Component
 public class RedisCache
 {
