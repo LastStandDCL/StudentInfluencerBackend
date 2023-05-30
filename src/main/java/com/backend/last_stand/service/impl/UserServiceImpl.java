@@ -48,8 +48,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //获取封装的信息
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword());
+
         //与数据库中的用户密码进行比对校验
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+
         if(Objects.isNull(authenticate)){
             throw new RuntimeException("用户名或密码错误");
         }
@@ -92,12 +94,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public ResponseResult register(User user) {
-        user.setCreateTime(new Date());//用户创建日期
+        user.setCreateTime(new Date());// 用户创建日期
         //注册的时候前端传入的json需要指定 创建的用户是 1:学生还是2:老师
         String userName = user.getUserName();
         //要求学号是唯一存在的
         User user1 = userMapper.selectByUserName(userName);
-        if (user1 != null) {//如果能够在数据库中查询这个账号，那么冲突了
+        if (user1 != null) {// 如果能够在数据库中查询到这个账号，那么冲突了
             return new ResponseResult<>(209, "注册失败");
         }
         //针对用户密码进行加密处理
@@ -107,6 +109,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         userMapper.insert(user);
         return new ResponseResult(200, "注册成功");
+    }
+
+    @Override
+    public ResponseResult update(User user) {
+        int i = userMapper.updateById(user);
+        if (i != 1) {
+            return new ResponseResult(303, "更新信息失败");
+        }
+
+        return new ResponseResult<>(200, "更新信息成功");
+    }
+
+    @Override
+    public ResponseResult delete(User user) {
+        int i = userMapper.deleteById(user);
+        if (i != 1) {
+            return new ResponseResult(304, "删除信息失败");
+        }
+        return new ResponseResult<>(200, "删除信息成功");
     }
 
     @Override

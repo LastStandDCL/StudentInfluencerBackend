@@ -95,17 +95,17 @@ public class JwtUtils {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0ZGFmOGFmNjg" +
-                "3M2M0ZjE5YjA3MjY5NjM3YTA2OGE0OCIsInN1YiI6IjEiLCJpc3MiOiJzZyIsIm" +
-                "lhdCI6MTY4NTAwMzIzOSwiZXhwIjoxNjg1MDA2ODM5fQ.JQHzS5bKnxns8Wx4J5cq" +
-                "twcuhnhFtxt54tiTfMLxWp8";
+//        String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0ZGFmOGFmNjg" +
+//                "3M2M0ZjE5YjA3MjY5NjM3YTA2OGE0OCIsInN1YiI6IjEiLCJpc3MiOiJzZyIsIm" +
+//                "lhdCI6MTY4NTAwMzIzOSwiZXhwIjoxNjg1MDA2ODM5fQ.JQHzS5bKnxns8Wx4J5cq" +
+//                "twcuhnhFtxt54tiTfMLxWp8";
+//
+//        Claims claims = parseJWT(token);
+//        String subject = claims.getSubject();
+//        System.out.println(subject);
 
-        Claims claims = parseJWT(token);
-        String subject = claims.getSubject();
-        System.out.println(subject);
-
-//        String jwt = createJWT("1234");
-//        System.out.println(jwt);
+        String jwt = createJWT("1234");
+        System.out.println(jwt);
     }
 
     /**

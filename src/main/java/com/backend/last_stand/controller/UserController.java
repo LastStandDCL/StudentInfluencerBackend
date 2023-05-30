@@ -48,7 +48,20 @@ public class UserController {
         return userService.register(user);
     }
 
+    @PostMapping("/user/update")
+    public ResponseResult update(@RequestBody User user) {
+        return userService.update(user);
+    }
 
+    @PostMapping("user/delete")
+    public ResponseResult delete(@RequestBody User user) {
+        return userService.delete(user);
+    }
+
+    /**
+     * 测试接口用的
+     * @return
+     */
     @GetMapping("/user/hello")
     public ResponseResult hello() {
         return new ResponseResult(200, "HELLO~");

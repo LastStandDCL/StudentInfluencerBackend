@@ -30,5 +30,9 @@ public interface UserService extends IService<User> {
     ResponseResult logout();
 
     ResponseResult register(User user);
+
+    ResponseResult update(User user);
+
+    ResponseResult delete(User user);
 }
 

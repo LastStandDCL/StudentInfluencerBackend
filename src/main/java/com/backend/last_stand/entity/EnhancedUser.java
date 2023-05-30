@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * @author chenhong
  * @version 1.0
- * @description 拓展UserDetails类，自定义登录实现类
+ * @description 拓展UserDetails类，自定义登录实现类，获取用户的权限使用
  * @date 2023/5/25 13:51
  */
 @Data
