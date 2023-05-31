@@ -92,6 +92,5 @@ public class User implements Serializable {
      */
     private Integer delFlag;
 
-    private Integer rememberMe;
 }
 

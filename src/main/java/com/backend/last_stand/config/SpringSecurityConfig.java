@@ -2,23 +2,30 @@ package com.backend.last_stand.config;
 
 
 
+import com.backend.last_stand.entity.EnhancedUser;
+import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.filter.JwtAuthenticationTokenFilter;
 import com.backend.last_stand.filter.LoginFilter;
 import com.backend.last_stand.service.impl.RememberMeServiceImpl;
 import com.backend.last_stand.service.impl.UserDetailsServiceImpl;
+import com.backend.last_stand.util.JwtUtils;
+import com.backend.last_stand.util.RedisCache;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -28,6 +35,7 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,6 +44,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -50,12 +59,15 @@ import java.util.UUID;
 @EnableGlobalMethodSecurity(prePostEnabled = true)//启用方法级别的权限认证
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
+    @Autowired
+    private RedisCache redisCache;
+
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private DataSource dataSource;
+    private PersistentTokenRepositoryImpl repository;
 
 
     /** 将自定义JwtAuthenticationFilter注入
@@ -75,9 +87,7 @@ public class SpringSecurityConfig {
     private AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-
+    private AuthenticationConfiguration authenticationConfiguration;
 
 
     @Bean
@@ -89,70 +99,91 @@ public class SpringSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
 
-
                 .rememberMe()
+                // 指定在登录时“记住我”的 HTTP 参数，默认为 remember-me
+                .rememberMeParameter("remember-me")
                 .rememberMeServices(rememberMeServices())  // 设置自动登录使用哪个 rememberMeServices
-                .tokenValiditySeconds(3600)//一个小时过期
-                .userDetailsService(userDetailsService)  // 登录的时候交给什么对象
-                .tokenRepository(getToken())
+                .tokenValiditySeconds(3600 * 24)//1天过期
+                .userDetailsService(userDetailsService)
+                .tokenRepository(repository)
 
-                // jwt认证
                 .and()
-                .addFilterBefore(JwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 // 对于登录接口 允许匿名访问
                 .requestMatchers("/user/login").permitAll()
                 .requestMatchers("/user/hello").permitAll()
                 .requestMatchers("/user/register").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
 
+
+                // 配置过滤器
+                // at: 用来某个 filter 替换过滤器链中哪个 filter
+                // before: 放在过滤器链中哪个 filter 之前
+                // after: 放在过滤器链中那个 filter 之后
+                // jwt认证
+                .and()
+                .addFilterBefore(JwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
+
+        // 异常拦截和处理
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).
                 accessDeniedHandler(accessDeniedHandler);
 
+        //处理跨域
         http.cors();
 
-
-        // at: 用来某个 filter 替换过滤器链中哪个 filter
-        // before: 放在过滤器链中哪个 filter 之前
-        // after: 放在过滤器链中那个 filter 之后
-        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
 
     }
 
 
-    /**
-     * remember_me配置 基于数据库实现持久化令牌
-     * @return
-     */
-    @Bean
-    public PersistentTokenRepository getToken(){
-        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
-        repository.setDataSource(dataSource);
-        //第一次启动项目时,设置为true,只要表已经存在,就设置为false,或者删除这句话
-        repository.setCreateTableOnStartup(false);
-        return repository;
-    }
-
     @Bean
     public RememberMeServices rememberMeServices() {
-        return new RememberMeServiceImpl(UUID.randomUUID().toString(), userDetailsService, new InMemoryTokenRepositoryImpl());
+
+//        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+//        //指定数据源
+//        jdbcTokenRepository.setDataSource(dataSource);
+//        //使用rememberMeServices时第一次需要手动创建表结构，数据库直接使用security即可，启动服务进行登录后，会存储此次登录认证信息
+//        jdbcTokenRepository.setCreateTableOnStartup(true);
+
+        return new RememberMeServiceImpl(UUID.randomUUID().toString(), userDetailsService, repository);
     }
 
     @Bean
     public LoginFilter loginFilter() throws Exception {
         LoginFilter loginFilter = new LoginFilter();
-        loginFilter.setFilterProcessesUrl("/doLogin");//指定认证 url
-        loginFilter.setUsernameParameter("uname");//指定接收json 用户名 key
-        loginFilter.setPasswordParameter("passwd");//指定接收 json 密码 key
-        loginFilter.setAuthenticationManager(authenticationManager);
-        loginFilter.setRememberMeServices(rememberMeServices()); //设置认证成功时使用自定义rememberMeService
+        loginFilter.setFilterProcessesUrl("/user/login"); // 指定认证 url
+        loginFilter.setUsernameParameter("userName"); // 指定接收json 用户名 key
+        loginFilter.setPasswordParameter("password"); // 指定接收 json 密码 key
+
+        loginFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+
+        loginFilter.setRememberMeServices(rememberMeServices());  //设置认证成功时使用自定义rememberMeService
+
         //认证成功处理
         loginFilter.setAuthenticationSuccessHandler((req, resp, authentication) -> {
+            //从authenticate中获取EnhancedUser对象
+            EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
+
+            //使用userid生成token
+            String userId = enhancedUser.getUser().getId().toString();
+            //使用jwt工具类来生成token
+            String jwt = JwtUtils.createJWT(userId);
+
+            //authenticate存入redis
+            redisCache.setCacheObject("login:"+userId, enhancedUser);
+            System.out.println("将用户信息存入redis");
+
+            //把token响应给前端
+
             Map<String, Object> result = new HashMap<String, Object>();
+            result.put("code" , "200");
             result.put("msg", "登录成功");
-            result.put("用户信息", authentication.getPrincipal());
+            result.put("token",jwt);//将token放入map然后返回给前端
+//            result.put("用户信息", authentication.getPrincipal());
             resp.setContentType("application/json;charset=UTF-8");
             resp.setStatus(HttpStatus.OK.value());
             String s = new ObjectMapper().writeValueAsString(result);
@@ -161,6 +192,7 @@ public class SpringSecurityConfig {
         //认证失败处理
         loginFilter.setAuthenticationFailureHandler((req, resp, ex) -> {
             Map<String, Object> result = new HashMap<String, Object>();
+            result.put("code" , "400");
             result.put("msg", "登录失败: " + ex.getMessage());
             resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             resp.setContentType("application/json;charset=UTF-8");

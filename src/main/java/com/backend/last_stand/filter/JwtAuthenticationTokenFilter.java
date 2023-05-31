@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -45,13 +46,16 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //获取token
         String token = request.getHeader("token");
+        System.out.println("进入JwtAuthenticationTokenFilter校验中");
+        System.out.println("token为:" + token);
         //如果不存在这个token，直接放行
         if (!StringUtils.hasText(token)) {
             //放行
+            System.out.println("JwtAuthenticationTokenFilter放行第一次");
             filterChain.doFilter(request, response);
+            System.out.println("JwtAuthenticationTokenFilter放行第二次");
             return;
         }
-
         //解析token
         String userid;
         try {
@@ -59,6 +63,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             userid = claims.getSubject();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("JwtAuthenticationTokenFilter 判定 token非法,抛出异常");
             throw new RuntimeException("token非法");
         }
 
@@ -67,6 +72,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         EnhancedUser enhancedUser = redisCache.getCacheObject(redisKey);
 
         if(Objects.isNull(enhancedUser)){
+            System.out.println("JwtAuthenticationTokenFilter 判定 token无法解析userID,抛出异常");
             throw new RuntimeException("用户未登录");
         }
 
@@ -78,6 +84,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         //放行
+        System.out.println("jwt-token校验完成后放行");
         filterChain.doFilter(request, response);
     }
 }

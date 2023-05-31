@@ -45,6 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public ResponseResult login(User user) {
+        System.out.println("进入UserService方法， login中");
         //获取封装的信息
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword());
@@ -66,6 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         //authenticate存入redis
         redisCache.setCacheObject("login:"+userId, enhancedUser);
+        System.out.println("login方法中将用户信息存入redis");
 
         //把token响应给前端
         HashMap<String,String> map = new HashMap<>();
@@ -88,7 +90,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         redisCache.deleteObject("login:"+userid);
         return new ResponseResult(200,"退出成功");
     }
-
 
 
 

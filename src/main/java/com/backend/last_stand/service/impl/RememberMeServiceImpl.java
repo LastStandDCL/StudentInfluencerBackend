@@ -20,6 +20,7 @@ public class RememberMeServiceImpl extends PersistentTokenBasedRememberMeService
      */
     @Override
     protected boolean rememberMeRequested(HttpServletRequest request, String parameter) {
+        //这里获取不到
         String paramValue = request.getAttribute(parameter).toString();
         if (paramValue != null) {
             if (paramValue.equalsIgnoreCase("true") || paramValue.equalsIgnoreCase("on")

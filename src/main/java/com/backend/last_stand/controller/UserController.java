@@ -28,10 +28,11 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("/user/login")
-    public ResponseResult login(@RequestBody User user){
-        return userService.login(user);
-    }
+//    @PostMapping("/user/login")
+//    public ResponseResult login(@RequestBody User user){
+//        System.out.println("进入UserController中  /user/login");
+//        return userService.login(user);
+//    }
 
 
     /**

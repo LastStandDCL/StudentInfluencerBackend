@@ -41,8 +41,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new RuntimeException("用户名或密码错误");
         }
 
+
         //根据用户信息获取权限，并且封装到EnhancedUser类中
         List<String> permissionKeyList =  menuMapper.selectPermsByUserId(user.getId());
+        System.out.println("loadUserByUser方法调用完成，用户校验成功,封装权限并且返回");
+        //填充权限信息，并且返回
         return new EnhancedUser(user,permissionKeyList);
     }
 
