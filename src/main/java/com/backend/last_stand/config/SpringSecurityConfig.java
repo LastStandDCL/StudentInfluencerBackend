@@ -2,7 +2,9 @@ package com.backend.last_stand.config;
 
 
 
+import com.backend.last_stand.entity.User;
 import com.backend.last_stand.filter.JwtAuthenticationTokenFilter;
+import com.backend.last_stand.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,9 +21,13 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import javax.sql.DataSource;
 
 
 /**
@@ -35,6 +41,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)//启用方法级别的权限认证
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private DataSource dataSource;
+
 
     /** 将自定义JwtAuthenticationFilter注入
      *
@@ -74,8 +87,27 @@ public class SpringSecurityConfig {
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).
                 accessDeniedHandler(accessDeniedHandler);
         http.cors();
+
+        http.rememberMe()
+                .tokenValiditySeconds(3600)//一个小时过期
+                .userDetailsService(userDetailsService)  //登录的时候交给什么对象
+                .tokenRepository(getToken());
+
+
         return http.build();
     }
+
+
+
+    @Bean
+    public PersistentTokenRepository getToken(){
+        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+        repository.setDataSource(dataSource);
+        //第一次启动项目时,设置为true,只要表已经存在,就设置为false,或者删除这句话
+        repository.setCreateTableOnStartup(false);
+        return repository;
+    }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

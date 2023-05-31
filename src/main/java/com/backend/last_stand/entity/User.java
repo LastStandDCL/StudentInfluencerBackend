@@ -43,10 +43,6 @@ public class User implements Serializable {
      */
     private String telephone;
 
-    /**
-     * 所在的高中学校
-     */
-    private String school;
 
     /**
      * 所在省份
@@ -95,5 +91,7 @@ public class User implements Serializable {
      * 删除标志（0代表未删除，1代表已删除）
      */
     private Integer delFlag;
+
+    private Boolean rememberMe;
 }
 

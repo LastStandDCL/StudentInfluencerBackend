@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.backend.last_stand.mapper.SchoolMapper">
+
+
+    <select id="selectBySchoolName" resultType="com.backend.last_stand.entity.School"
+            parameterType="java.lang.String">
+        select * from sys_school
+        where school_name = #{schoolName}
+    </select>
+
+    <select id="selectByProvince" resultType="com.backend.last_stand.entity.School"
+            parameterType="java.lang.String">
+        select * from sys_school
+        where province = #{province}
+    </select>
+</mapper>
