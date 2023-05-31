@@ -4,11 +4,15 @@ package com.backend.last_stand.config;
 
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.filter.JwtAuthenticationTokenFilter;
+import com.backend.last_stand.filter.LoginFilter;
+import com.backend.last_stand.service.impl.RememberMeServiceImpl;
 import com.backend.last_stand.service.impl.UserDetailsServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,7 +24,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
@@ -28,6 +34,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 
 /**
@@ -65,6 +74,11 @@ public class SpringSecurityConfig {
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -74,7 +88,16 @@ public class SpringSecurityConfig {
                 //不通过Session获取SecurityContext，通过前后端互相传递json数据来进行操作
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+
+
+                .rememberMe()
+                .rememberMeServices(rememberMeServices())  // 设置自动登录使用哪个 rememberMeServices
+                .tokenValiditySeconds(3600)//一个小时过期
+                .userDetailsService(userDetailsService)  // 登录的时候交给什么对象
+                .tokenRepository(getToken())
+
                 // jwt认证
+                .and()
                 .addFilterBefore(JwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 // 对于登录接口 允许匿名访问
@@ -86,19 +109,23 @@ public class SpringSecurityConfig {
 
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).
                 accessDeniedHandler(accessDeniedHandler);
+
         http.cors();
 
-        http.rememberMe()
-                .tokenValiditySeconds(3600)//一个小时过期
-                .userDetailsService(userDetailsService)  //登录的时候交给什么对象
-                .tokenRepository(getToken());
 
-
+        // at: 用来某个 filter 替换过滤器链中哪个 filter
+        // before: 放在过滤器链中哪个 filter 之前
+        // after: 放在过滤器链中那个 filter 之后
+        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
+
     }
 
 
-
+    /**
+     * remember_me配置 基于数据库实现持久化令牌
+     * @return
+     */
     @Bean
     public PersistentTokenRepository getToken(){
         JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
@@ -107,6 +134,42 @@ public class SpringSecurityConfig {
         repository.setCreateTableOnStartup(false);
         return repository;
     }
+
+    @Bean
+    public RememberMeServices rememberMeServices() {
+        return new RememberMeServiceImpl(UUID.randomUUID().toString(), userDetailsService, new InMemoryTokenRepositoryImpl());
+    }
+
+    @Bean
+    public LoginFilter loginFilter() throws Exception {
+        LoginFilter loginFilter = new LoginFilter();
+        loginFilter.setFilterProcessesUrl("/doLogin");//指定认证 url
+        loginFilter.setUsernameParameter("uname");//指定接收json 用户名 key
+        loginFilter.setPasswordParameter("passwd");//指定接收 json 密码 key
+        loginFilter.setAuthenticationManager(authenticationManager);
+        loginFilter.setRememberMeServices(rememberMeServices()); //设置认证成功时使用自定义rememberMeService
+        //认证成功处理
+        loginFilter.setAuthenticationSuccessHandler((req, resp, authentication) -> {
+            Map<String, Object> result = new HashMap<String, Object>();
+            result.put("msg", "登录成功");
+            result.put("用户信息", authentication.getPrincipal());
+            resp.setContentType("application/json;charset=UTF-8");
+            resp.setStatus(HttpStatus.OK.value());
+            String s = new ObjectMapper().writeValueAsString(result);
+            resp.getWriter().println(s);
+        });
+        //认证失败处理
+        loginFilter.setAuthenticationFailureHandler((req, resp, ex) -> {
+            Map<String, Object> result = new HashMap<String, Object>();
+            result.put("msg", "登录失败: " + ex.getMessage());
+            resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            resp.setContentType("application/json;charset=UTF-8");
+            String s = new ObjectMapper().writeValueAsString(result);
+            resp.getWriter().println(s);
+        });
+        return loginFilter;
+    }
+
 
 
     @Bean
@@ -121,21 +184,6 @@ public class SpringSecurityConfig {
         return source;
     }
 
-//    @Bean
-//    public void addCorsMappings(CorsRegistry registry) {
-//        // 设置允许跨域的路径
-//        registry.addMapping("/**")
-//                // 设置允许跨域请求的域名
-//                .allowedOriginPatterns("*")
-//                // 是否允许cookie
-//                .allowCredentials(true)
-//                // 设置允许的请求方式
-//                .allowedMethods("GET", "POST", "DELETE", "PUT")
-//                // 设置允许的header属性
-//                .allowedHeaders("*")
-//                // 跨域允许时间
-//                .maxAge(3600);
-//    }
 
 
     /**
@@ -159,16 +207,6 @@ public class SpringSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-
-
-
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//
-//        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-//        return source;
-//    }
 
 
 }

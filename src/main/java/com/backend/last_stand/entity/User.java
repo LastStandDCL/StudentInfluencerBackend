@@ -92,6 +92,6 @@ public class User implements Serializable {
      */
     private Integer delFlag;
 
-    private Boolean rememberMe;
+    private Integer rememberMe;
 }
 
