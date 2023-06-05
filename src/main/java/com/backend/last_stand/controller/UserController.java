@@ -118,6 +118,24 @@ public class UserController {
     }
 
 
+    @GetMapping("/getMainStudent")
+    public ResponseResult getMainStudents(Integer pageNum, Integer pageSize) {
+        return userService.getMainStudents(pageNum, pageSize);
+    }
+
+    @GetMapping("/getTeachers")
+    public ResponseResult getTeacher(Integer pageNum, Integer pageSize) {
+        return userService.getTeachers(pageNum, pageSize);
+    }
+
+    @GetMapping("/getManagers")
+    public ResponseResult getManagers(Integer pageNum, Integer pageSize) {
+        return userService.getManagers(pageNum, pageSize);
+    }
+
+
+
+
 
 
 
