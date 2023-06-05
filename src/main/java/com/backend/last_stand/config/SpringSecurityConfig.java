@@ -78,8 +78,6 @@ public class SpringSecurityConfig {
     @Autowired
     private DataSource dataSource;  // 数据源
 
-    @Autowired
-    private CustomSecurityMetadataSource customSecurityMetadataSource;
 
 
     /** 将自定义JwtAuthenticationFilter注入
@@ -104,20 +102,6 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // 1.获取工厂对象
-        ApplicationContext applicationContext = http.getSharedObject(ApplicationContext.class);
-        // 2.设置自定义的url权限处理
-        http.apply(new UrlAuthorizationConfigurer<>(applicationContext))
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
-                        object.setSecurityMetadataSource(customSecurityMetadataSource);
-                        // 是否拒绝公共资源访问
-                        object.setRejectPublicInvocations(false);
-                        return object;
-                    }
-                });
-
         http
                 //使用token,关闭csrf
                 .csrf().disable()
@@ -155,7 +139,9 @@ public class SpringSecurityConfig {
 
         // 异常拦截和处理
         http.exceptionHandling()
+                //配置认证失败异常处理器
                 .authenticationEntryPoint(authenticationEntryPoint).
+               // 配置无权限访问异常处理器
                 accessDeniedHandler(accessDeniedHandler);
 
         //处理跨域
@@ -180,13 +166,17 @@ public class SpringSecurityConfig {
     @Bean
     public LoginFilter loginFilter() throws Exception {
         LoginFilter loginFilter = new LoginFilter();
-        loginFilter.setFilterProcessesUrl("/user/login"); // 指定认证 url
-        loginFilter.setUsernameParameter("userName"); // 指定接收json 用户名 key
-        loginFilter.setPasswordParameter("password"); // 指定接收 json 密码 key
+        // 指定认证 url
+        loginFilter.setFilterProcessesUrl("/user/login");
+        // 指定接收json 用户名 key
+        loginFilter.setUsernameParameter("userName");
+        // 指定接收 json 密码 key
+        loginFilter.setPasswordParameter("password");
 
         loginFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
 
-        loginFilter.setRememberMeServices(rememberMeServices());  //设置认证成功时使用自定义rememberMeService
+        //设置认证成功时使用自定义rememberMeService
+        loginFilter.setRememberMeServices(rememberMeServices());
 
         //认证成功处理
         loginFilter.setAuthenticationSuccessHandler((req, resp, authentication) -> {

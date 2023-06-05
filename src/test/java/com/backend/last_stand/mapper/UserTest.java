@@ -1,6 +1,8 @@
 package com.backend.last_stand.mapper;
 
 import com.backend.last_stand.entity.User;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +40,16 @@ public class UserTest {
         System.out.println(new Date());
     }
 
+    @Test
+    public void test03() {
+        IPage<User> users = userMapper.getUsers(new Page<>(1, 1), 1L);
+        System.out.println(users);
+    }
+
+    @Test
+    public void test04() {
+        Page<User> userPages = new Page<>(1, 5);
+        Page<User> page = userMapper.selectPage(userPages, null);
+        System.out.println(page);
+    }
 }

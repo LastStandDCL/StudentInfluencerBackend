@@ -46,14 +46,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //获取token
         String token = request.getHeader("token");
-        System.out.println("进入JwtAuthenticationTokenFilter校验中");
-        System.out.println("token为:" + token);
         //如果不存在这个token，直接放行
         if (!StringUtils.hasText(token)) {
-            //放行
-            System.out.println("JwtAuthenticationTokenFilter放行第一次");
             filterChain.doFilter(request, response);
-            System.out.println("JwtAuthenticationTokenFilter放行第二次");
             return;
         }
         //解析token

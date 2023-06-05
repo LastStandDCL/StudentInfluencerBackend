@@ -3,13 +3,28 @@
 <mapper namespace="com.backend.last_stand.mapper.UserMapper">
 
 
+    <update id="updateRole">
+        UPDATE sys_user_role
+        SET role_id = #{role_id}
+        WHERE user_id = #{id}
+    </update>
+
+
     <select id="selectByUserName" resultType="com.backend.last_stand.entity.User">
         SELECT * FROM sys_user WHERE user_name =#{userName}
     </select>
 
     <select id="selectRolesByUid" parameterType="java.lang.Long" resultType="com.backend.last_stand.entity.Role">
-        SELECT * FROM sys_role where id in (
-                SELECT role_id from role_menu where user_id = #{id}
+        SELECT * FROM sys_role WHERE id IN (
+            SELECT role_id FROM sys_user_role WHERE user_id = #{id}
+        )
+    </select>
+
+    <select id="getUsers" resultType="com.backend.last_stand.entity.User">
+        SELECT * FROM sys_user
+        WHERE id IN (
+            SELECT user_id FROM sys_user_role
+            WHERE role_id = #{id}
         )
     </select>
 

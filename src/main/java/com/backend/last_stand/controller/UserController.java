@@ -3,7 +3,10 @@ package com.backend.last_stand.controller;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.service.UserService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,20 +47,77 @@ public class UserController {
         return userService.logout();
     }
 
+    /**
+     * 用户注册接口
+     * @param user
+     * @return
+     */
     @PostMapping("/user/register")
     public ResponseResult register(@RequestBody User user) {
         return userService.register(user);
     }
 
+    /**
+     * 更新用户信息，包括密码也可以传进来更新，更新资料和更新密码可以调用同一个接口
+     * @param user
+     * @return
+     */
     @PostMapping("/user/update")
     public ResponseResult update(@RequestBody User user) {
         return userService.update(user);
     }
 
+    /**
+     * 删除用户
+     * @param user
+     * @return
+     */
     @PostMapping("user/delete")
     public ResponseResult delete(@RequestBody User user) {
         return userService.delete(user);
     }
+
+
+    /**
+     * 老师指定总负责人,传入学生的uid即可
+     * @return
+     */
+    @PostMapping("/teacher/choose")
+    @PreAuthorize("hasAnyAuthority('teacher:choose')")
+    public ResponseResult teacherChoose(@RequestBody Long id) {
+        return userService.teacherChoose(id);
+    }
+
+
+    @GetMapping("/selectByRole")
+    public ResponseResult selectByRole(@RequestBody Long roleId, Integer pageNum, Integer pageSize) {
+        Page<User> page = new Page<>(pageNum, pageSize);
+        return userService.selectUserByRole(page, roleId);
+    }
+
+    /**
+     * 传入页码和分页的大小，可以获取role 为 1类型的用户 不包括分省负责人和总负责人
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/getStudents")
+    public ResponseResult getStudents(Integer pageNum, Integer pageSize) {
+        return userService.getStudents(pageNum, pageSize);
+    }
+
+    /**
+     * 传入页码和分页的大小，可以获取role 为 2类型的用户  只返回分省负责人
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/getViceStudents")
+    public ResponseResult getViceStudents(Integer pageNum, Integer pageSize) {
+        return userService.getViceStudents(pageNum, pageSize);
+    }
+
+
 
 
 

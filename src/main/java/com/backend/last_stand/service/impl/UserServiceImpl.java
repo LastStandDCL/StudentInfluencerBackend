@@ -1,17 +1,20 @@
 package com.backend.last_stand.service.impl;
 
 import com.backend.last_stand.entity.EnhancedUser;
+import com.backend.last_stand.mapper.MenuMapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.mapper.UserMapper;
 import com.backend.last_stand.service.UserService;
-import com.backend.last_stand.util.JwtUtils;
 import com.backend.last_stand.util.RedisCache;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,42 +41,45 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private MenuMapper menuMapper;
+
     /**
      * 次方法封装会将用户登录信息和数据库中信息进行比对，然后为uid生成一个token,再将autenticate存入redis，便于提取信息
      * @param user
      * @return
      */
-    @Override
-    public ResponseResult login(User user) {
-        System.out.println("进入UserService方法， login中");
-        //获取封装的信息
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword());
-
-        //与数据库中的用户密码进行比对校验
-        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-
-        if(Objects.isNull(authenticate)){
-            throw new RuntimeException("用户名或密码错误");
-        }
-
-        //从authenticate中获取EnhancedUser对象
-        EnhancedUser enhancedUser = (EnhancedUser) authenticate.getPrincipal();
-
-        //使用userid生成token
-        String userId = enhancedUser.getUser().getId().toString();
-        //使用jwt工具类来生成token
-        String jwt = JwtUtils.createJWT(userId);
-
-        //authenticate存入redis
-        redisCache.setCacheObject("login:"+userId, enhancedUser);
-        System.out.println("login方法中将用户信息存入redis");
-
-        //把token响应给前端
-        HashMap<String,String> map = new HashMap<>();
-        map.put("token",jwt);//将token放入map然后返回给前端
-        return new ResponseResult(200,"登陆成功", map);
-    }
+//    @Override
+//    public ResponseResult login(User user) {
+//        System.out.println("进入UserService方法， login中");
+//        //获取封装的信息
+//        UsernamePasswordAuthenticationToken authenticationToken =
+//                new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword());
+//
+//        //与数据库中的用户密码进行比对校验
+//        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+//
+//        if(Objects.isNull(authenticate)){
+//            throw new RuntimeException("用户名或密码错误");
+//        }
+//
+//        //从authenticate中获取EnhancedUser对象
+//        EnhancedUser enhancedUser = (EnhancedUser) authenticate.getPrincipal();
+//
+//        //使用userid生成token
+//        String userId = enhancedUser.getUser().getId().toString();
+//        //使用jwt工具类来生成token
+//        String jwt = JwtUtils.createJWT(userId);
+//
+//        //authenticate存入redis
+//        redisCache.setCacheObject("login:"+userId, enhancedUser);
+//        System.out.println("login方法中将用户信息存入redis");
+//
+//        //把token响应给前端
+//        HashMap<String,String> map = new HashMap<>();
+//        map.put("token",jwt);//将token放入map然后返回给前端
+//        return new ResponseResult(200,"登陆成功", map);
+//    }
 
     /**
      * 登出业务实现
@@ -115,6 +121,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public ResponseResult update(User user) {
         //这里如果要修改密码，那么密码需要加密后加入数据库中
+        //针对用户密码进行加密处理
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encode = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encode);
 
         int i = userMapper.updateById(user);
         if (i != 1) {
@@ -134,6 +144,64 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return new ResponseResult<>(200, "删除信息成功");
     }
 
+    @Override
+    public ResponseResult teacherChoose(Long id) {
+        //先根据id查找老师要指定的学生id
+        User user = userMapper.selectById(id);
+
+        //总负责人的Role_Id为3
+        Long targetRoleId = 3L;
+
+        Integer integer = userMapper.updateRole(id, targetRoleId);
+        if (integer != 1) {
+            throw new RuntimeException("用户角色更改失败");
+        }
+
+        //修改学生权限信息
+        return new ResponseResult(200, "用户角色修改成功");
+    }
+
+    @Override
+    public ResponseResult getStudents(Integer pageNum, Integer pageSize) {
+        Page<User> page = new Page<>(pageNum, pageSize);
+
+        IPage<User> getUser = userMapper.getUsers(page, 1L);
+        return new ResponseResult<>(200, "返回学生结果", getUser);
+    }
+
+    @Override
+    public ResponseResult getViceStudents(Integer pageNum, Integer pageSize) {
+        Page<User> page = new Page<>(pageNum, pageSize);
+        IPage<User> getUser = userMapper.getUsers(page, 2L);
+        return new ResponseResult<>(200, "返回分省负责人结果", getUser);
+    }
+
+    @Override
+    public ResponseResult getMainStudents(Integer pageNum, Integer pageSize) {
+        Page<User> page = new Page<>(pageNum, pageSize);
+        IPage<User> getUser = userMapper.getUsers(page, 3L);
+        return new ResponseResult<>(200, "返回总负责人结果", getUser);
+    }
+
+    @Override
+    public ResponseResult getTeachers(Integer pageNum, Integer pageSize) {
+        Page<User> page = new Page<>(pageNum, pageSize);
+        IPage<User> getUser = userMapper.getUsers(page, 4L);
+        return new ResponseResult<>(200, "返回老师结果", getUser);
+    }
+
+    @Override
+    public ResponseResult getManagers(Integer pageNum, Integer pageSize) {
+        Page<User> page = new Page<>(pageNum, pageSize);
+        IPage<User> getUser = userMapper.getUsers(page, 5L);
+        return new ResponseResult<>(200, "返回管理员结果", getUser);
+    }
+
+    @Override
+    public ResponseResult selectUserByRole(Page<User> userPage, Long roleId) {
+        IPage<User> users = userMapper.getUsers(userPage, roleId);
+        return new ResponseResult<>(200, "返回指定角色结果", users);
+    }
 
 
     @Override
