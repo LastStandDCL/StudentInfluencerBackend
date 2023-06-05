@@ -114,6 +114,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public ResponseResult update(User user) {
+        //这里如果要修改密码，那么密码需要加密后加入数据库中
+
         int i = userMapper.updateById(user);
         if (i != 1) {
             throw new RuntimeException("更新信息失败");

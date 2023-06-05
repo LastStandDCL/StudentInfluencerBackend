@@ -28,22 +28,16 @@ public class Role {
     String name;
 
     /**
-     * 角色权限字符串
+     * 父级角色id
      */
-    String roleKey;
+    Long parentId;
+
 
     /**
      * 菜单状态（0正常 1停用）
      */
     private String status;
 
-    private Long createBy;
-
-    private Date createTime;
-
-    private Long updateBy;
-
-    private Date updateTime;
     /**
      * 是否删除（0未删除 1已删除）
      */

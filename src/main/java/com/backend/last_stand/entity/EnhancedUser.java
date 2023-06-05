@@ -27,9 +27,13 @@ public class EnhancedUser implements UserDetails {
         //存储权限信息
         private List<String> permissions;
 
-        public EnhancedUser(User user, List<String> permissions) {
+        //存储角色信息
+        private List<Role> roles;
+
+        public EnhancedUser(User user, List<String> permissions, List<Role> roles) {
             this.user = user;
             this.permissions = permissions;
+            this.roles = roles;
         }
 
         //存储SpringSecurity所需要的权限信息的集合

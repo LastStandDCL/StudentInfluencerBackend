@@ -12,12 +12,12 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 存入redis而不是数据库，可以减轻mysql压力
+ * 存入redis而不是数据库，可以减轻mysql压力，用于remember-me的持久化操作
  */
 @Component
 public class PersistentTokenRepositoryImpl implements PersistentTokenRepository {
-    private final static String USERNAME_KEY = "spring:security:rememberMe:USERNAME_KEY:";
-    private final static String SERIES_KEY = "spring:security:rememberMe:SERIES_KEY:";
+    private final static String USERNAME_KEY = "rememberMe:USERNAME_KEY:";
+    private final static String SERIES_KEY = "rememberMe:SERIES_KEY:";
 
 
     @Autowired
@@ -26,23 +26,31 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 创建token 存入到redis中
+     * 14天过期
+     * @param persistentRememberMeToken
+     */
     @Override
     public void createNewToken(PersistentRememberMeToken persistentRememberMeToken) {
+        //redis中存储的时series,series在用户二次登录后也不会更新
         String series = persistentRememberMeToken.getSeries();
         String key = generateKey(series,SERIES_KEY);
         String usernameKey = generateKey(persistentRememberMeToken.getUsername(),USERNAME_KEY);
         //用户只要采用账户密码重新登录，那么为了安全就有必要清除之前的token信息。deleteIfPresent方法通过
         //username查找到用户对应的series，然后删除旧的token信息。
         deleteIfPresent(usernameKey);
+
         HashMap<String,String > hashMap = new HashMap<>();
         hashMap.put("username",persistentRememberMeToken.getUsername());
         hashMap.put("token",persistentRememberMeToken.getTokenValue());
         hashMap.put("date",String.valueOf(persistentRememberMeToken.getDate().getTime()));
         HashOperations<String ,String ,String> hashOperations = redisTemplate.opsForHash();
         hashOperations.putAll(key,hashMap);
-        redisTemplate.expire(key,1, TimeUnit.DAYS);//设置token保存期限
+
+        redisTemplate.expire(key,14, TimeUnit.DAYS);//设置token保存期限
         stringRedisTemplate.opsForValue().set(usernameKey,series);
-        redisTemplate.expire(usernameKey,1, TimeUnit.DAYS);
+        redisTemplate.expire(usernameKey,14, TimeUnit.DAYS);
     }
 
     @Override
@@ -85,7 +93,7 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
         //删除token时应该同时删除token信息，以及保存了对应的username与series对照数据。
         if(redisTemplate.hasKey(key)){
             String series = generateKey(stringRedisTemplate.opsForValue().get(key),SERIES_KEY);
-            if(series!=null && redisTemplate.hasKey(series)){
+            if(series != null && redisTemplate.hasKey(series)){
                 redisTemplate.delete(series);
                 redisTemplate.delete(key);
             }
