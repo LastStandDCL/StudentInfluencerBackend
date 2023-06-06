@@ -28,6 +28,11 @@ public class Role {
     String name;
 
     /**
+     * 角色中文名称
+     */
+    String nameZh;
+
+    /**
      * 父级角色id
      */
     Long parentId;

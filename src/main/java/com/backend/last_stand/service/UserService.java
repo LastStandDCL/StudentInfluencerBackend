@@ -51,5 +51,9 @@ public interface UserService extends IService<User> {
     ResponseResult getManagers(Integer pageNum, Integer pageSize);
 
     ResponseResult selectUserByRole(Page<User> userPage, Long roleId);
+
+    ResponseResult getUserRole(Long id);
+
+    ResponseResult getUserInfoFromRedis(Long id);
 }
 

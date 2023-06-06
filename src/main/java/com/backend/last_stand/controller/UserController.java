@@ -43,6 +43,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/logout")
+    @PreAuthorize("hasAnyAuthority('student')")
     public ResponseResult logout(){
         return userService.logout();
     }
@@ -133,6 +134,21 @@ public class UserController {
         return userService.getManagers(pageNum, pageSize);
     }
 
+
+    @GetMapping("/getUserRole")
+    public ResponseResult getUserRole(Long id) {
+        return userService.getUserRole(id);
+    }
+
+
+    /**
+     * 提供这个接口可以降低mysql压力，从缓存在redis中可以获取用户权限，用户角色以及用户信息
+     * @return
+     */
+    @GetMapping("/getUserInfoFromRedis")
+    public ResponseResult getUserInfoFromRedis(Long id) {
+        return userService.getUserInfoFromRedis(id);
+    }
 
 
 

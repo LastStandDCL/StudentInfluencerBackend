@@ -1,6 +1,7 @@
 package com.backend.last_stand.service.impl;
 
 import com.backend.last_stand.entity.EnhancedUser;
+import com.backend.last_stand.entity.Role;
 import com.backend.last_stand.mapper.MenuMapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 
@@ -201,6 +202,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseResult selectUserByRole(Page<User> userPage, Long roleId) {
         IPage<User> users = userMapper.getUsers(userPage, roleId);
         return new ResponseResult<>(200, "返回指定角色结果", users);
+    }
+
+    @Override
+    public ResponseResult getUserRole(Long id) {
+        List<Role> roles = userMapper.selectRolesByUid(id);
+        return new ResponseResult(200, "返回用户角色信息", roles);
+    }
+
+    @Override
+    public ResponseResult getUserInfoFromRedis(Long id) {
+        //从redis中获取用户信息
+        String redisKey = "login:" + id;
+        EnhancedUser enhancedUser = redisCache.getCacheObject(redisKey);
+        if (enhancedUser == null) {
+            throw new RuntimeException("从redis中获取用户信息失败");
+        }
+        return new ResponseResult(200, "从redis中获取用户信息成功", enhancedUser);
     }
 
 
