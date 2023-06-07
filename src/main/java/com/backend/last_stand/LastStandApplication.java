@@ -4,12 +4,14 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EntityScan(basePackages = "com.backend.last_stand.entity")
 @MapperScan("com.backend.last_stand.mapper")
 @EnableScheduling//支持定期任务
+@EnableAsync
 public class LastStandApplication {
 
     public static void main(String[] args) {

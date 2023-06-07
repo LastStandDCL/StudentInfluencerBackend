@@ -16,9 +16,9 @@ public class DeleteFilesUtil {
 
 
     /**
-     * 每周星期天凌晨1点执行，清理本地磁盘大于7天的音频文件
+     * 每天凌晨1点执行，清理本地磁盘大于7天的音频文件
      */
-    @Scheduled(cron = "0 0 1 ? * L")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void checkClenFile() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         log.info("======定时清理文件任务开始于：{}", sdf.format(new Date()));
