@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description 这个接口主要提供给manager和 super使用
  * @date 2023/6/6 11:44
  */
-@RestController
+@RestController("/managers")
 public class RoleController {
 
     @Autowired

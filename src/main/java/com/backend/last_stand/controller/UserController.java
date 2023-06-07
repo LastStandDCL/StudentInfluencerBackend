@@ -73,7 +73,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("user/delete")
+    @PostMapping("/user/delete")
     public ResponseResult delete(@RequestBody User user) {
         return userService.delete(user);
     }

@@ -12,8 +12,6 @@ spring:
 
 
   datasource:
-#    username: root
-#    password: root
     url: jdbc:mysql://43.143.250.239:3306/bikebackend?userSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: bikebackend
     password: laststand
