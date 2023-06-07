@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EntityScan(basePackages = "com.backend.last_stand.entity")
 @MapperScan("com.backend.last_stand.mapper")
 @EnableScheduling//支持定期任务
-@EnableAsync
 public class LastStandApplication {
 
     public static void main(String[] args) {
