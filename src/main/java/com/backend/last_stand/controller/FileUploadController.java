@@ -3,13 +3,12 @@ package com.backend.last_stand.controller;
 import com.backend.last_stand.entity.ResponseResult;
 import freemarker.template.SimpleDate;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +25,12 @@ public class FileUploadController {
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
 
+    /**
+     * 请求body中携带file， 返回内容会携带url，提供给前端预览使用
+     * @param multipartFile
+     * @param req
+     * @return
+     */
     @PostMapping("/files/upload")
     public ResponseResult fileUpload(@RequestParam("file")MultipartFile multipartFile, HttpServletRequest req) {
         if (multipartFile.isEmpty()) {
@@ -41,8 +46,9 @@ public class FileUploadController {
             return result;
         }
 
-        //获取项目当前运行路径
-        String realPath = req.getServletContext().getRealPath("/") + simpleDateFormat.format(new Date());
+        //路径我写死了，部署的时候可以改
+        String realPath = "/Users/laststand/uploadFile";
+
         File file = new File(realPath);
         if (!file.exists()) {
             file.mkdirs();
@@ -70,4 +76,30 @@ public class FileUploadController {
 
         return result;
     }
+
+
+
+    @GetMapping("/files/download")
+    public void download(HttpServletResponse response) {
+        response.reset();
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-disposition",
+                "attachment;filename=file_" + System.currentTimeMillis() + ".hprof");
+
+        // 从文件读到servlet response输出流中
+        // 改这里路径就好
+        File file = new File("/Users/laststand/download");
+        try (FileInputStream inputStream = new FileInputStream(file);) {
+            byte[] b = new byte[1024];
+            int len;
+            while ((len = inputStream.read(b)) > 0) {
+                response.getOutputStream().write(b, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
