@@ -1,15 +1,27 @@
+server:
+  port: 8010
+
 spring:
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 20MB
-  server:
-    port: 8010
   security:
       user:
         name: user
         password: 1234
-
+  mail:
+    defaultEncoding: UTF-8
+    host: smtp.qq.com
+    username: 1875435468@qq.com
+    password: ccmufaurlatlhhja
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
   datasource:
     url: jdbc:mysql://43.143.250.239:3306/bikebackend?userSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
