@@ -1,6 +1,10 @@
 package com.backend.last_stand.controller;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.backend.last_stand.entity.ResponseResult;
 import jakarta.servlet.http.HttpServletResponse;
 import me.zhyd.oauth.config.AuthConfig;
+import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.request.AuthGiteeRequest;
 import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.request.AuthRequest;
@@ -30,7 +34,11 @@ public class RestAuthController {
     @RequestMapping("/callback")
     public Object login(AuthCallback callback) {
         AuthRequest authRequest = getAuthRequest();
-        return authRequest.login(callback);
+        AuthResponse login = authRequest.login(callback);
+        JSONObject remoteData = JSONObject.parseObject(JSON.toJSONString(login));
+        Object giteeUser = remoteData.get("data");//取出用户信息
+        JSONObject user = JSONObject.parseObject(JSON.toJSONString(giteeUser));
+        return new ResponseResult(200, "用户信息返回成功", user);
     }
 
     private AuthRequest getAuthRequest() {
