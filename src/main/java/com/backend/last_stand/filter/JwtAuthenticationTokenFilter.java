@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,7 @@ import java.util.Objects;
  * @description 用来认证token中的jwt并且解读信息
  * @date 2023/5/25 16:47
  */
+@Slf4j
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
@@ -33,6 +35,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
      */
     @Autowired
     private RedisCache redisCache;
+
+    /**
+     * 配置OncePerRequestFilter不拦截的请求
+     * @param request
+     * @return
+     * @throws ServletException
+     */
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String uri = request.getRequestURI();
+        return uri.startsWith("/managers/, /oauth/, /files/"); // 以/public/开始的请求不拦截
+    }
 
     /**
      * 解析token是否合法，从redis中解析出uid,通过uid从redis中获取json对象

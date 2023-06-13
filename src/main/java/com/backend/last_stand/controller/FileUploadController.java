@@ -47,8 +47,9 @@ public class FileUploadController {
         }
 
         //路径我写死了，部署的时候可以改
-        String realPath = "/Users/laststand/uploadFile";
+        String realPath = "F://uploadFiles";
 
+        //路径不存在就创建
         File file = new File(realPath);
         if (!file.exists()) {
             file.mkdirs();
@@ -56,8 +57,10 @@ public class FileUploadController {
 
         //防止重名，给文件重新命名
         String newName = UUID.randomUUID().toString() + ".pdf";
+        System.out.println("准备返回信息给前端");
         try {
             multipartFile.transferTo(new File(file, newName));
+
             String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/"
                     + simpleDateFormat.format(new Date()) + newName;
 
@@ -73,6 +76,8 @@ public class FileUploadController {
             result.setCode(400);
             result.setMsg("文件上传失败");
         }
+
+
 
         return result;
     }
