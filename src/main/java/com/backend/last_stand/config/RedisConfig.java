@@ -8,6 +8,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 
+/**
+ * 设置序列当方法
+ */
 @Configuration
 public class RedisConfig {
 

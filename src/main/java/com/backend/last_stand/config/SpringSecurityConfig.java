@@ -122,9 +122,13 @@ public class SpringSecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 // 对于登录接口 允许匿名访问
-                .requestMatchers("/user/login").permitAll()
-                .requestMatchers("/user/register").permitAll()
-                .requestMatchers("/file/upload").permitAll()
+                .requestMatchers("/**").permitAll()
+                .requestMatchers("/user/login").permitAll()//1
+                .requestMatchers("/user/register").permitAll()//1
+                .requestMatchers("/file/upload").permitAll()//0
+                .requestMatchers("/oauth/render").permitAll()//0
+                .requestMatchers("/oauth/callback").permitAll()//0
+                .requestMatchers("/managers/getAllRoles").permitAll()//1
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
 

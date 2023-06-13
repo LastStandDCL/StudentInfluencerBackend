@@ -36,7 +36,7 @@ public class FileUploadController {
         if (multipartFile.isEmpty()) {
             return new ResponseResult<>(400, "文件内容为空");
         }
-
+        System.out.println("进入/files/upload");
         ResponseResult result = new ResponseResult();
         String originName = multipartFile.getOriginalFilename();
         //判断是不是上传pdf

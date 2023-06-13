@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 存入redis而不是数据库，可以减轻mysql压力，用于remember-me的持久化操作
+ * 存入redis而不是数据库，可以减轻mysql访问压力，用于remember-me的持久化操作
  */
 @Component
 public class PersistentTokenRepositoryImpl implements PersistentTokenRepository {

@@ -4,11 +4,7 @@ import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.Role;
 import com.backend.last_stand.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author chenhong
@@ -16,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @description 这个接口主要提供给manager和 super使用
  * @date 2023/6/6 11:44
  */
-@RestController("/managers")
+@RestController
+@RequestMapping("/managers")
 public class RoleController {
 
     @Autowired
