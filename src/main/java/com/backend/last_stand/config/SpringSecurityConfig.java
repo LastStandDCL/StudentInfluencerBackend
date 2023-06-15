@@ -188,7 +188,7 @@ public class SpringSecurityConfig {
         // 指定认证 url
         loginFilter.setFilterProcessesUrl("/user/login");
         // 指定接收json 用户名 key
-        loginFilter.setUsernameParameter("userName");
+        loginFilter.setUsernameParameter("email");
         // 指定接收 json 密码 key
         loginFilter.setPasswordParameter("password");
 
