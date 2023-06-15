@@ -1,7 +1,6 @@
 package com.backend.last_stand.controller;
 
 import com.backend.last_stand.service.MailService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +25,7 @@ public class MailController {
      * @return
      */
     @GetMapping("/mails/sendRegisterCode")
-    public String getRegeisterCode(@RequestBody Map<String,String> emailObj){
+    public String getRegisterCode(@RequestBody Map<String,String> emailObj){
         String email = emailObj.get("email");
         System.out.println(email);
 
