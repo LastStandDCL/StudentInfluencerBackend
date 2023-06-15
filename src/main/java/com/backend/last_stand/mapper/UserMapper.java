@@ -42,4 +42,6 @@ public interface UserMapper extends BaseMapper<User> {
    Integer updateRole(@Param("id") Long id, @Param("role_id") Long targetRoleId);
 
    IPage<User> getUsers(IPage<User> page, @Param("id") Long id);
+
+    User selectByEmail(String email);
 }

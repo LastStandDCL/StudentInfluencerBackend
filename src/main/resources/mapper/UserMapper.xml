@@ -27,5 +27,9 @@
             WHERE role_id = #{id}
         )
     </select>
+    <select id="selectByEmail" resultType="com.backend.last_stand.entity.User">
+        select * from sys_user
+        where email = #{email}
+    </select>
 
 </mapper>

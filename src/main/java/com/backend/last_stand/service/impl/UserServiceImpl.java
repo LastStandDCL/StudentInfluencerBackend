@@ -113,6 +113,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 //        }
 
 
+        //查询是否已经存在此邮箱
+        User user1 = userMapper.selectByEmail(user.getEmail());
+        if (user1 != null) {
+            throw new RuntimeException("注册失败，此邮箱已使用");
+        }
+
         //针对用户密码进行加密处理
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encode = bCryptPasswordEncoder.encode(user.getPassword());
