@@ -25,8 +25,8 @@ public class MailController {
      * @param emailObj
      * @return
      */
-    @GetMapping("/mails/sendCode")
-    public String getCheckCode(@RequestBody Map<String,String> emailObj){
+    @GetMapping("/mails/sendRegeisterCode")
+    public String getRegeisterCode(@RequestBody Map<String,String> emailObj){
         String email = emailObj.get("email");
         System.out.println(email);
 
@@ -35,6 +35,22 @@ public class MailController {
         String message = "您的注册验证码为："+checkCode;
         try {
             mailService.sendSimpleMail(email, "注册验证码", message);
+        }catch (Exception e){
+            return "";
+        }
+        return checkCode;
+    }
+
+    @GetMapping("/mails/sendLoginCode")
+    public String getLoginCode(@RequestBody Map<String,String> emailObj){
+        String email = emailObj.get("email");
+        System.out.println(email);
+
+        //随机生成验证码
+        String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
+        String message = "您的登录验证码为："+checkCode;
+        try {
+            mailService.sendSimpleMail(email, "登录验证码", message);
         }catch (Exception e){
             return "";
         }

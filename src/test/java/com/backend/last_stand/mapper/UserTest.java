@@ -1,8 +1,10 @@
 package com.backend.last_stand.mapper;
 
 import com.backend.last_stand.entity.User;
+import com.backend.last_stand.util.JwtUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.jsonwebtoken.Claims;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +53,20 @@ public class UserTest {
         Page<User> userPages = new Page<>(1, 5);
         Page<User> page = userMapper.selectPage(userPages, null);
         System.out.println(page);
+    }
+
+    @Test
+    public void  test05() throws Exception {
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1MTFkMzBkMTA1YTM0YzlkODkzN2VmNDYyMTM3NGI2NyIsInN1YiI6IjE2NjM4MDY2OTcxOTI4Nzg" +
+                "wODEiLCJpc3MiOiJzZyIsImlhdCI6MTY4NjgxOTk4MSwiZXhwIjoxNjg2ODIzNTgxfQ.Aeuann9_i_4Tbtt2jfeK6xjslfFnL6lbVD47HQH7_ps";
+        Claims claims = JwtUtils.parseJWT(token);
+
+        Date expiration = claims.getExpiration();//获取过期时间
+        System.out.println(expiration);
+
+//        Date exp = (Date)claims.get("exp");
+
+//
+//        System.out.println(date);
     }
 }
