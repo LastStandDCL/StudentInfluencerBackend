@@ -3,6 +3,7 @@ package com.backend.last_stand.controller;
 import com.backend.last_stand.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class MailController {
      * @param emailObj
      * @return
      */
-    @GetMapping("/mails/sendRegisterCode")
+    @PostMapping ("/mails/sendRegisterCode")
     public String getRegisterCode(@RequestBody Map<String,String> emailObj){
         String email = emailObj.get("email");
         System.out.println(email);
