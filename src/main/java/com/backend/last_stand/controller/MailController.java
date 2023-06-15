@@ -25,7 +25,7 @@ public class MailController {
      * @param emailObj
      * @return
      */
-    @GetMapping("/mails/sendRegeisterCode")
+    @GetMapping("/mails/sendRegisterCode")
     public String getRegeisterCode(@RequestBody Map<String,String> emailObj){
         String email = emailObj.get("email");
         System.out.println(email);
