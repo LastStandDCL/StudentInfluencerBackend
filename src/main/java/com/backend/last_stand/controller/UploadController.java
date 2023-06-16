@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 /**
@@ -23,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("/files")
-public class UploadController {
+public class UploadController{
 
 
 	@Autowired

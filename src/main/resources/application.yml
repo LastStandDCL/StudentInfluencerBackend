@@ -1,6 +1,9 @@
 server:
   port: 8010
 file_address: /laststand/files/
+virtualUploadPath: /getFiles
+
+
 spring:
   servlet:
     multipart:
@@ -10,6 +13,9 @@ spring:
       user:
         name: user
         password: 1234
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${file_address}
+
   mail:
     defaultEncoding: UTF-8
     host: smtp.qq.com
