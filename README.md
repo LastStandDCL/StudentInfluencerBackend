@@ -1,1 +1,1 @@
-# StudentInfluencerBackend
+# 软综课程后端
