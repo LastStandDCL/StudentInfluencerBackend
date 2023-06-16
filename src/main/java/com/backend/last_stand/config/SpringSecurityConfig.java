@@ -210,7 +210,6 @@ public class SpringSecurityConfig {
             //使用jwt工具类来生成token
             String jwt = JwtUtils.createJWT(userId);
 
-
             //authenticate存入redis
             redisCache.setCacheObject("login:"+userId, enhancedUser);
             System.out.println("将用户信息存入redis");

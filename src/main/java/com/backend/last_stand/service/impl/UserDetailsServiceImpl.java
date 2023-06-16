@@ -43,6 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         wrapper.eq(User::getEmail,email);
         //根据用户名获取用户信息
         User user = userMapper.selectOne(wrapper);
+
         if(Objects.isNull(user)){
             throw new RuntimeException("用户名或密码错误");
         }

@@ -38,22 +38,21 @@ import java.util.Map;
              try {
                  //request.getInputStream()在这里以流的方式获取数据，会导致controller无法接收到参数
                  Map<String, String> userInfo = new ObjectMapper().readValue(request.getInputStream(), Map.class);
-                 String username = userInfo.get(getUsernameParameter());
+                 //获取邮箱
+                 String email = userInfo.get(getUsernameParameter());
+                 //获取密码
                  String password = userInfo.get(getPasswordParameter());
-
+                //获取remember-me的赋值
                  String rememberValue = userInfo.get(AbstractRememberMeServices.DEFAULT_PARAMETER);
                  //如果没有勾选remember-me，那就设置默认的属性
                  if (!ObjectUtils.isEmpty(rememberValue)) {
                      request.setAttribute(AbstractRememberMeServices.DEFAULT_PARAMETER, rememberValue);
                  }
 
-                 System.out.println("用户名: " + username + " 密码: " + password + " 是否记住我: " + rememberValue);
+                 System.out.println("邮箱: " + email + " 密码: " + password + " 是否记住我: " + rememberValue);
                  //获取封装的信息
-
-                 UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
-
+                 UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
                  setDetails(request, authRequest);
-
                  System.out.println("Loginfilter完成，返回authenticate,进行autenticate()");
                  //与数据库中的用户密码进行比对校验
                  return this.getAuthenticationManager().authenticate(authRequest);

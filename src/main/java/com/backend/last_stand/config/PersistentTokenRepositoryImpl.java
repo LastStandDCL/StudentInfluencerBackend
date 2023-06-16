@@ -33,23 +33,34 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
      */
     @Override
     public void createNewToken(PersistentRememberMeToken persistentRememberMeToken) {
+        // token 含有 username series tokenValue date 四个属性
         //redis中存储的时series,series在用户二次登录后也不会更新
+
         String series = persistentRememberMeToken.getSeries();
+        //生成存储token信息的key,series + 前缀
         String key = generateKey(series,SERIES_KEY);
+
+        // 改成邮箱 , 这里无法获取username，刚开始为空值
         String usernameKey = generateKey(persistentRememberMeToken.getUsername(),USERNAME_KEY);
+        System.out.println("usernameKey:" + usernameKey);
+
         //用户只要采用账户密码重新登录，那么为了安全就有必要清除之前的token信息。deleteIfPresent方法通过
         //username查找到用户对应的series，然后删除旧的token信息。
         deleteIfPresent(usernameKey);
-
         HashMap<String,String > hashMap = new HashMap<>();
         hashMap.put("username",persistentRememberMeToken.getUsername());
+        //获取token的值
         hashMap.put("token",persistentRememberMeToken.getTokenValue());
         hashMap.put("date",String.valueOf(persistentRememberMeToken.getDate().getTime()));
-        HashOperations<String ,String ,String> hashOperations = redisTemplate.opsForHash();
-        hashOperations.putAll(key,hashMap);
+        //将数据插入  username为空需要修改
+        redisTemplate.opsForHash().putAll(key,hashMap);
 
         redisTemplate.expire(key,14, TimeUnit.DAYS);//设置token保存期限
+
+
         stringRedisTemplate.opsForValue().set(usernameKey,series);
+
+        //设置过期时间
         redisTemplate.expire(usernameKey,14, TimeUnit.DAYS);
     }
 
