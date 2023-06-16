@@ -231,7 +231,7 @@ public class SpringSecurityConfig {
             Map<String, Object> result = new HashMap<String, Object>();
             result.put("code" , "400");
             result.put("msg", "登录失败: " + ex.getMessage());
-            resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            resp.setStatus(HttpStatus.OK.value());
             resp.setContentType("application/json;charset=UTF-8");
             String s = new ObjectMapper().writeValueAsString(result);
             resp.getWriter().println(s);

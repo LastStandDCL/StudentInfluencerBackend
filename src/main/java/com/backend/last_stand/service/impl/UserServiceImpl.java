@@ -104,14 +104,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseResult register(User user) {
         user.setCreateTime(new Date());// 用户创建日期
         //注册的时候前端传入的json需要指定 创建的用户是 1:学生还是2:老师
-        String userName = user.getUserName();
+        //String userName = user.getUserName();
 
 //        //要求学号是唯一存在的
 //        User user1 = userMapper.selectByUserName(userName);
 //        if (user1 != null) {// 如果能够在数据库中查询到这个账号，那么冲突了
 //            throw new RuntimeException("注册失败，用户名存在");
 //        }
-
 
         //查询是否已经存在此邮箱
         User user1 = userMapper.selectByEmail(user.getEmail());
