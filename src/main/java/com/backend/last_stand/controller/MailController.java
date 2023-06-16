@@ -53,4 +53,20 @@ public class MailController {
         }
         return checkCode;
     }
+
+    @PostMapping("/mails/sendResetCode")
+    public String getResetCode(@RequestBody Map<String,String> emailObj){
+        String email = emailObj.get("email");
+        System.out.println(email);
+
+        //随机生成验证码
+        String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
+        String message = "您的重置密码验证码为："+checkCode;
+        try {
+            mailService.sendSimpleMail(email, "重置密码验证码", message);
+        }catch (Exception e){
+            return "";
+        }
+        return checkCode;
+    }
 }
