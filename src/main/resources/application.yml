@@ -1,6 +1,6 @@
 server:
   port: 8010
-file_address: /laststand/files/
+file_address: laststand/files/
 virtualUploadPath: /getFiles
 
 

@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.service.UploadService;
@@ -37,7 +37,7 @@ public class UploadController{
 	 * @throws Exception 
 	 */
 	@PostMapping("/uploadVideo")
-	public ResponseResult uploadVideo(MultipartFile file, HttpServletRequest request) throws Exception{
+	public ResponseResult uploadVideo(@RequestParam("file")MultipartFile file, HttpServletRequest request) throws Exception{
 		return uploadService.uploadVideo(file, request);
 	}
 	
@@ -48,7 +48,7 @@ public class UploadController{
 	 * @throws Exception 
 	 */
 	@PostMapping("/uploadImage")
-	public ResponseResult uploadImage(MultipartFile file,HttpServletRequest request) throws Exception{
+	public ResponseResult uploadImage(@RequestParam("file")MultipartFile file,HttpServletRequest request) throws Exception{
 		return uploadService.uploadImage(file, request);
 	}
 
@@ -62,7 +62,7 @@ public class UploadController{
 	 * @return
 	 */
 	@PostMapping("/uploadfile")
-	public ResponseResult fileUpload(@RequestParam("file")MultipartFile multipartFile, jakarta.servlet.http.HttpServletRequest req) {
+	public ResponseResult fileUpload(@RequestParam("file")MultipartFile multipartFile, HttpServletRequest req) {
 		return uploadService.uploadFile(multipartFile, req);
 	}
 
