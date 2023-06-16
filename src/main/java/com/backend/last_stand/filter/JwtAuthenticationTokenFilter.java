@@ -62,7 +62,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String token = request.getHeader("token");
         //如果不存在这个token，直接放行
         if (!StringUtils.hasText(token)) {
-            System.out.println("放行请求, 后续为空返回401");
+//            System.out.println("放行请求, 后续为空返回401");
             //如果没有token，那么就会返回401失败
             filterChain.doFilter(request, response);
             return;

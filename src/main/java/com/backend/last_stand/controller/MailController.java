@@ -61,7 +61,8 @@ public class MailController {
 
         //随机生成验证码
         String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
-        String message = "您的重置密码验证码为："+checkCode;
+        String message = "您的重置密码验证码为：" + checkCode;
+        System.out.println(message);
         try {
             mailService.sendSimpleMail(email, "重置密码验证码", message);
         }catch (Exception e){

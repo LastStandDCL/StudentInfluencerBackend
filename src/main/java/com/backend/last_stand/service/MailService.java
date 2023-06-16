@@ -39,7 +39,7 @@ public class MailService {
         message.setSubject(title);
         message.setText(content);
         mailSender.send(message);
-        logger.info("邮件发送成功");
+        logger.info("邮件发送成功:" + message);
     }
 
     /**
