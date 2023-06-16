@@ -220,7 +220,7 @@ public class SpringSecurityConfig {
             result.put("code" , "200");
             result.put("msg", "登录成功");
             result.put("token",jwt);//将token放入map然后返回给前端
-            result.put("用户信息", authentication.getPrincipal());
+            result.put("userInfo", authentication.getPrincipal());
             resp.setContentType("application/json;charset=UTF-8");
             resp.setStatus(HttpStatus.OK.value());
             String s = new ObjectMapper().writeValueAsString(result);

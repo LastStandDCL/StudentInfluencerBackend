@@ -33,7 +33,7 @@ public class MailController {
         try {
             mailService.sendSimpleMail(email, "注册验证码", message);
         }catch (Exception e){
-            return "";
+            return "sendError";
         }
         return checkCode;
     }
@@ -49,7 +49,7 @@ public class MailController {
         try {
             mailService.sendSimpleMail(email, "登录验证码", message);
         }catch (Exception e){
-            return "";
+            return "sendError";
         }
         return checkCode;
     }
@@ -65,7 +65,7 @@ public class MailController {
         try {
             mailService.sendSimpleMail(email, "重置密码验证码", message);
         }catch (Exception e){
-            return "";
+            return "sendError";
         }
         return checkCode;
     }
