@@ -60,6 +60,8 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
         return new ResponseResult<>(200, "新增新闻成功");
     }
 
+
+
     @Override
     public ResponseResult delNews(News news) {
         //获取id信息
@@ -94,6 +96,22 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
 
         IPage<News> getNews = newsMapper.getNews(page);
         return new ResponseResult<>(200, "返回新闻结果", getNews);
+    }
+
+    @Override
+    public ResponseResult getNewsByTime(Integer pageNum, Integer pageSize) {
+        Page<News> page = new Page<>(pageNum, pageSize);
+
+        IPage<News> getNews = newsMapper.getNewsByTime(page);
+        return new ResponseResult<>(200, "根据修改时间返回最新新闻结果", getNews);
+    }
+
+    @Override
+    public ResponseResult getNewsByPriority(Integer pageNum, Integer pageSize) {
+        Page<News> page = new Page<>(pageNum, pageSize);
+
+        IPage<News> getNews = newsMapper.getNewsByPriority(page);
+        return new ResponseResult<>(200, "根据新闻优先级返回最新新闻结果", getNews);
     }
 
 

@@ -15,4 +15,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 public interface NewsMapper extends BaseMapper<News> {
 
     IPage<News> getNews(Page<News> page);
+
+    IPage<News> getNewsByTime(Page<News> page);
+
+    IPage<News> getNewsByPriority(Page<News> page);
 }

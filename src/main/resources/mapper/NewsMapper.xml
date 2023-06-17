@@ -7,4 +7,18 @@
         SELECT * FROM sys_news
         WHERE del_flag = 0
     </select>
+
+    <select id="getNewsByTime" resultType="com.backend.last_stand.entity.News">
+        SELECT * FROM sys_news
+        WHERE del_flag = 0
+        ORDER BY update_time DESC, is_show DESC
+    </select>
+
+
+    <select id="getNewsByPriority" resultType="com.backend.last_stand.entity.News">
+        SELECT * FROM sys_news
+        WHERE del_flag = 0
+        ORDER BY  is_show DESC, update_time DESC
+    </select>
+
 </mapper>

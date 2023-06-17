@@ -17,4 +17,8 @@ public interface NewsService extends IService<News> {
     ResponseResult getNewsByPage(Integer pageNum, Integer pageSize);
 
     ResponseResult addNewsPriority(News news, Long uid, Integer isShow);
+
+    ResponseResult getNewsByTime(Integer pageNum, Integer pageSize);
+
+    ResponseResult getNewsByPriority(Integer pageNum, Integer pageSize);
 }

@@ -72,5 +72,27 @@ public class NewsController {
         return newsService.getNewsByPage(pageNum, pageSize);
     }
 
+    /**
+     * 根据更新时间来返回新闻数据，时间最新的在越前面,时间相同的返回优先级更高的
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/getNewsByTime")
+    public ResponseResult getNewsByTime(Integer pageNum, Integer pageSize) {
+        return newsService.getNewsByTime(pageNum, pageSize);
+    }
+
+    /**
+     * 根据优先级来返回新闻数据，优先级越高在越前面，优先级相同返回时间更新的
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/getNewsByPriority")
+    public ResponseResult getNewsByPriority(Integer pageNum, Integer pageSize) {
+        return newsService.getNewsByPriority(pageNum, pageSize);
+    }
+
 
 }
