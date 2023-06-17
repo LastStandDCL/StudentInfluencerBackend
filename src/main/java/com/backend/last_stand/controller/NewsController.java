@@ -35,7 +35,7 @@ public class NewsController {
      * 新增新闻, 并且设置优先级
      * @return
      */
-    @PostMapping("/addNews")
+    @PostMapping("/addNewsPriority")
     public ResponseResult addNewsPriority(News news, Long uid, Integer isShow) {
         return newsService.addNewsPriority(news, uid, isShow);
     }
