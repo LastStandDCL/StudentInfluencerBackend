@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 
 /**
  * @author chenhong
@@ -26,10 +28,30 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
 
 
     @Override
-    public ResponseResult addNews(News news) {
+    public ResponseResult addNews(News news, Long id) {
         //获取url
         String url = news.getUrl();
         System.out.println(url);
+        //设置新增时间
+        news.setCreateTime(new Date());
+        //设置创建新闻的用户id
+        news.setCreateBy(id);
+
+        int insert = newsMapper.insert(news);
+        if (insert != 1) {
+            throw new RuntimeException("新增新闻失败");
+        }
+        return new ResponseResult<>(200, "新增新闻成功");
+    }
+
+    @Override
+    public ResponseResult addNewsPriority(News news, Long uid, Integer isShow) {
+        //设置新增时间
+        news.setCreateTime(new Date());
+        //设置创建新闻的用户id
+        news.setCreateBy(uid);
+        //设置新闻优先级
+        news.setIsShow(isShow);
 
         int insert = newsMapper.insert(news);
         if (insert != 1) {
@@ -55,7 +77,10 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
     }
 
     @Override
-    public ResponseResult updateNews(News news) {
+    public ResponseResult updateNews(News news, Long id) {
+        news.setUpdateTime(new Date());
+        //设置更新新闻的用户id
+        news.setUpdateBy(id);
         int i = newsMapper.updateById(news);
         if (i != 1) {
             throw new RuntimeException("更新新闻信息失败");
@@ -70,6 +95,8 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
         IPage<News> getNews = newsMapper.getNews(page);
         return new ResponseResult<>(200, "返回新闻结果", getNews);
     }
+
+
 
 
 }

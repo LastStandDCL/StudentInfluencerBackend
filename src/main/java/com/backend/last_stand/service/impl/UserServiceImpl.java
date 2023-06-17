@@ -132,6 +132,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public ResponseResult update(User user) {
+        user.setUpdateTime(new Date());
         //这里如果要修改密码，那么密码需要加密后加入数据库中
         //针对用户密码进行加密处理
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public interface NewsService extends IService<News> {
 
-    ResponseResult addNews(News news);
+    ResponseResult addNews(News news, Long id);
 
     ResponseResult delNews(News news);
 
-    ResponseResult updateNews(News news);
+    ResponseResult updateNews(News news, Long id);
 
     ResponseResult getNewsByPage(Integer pageNum, Integer pageSize);
+
+    ResponseResult addNewsPriority(News news, Long uid, Integer isShow);
 }

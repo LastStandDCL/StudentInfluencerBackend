@@ -1,6 +1,7 @@
 package com.backend.last_stand.mapper;
 
 import com.backend.last_stand.entity.News;
+import com.backend.last_stand.service.NewsService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.Test;
@@ -21,11 +22,22 @@ public class NewsTest {
     @Autowired
     private NewsMapper newsMapper;
 
+    @Autowired
+    private NewsService newsService;
+
     @Test
     public void test01() {
         Page<News> page = new Page<>(2, 3);
         IPage<News> news = newsMapper.getNews(page);
         System.out.println(news);
+    }
+
+    @Test
+    public void test02() {
+        News news = new News();
+        news.setImg("http://localhost:8010/ahasfafa.png");
+        news.setUrl("http://localhost:8010/ahasfafa.video");
+        newsService.addNews(news, 123L);//插入新闻的用户id
     }
 
 
