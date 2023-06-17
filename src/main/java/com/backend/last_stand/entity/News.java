@@ -30,12 +30,12 @@ public class News implements Serializable {
 
 
     /**
-     *封面图片或者视频链接
+     *封面图片
      */
     private String img;
 
     /**
-     * 外链
+     * 外链, 文本，视频，图片
      */
     private String url;
 
