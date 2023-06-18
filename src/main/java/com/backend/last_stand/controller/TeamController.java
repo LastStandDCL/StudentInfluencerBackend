@@ -1,6 +1,7 @@
 package com.backend.last_stand.controller;
 
 import com.backend.last_stand.entity.ResponseResult;
+import com.backend.last_stand.entity.Team;
 import com.backend.last_stand.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +21,32 @@ public class TeamController {
 
     /**
      * 传入team的id， 可以获取队伍成员
-     * @param id
+     * @param
      * @return
      */
     @PostMapping("/getMemembers")
-    public ResponseResult getTeamMembers(Long id) {
-        return teamService.getTeamMembers(id);
+    public ResponseResult getTeamMembers(@RequestBody Team team) {
+        System.out.println("请求/getMemembers------------" + "id :" + team.getId());
+        return teamService.getTeamMembers(team.getId());
+    }
+
+    /**
+     * 传入id
+     * @param team
+     * @return
+     */
+    @PostMapping("/getSchool")
+    public ResponseResult getSchool(@RequestBody Team team) {
+        return teamService.getSchool(team.getId());
+    }
+
+    /**
+     * 传入id
+     * @param team
+     * @return
+     */
+    @PostMapping("/getTeamInfo")
+    public ResponseResult getTeamInfo(@RequestBody Team team) {
+        return teamService.getTeamInfo(team.getId());
     }
 }

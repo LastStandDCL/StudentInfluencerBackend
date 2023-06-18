@@ -10,4 +10,12 @@
             WHERE team_id = #{id}
         )
     </select>
+
+    <select id="getSchool" resultType="com.backend.last_stand.entity.School" parameterType="java.lang.Long">
+        SELECT * FROM sys_school
+        WHERE id IN (
+            SELECT school_id FROM sys_team
+            WHERE id = #{id}
+        )
+    </select>
 </mapper>

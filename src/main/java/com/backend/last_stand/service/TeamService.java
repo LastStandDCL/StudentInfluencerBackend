@@ -8,4 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TeamService extends IService<Team> {
     ResponseResult getTeamMembers(Long id);
+
+    ResponseResult getSchool(Long id);
+
+    ResponseResult getTeamInfo(Long id);
 }

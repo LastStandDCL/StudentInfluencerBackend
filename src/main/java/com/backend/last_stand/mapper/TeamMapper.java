@@ -1,5 +1,6 @@
 package com.backend.last_stand.mapper;
 
+import com.backend.last_stand.entity.School;
 import com.backend.last_stand.entity.Team;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.backend.last_stand.entity.User;
@@ -16,4 +17,6 @@ public interface TeamMapper extends BaseMapper<Team> {
 
 
     List<User> getTeamMembers(Long id);
+
+    School getSchool(Long id);
 }

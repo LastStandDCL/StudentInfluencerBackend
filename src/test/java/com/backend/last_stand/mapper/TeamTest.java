@@ -1,6 +1,9 @@
 package com.backend.last_stand.mapper;
 
+import com.backend.last_stand.entity.ResponseResult;
+import com.backend.last_stand.entity.School;
 import com.backend.last_stand.entity.User;
+import com.backend.last_stand.service.TeamService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +24,25 @@ public class TeamTest {
     @Autowired
     private TeamMapper teamMapper;
 
+    @Autowired
+    private TeamService teamService;
+
 
     @Test
     public void test01() {
         List<User> teamMembers = teamMapper.getTeamMembers(1L);
+        System.out.println(teamMembers);
+    }
+
+    @Test
+    public void test02() {
+        School school = teamMapper.getSchool(1L);
+        System.out.println(school);
+    }
+
+    @Test
+    public void test03() {
+        ResponseResult teamMembers = teamService.getTeamMembers(1L);
         System.out.println(teamMembers);
     }
 }
