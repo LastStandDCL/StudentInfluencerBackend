@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.backend.last_stand.mapper.TeamMapper">
+
+
+    <select id="getTeamMembers" parameterType="java.lang.Long" resultType="com.backend.last_stand.entity.User">
+        SELECT * FROM sys_user
+        WHERE id IN (
+            SELECT user_id FROM sys_ts
+            WHERE team_id = #{id}
+        )
+    </select>
+</mapper>
