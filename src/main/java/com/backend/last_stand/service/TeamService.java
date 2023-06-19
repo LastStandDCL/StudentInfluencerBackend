@@ -14,4 +14,12 @@ public interface TeamService extends IService<Team> {
     ResponseResult getTeamInfo(Long id);
 
     ResponseResult createTeam(Team team);
+
+    ResponseResult deleteTeam(Team team);
+
+    ResponseResult updateTeam(Team team);
+
+    ResponseResult getTeamBySchoolName(String schoolName);
+
+    ResponseResult getTeamByYear(String year);
 }

@@ -44,5 +44,17 @@ public class Team  implements Serializable {
      */
     private Date createTime;
 
+    /**
+     * 参与的活动id
+     */
+    private Long activityId;
+
+    /**
+     * 队伍年份
+     */
+    private String year;
+
+
+
 }
 

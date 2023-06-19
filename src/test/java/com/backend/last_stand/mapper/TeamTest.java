@@ -55,4 +55,10 @@ public class TeamTest {
         ResponseResult team1 = teamService.createTeam(team);
         System.out.println(team1);
     }
+
+    @Test
+    public void test05() {
+        List<Team> teams = teamMapper.getTeamBySchoolName("合肥一六八中学");
+        System.out.println(teams);
+    }
 }

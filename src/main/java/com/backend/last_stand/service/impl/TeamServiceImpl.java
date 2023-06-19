@@ -70,4 +70,54 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         }
         return new ResponseResult<>(200, "创建队伍成功");
     }
+
+    @Override
+    public ResponseResult deleteTeam(Team team) {
+        int i = teamMapper.deleteById(team);
+        if (i != 1) {
+            throw new RuntimeException("删除队伍失败");
+        }
+        return new ResponseResult<>(200, "删除队伍成功");
+    }
+
+    @Override
+    public ResponseResult updateTeam(Team team) {
+        int i = teamMapper.updateById(team);
+        if (i != 1) {
+            throw new RuntimeException("更新队伍失败");
+        }
+        return new ResponseResult<>(200, "更新队伍成功");
+    }
+
+    @Override
+    public ResponseResult getTeamBySchoolName(String schoolName) {
+        List<Team> teamBySchoolName = teamMapper.getTeamBySchoolName(schoolName);
+        if (teamBySchoolName == null) {
+            throw new RuntimeException("返回队伍值为空");
+        }
+        HashMap<String, String> hashMap = new HashMap<>();
+        Integer total = teamBySchoolName.size();
+        hashMap.put("total", total.toString());
+        hashMap.put("teams", teamBySchoolName.toString());
+        ResponseResult result = new ResponseResult<>();
+        result.setCode(200);
+        result.setMsg("根据学校返回队伍名称成功");
+        result.setData(hashMap);
+
+        return result;
+    }
+
+    @Override
+    public ResponseResult getTeamByYear(String year) {
+        List<Team> teamByYear = teamMapper.getTeamByYear(year);
+        HashMap<String, String> hashMap = new HashMap<>();
+        Integer total = teamByYear.size();
+        hashMap.put("total", total.toString());
+        hashMap.put("teams", teamByYear.toString());
+        ResponseResult result = new ResponseResult<>();
+        result.setCode(200);
+        result.setMsg("根据年份返回队伍名称成功");
+        result.setData(hashMap);
+        return result;
+    }
 }
