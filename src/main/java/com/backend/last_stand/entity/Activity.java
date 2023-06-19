@@ -28,4 +28,6 @@ public class Activity implements Serializable {
 
     private String description;
 
+    private String year;
+
 }
