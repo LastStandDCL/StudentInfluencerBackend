@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,5 +56,18 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
 //        hashMap.put("createTime", team.getCreateTime().toString());
 
         return new ResponseResult<>(200, "返回队伍相关信息", hashMap);
+    }
+
+    @Override
+    public ResponseResult createTeam(Team team) {
+        if (team == null) {
+            throw new RuntimeException("插入队伍信息为空");
+        }
+        team.setCreateTime(new Date());
+        int insert = teamMapper.insert(team);
+        if (insert != 1) {
+            throw new RuntimeException("插入队伍信息失败");
+        }
+        return new ResponseResult<>(200, "创建队伍成功");
     }
 }

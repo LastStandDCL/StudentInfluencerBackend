@@ -32,4 +32,12 @@
         where email = #{email}
     </select>
 
+    <select id="getUserTeam" resultType="com.backend.last_stand.entity.Team" parameterType="java.lang.Long">
+        SELECT * FROM sys_team
+        WHERE id IN (
+            SELECT team_id FROM sys_ts
+            WHERE user_id = #{id}
+        )
+    </select>
+
 </mapper>

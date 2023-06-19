@@ -2,6 +2,7 @@ package com.backend.last_stand.mapper;
 
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.School;
+import com.backend.last_stand.entity.Team;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.service.TeamService;
 import org.junit.Test;
@@ -44,5 +45,14 @@ public class TeamTest {
     public void test03() {
         ResponseResult teamMembers = teamService.getTeamMembers(1L);
         System.out.println(teamMembers);
+    }
+
+    @Test
+    public void test04() {
+        Team team = new Team();
+        team.setTeamName("香锅队");
+        team.setSchoolId(1663771895756554241L);
+        ResponseResult team1 = teamService.createTeam(team);
+        System.out.println(team1);
     }
 }

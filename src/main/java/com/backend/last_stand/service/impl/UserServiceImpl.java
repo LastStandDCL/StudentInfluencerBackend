@@ -1,13 +1,10 @@
 package com.backend.last_stand.service.impl;
 
-import com.backend.last_stand.entity.EnhancedUser;
-import com.backend.last_stand.entity.Role;
+import com.backend.last_stand.entity.*;
 import com.backend.last_stand.mapper.MenuMapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 
 
-import com.backend.last_stand.entity.ResponseResult;
-import com.backend.last_stand.entity.User;
 import com.backend.last_stand.mapper.UserMapper;
 import com.backend.last_stand.service.UserService;
 import com.backend.last_stand.util.RedisCache;
@@ -231,6 +228,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new RuntimeException("从redis中获取用户信息失败");
         }
         return new ResponseResult(200, "从redis中获取用户信息成功", enhancedUser);
+    }
+
+    @Override
+    public ResponseResult getUserTeam(User user) {
+        List<Team> teams = userMapper.getUserTeam(user.getId());
+        if (teams == null) {
+            throw new RuntimeException("获取用户队伍为空");
+        }
+        return new ResponseResult(200, "获取用户队伍成功", teams);
     }
 
 

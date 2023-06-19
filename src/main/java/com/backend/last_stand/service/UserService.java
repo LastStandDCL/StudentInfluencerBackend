@@ -55,5 +55,7 @@ public interface UserService extends IService<User> {
     ResponseResult getUserRole(Long id);
 
     ResponseResult getUserInfoFromRedis(Long id);
+
+    ResponseResult getUserTeam(User user);
 }
 

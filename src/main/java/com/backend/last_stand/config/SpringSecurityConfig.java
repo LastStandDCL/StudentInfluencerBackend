@@ -205,6 +205,9 @@ public class SpringSecurityConfig {
             //从authenticate中获取EnhancedUser对象
             EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
 
+            Long id = enhancedUser.getUser().getId();
+
+
             //使用userid生成token
             String userId = enhancedUser.getUser().getId().toString();
             //使用jwt工具类来生成token

@@ -19,6 +19,18 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
+
+    /**
+     * 需要传入 team_name、school_id
+     * @param team
+     * @return
+     */
+    @PostMapping("/createTeam")
+    public ResponseResult createTeam(@RequestBody Team team) {
+        System.out.println("请求/team/createTeam------------");
+        return teamService.createTeam(team);
+    }
+
     /**
      * 传入team的id， 可以获取队伍成员
      * @param

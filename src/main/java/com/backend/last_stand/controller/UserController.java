@@ -5,12 +5,11 @@ import com.backend.last_stand.entity.User;
 import com.backend.last_stand.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author chenhong
@@ -18,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @description TODO
  * @date 2023/5/21 21:56
  */
+@Slf4j
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -42,7 +43,7 @@ public class UserController {
      * 登录出去，需要用户已经登录之后才可以登出，会检验登入的token值，如果不携带token，那么就没有权限，会返回403
      * @return
      */
-    @PostMapping("/user/logout")
+    @PostMapping("logout")
     @PreAuthorize("hasAnyAuthority('student')")
     public ResponseResult logout(){
         return userService.logout();
@@ -53,7 +54,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("/user/register")
+    @PostMapping("register")
     public ResponseResult register(@RequestBody User user) {
         return userService.register(user);
     }
@@ -63,7 +64,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("/user/update")
+    @PostMapping("/update")
     public ResponseResult update(@RequestBody User user) {
         return userService.update(user);
     }
@@ -73,7 +74,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("/user/delete")
+    @PostMapping("delete")
     public ResponseResult delete(@RequestBody User user) {
         return userService.delete(user);
     }
@@ -151,6 +152,10 @@ public class UserController {
     }
 
 
+    @PostMapping("/getUserTeam")
+    public ResponseResult getUserTeam(@RequestBody User user) {
+        return userService.getUserTeam(user);
+    }
 
 
 

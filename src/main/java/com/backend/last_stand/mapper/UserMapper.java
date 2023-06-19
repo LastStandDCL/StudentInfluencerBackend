@@ -2,6 +2,7 @@ package com.backend.last_stand.mapper;
 
 
 import com.backend.last_stand.entity.Role;
+import com.backend.last_stand.entity.Team;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.backend.last_stand.entity.User;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -44,4 +45,6 @@ public interface UserMapper extends BaseMapper<User> {
    IPage<User> getUsers(IPage<User> page, @Param("id") Long id);
 
     User selectByEmail(String email);
+
+    List<Team> getUserTeam(Long id);
 }
