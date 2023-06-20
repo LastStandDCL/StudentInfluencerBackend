@@ -4,9 +4,11 @@ package com.backend.last_stand.config;
 
 import com.backend.last_stand.entity.EnhancedUser;
 import com.backend.last_stand.entity.ResponseResult;
+import com.backend.last_stand.entity.Team;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.filter.JwtAuthenticationTokenFilter;
 import com.backend.last_stand.filter.LoginFilter;
+import com.backend.last_stand.mapper.UserMapper;
 import com.backend.last_stand.service.impl.RememberMeServiceImpl;
 import com.backend.last_stand.service.impl.UserDetailsServiceImpl;
 import com.backend.last_stand.util.JwtUtils;
@@ -49,10 +51,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -69,7 +68,8 @@ public class SpringSecurityConfig {
     @Autowired
     private RedisCache redisCache;
 
-
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -206,6 +206,8 @@ public class SpringSecurityConfig {
             EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
 
             Long id = enhancedUser.getUser().getId();
+            List<Team> userTeam = userMapper.getUserTeam(id);
+
 
 
             //使用userid生成token
@@ -222,6 +224,7 @@ public class SpringSecurityConfig {
             result.put("code" , "200");
             result.put("msg", "登录成功");
             result.put("token",jwt);//将token放入map然后返回给前端
+            result.put("teams", userTeam);
             result.put("userInfo", authentication.getPrincipal());
             resp.setContentType("application/json;charset=UTF-8");
             resp.setStatus(HttpStatus.OK.value());
