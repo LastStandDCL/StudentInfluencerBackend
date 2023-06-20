@@ -1,7 +1,10 @@
 package com.backend.last_stand.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.backend.last_stand.entity.*;
 import com.backend.last_stand.mapper.MenuMapper;
+import com.backend.last_stand.mapper.TeamMapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 
 
@@ -38,6 +41,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private TeamMapper teamMapper;
 
     @Autowired
     private MenuMapper menuMapper;
@@ -237,6 +243,46 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new RuntimeException("获取用户队伍为空");
         }
         return new ResponseResult(200, "获取用户队伍成功", teams);
+    }
+
+    @Override
+    public ResponseResult addTeam(String info) {
+        JSONObject jsonObject = JSON.parseObject(info);
+        //队伍id
+        String teamId = jsonObject.get("teamId").toString();
+        //用户id
+        String userId = jsonObject.get("userId").toString();
+        //年丰
+        String year = jsonObject.get("year").toString();
+
+        //转化为Long
+        long luser = Long.parseLong(userId);
+        long lteam = Long.parseLong(teamId);
+
+        //先获取用户的队伍信息,不允许一年内加入多个队伍,年份不允许冲突
+        List<Team> userTeam = userMapper.getUserTeam(luser);
+        if (userTeam != null) {
+            for (Team team : userTeam) {
+                String year1 = team.getYear();
+                if (year1.equals(year)) {
+                    throw new RuntimeException("用户在" + year + "年已经加入队伍");
+                }
+            }
+        }
+
+        //获取需要加入的队伍的信息
+        Team team = teamMapper.selectById(lteam);
+        if (team == null) {
+            throw new RuntimeException("要加入的队伍不存在");
+        }
+
+        //如果不存在问题，那么就会在sys_ts表中添加记录  user_id team_id
+        userMapper.addTeam(luser, lteam);
+
+
+
+
+        return null;
     }
 
 

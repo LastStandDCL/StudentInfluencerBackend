@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.backend.last_stand.mapper.UserMapper">
+    <insert id="addTeam">
+        INSERT INTO sys_ts (user_id, team_id)
+        VALUES (#{userId}, #{teamId})
+    </insert>
 
 
     <update id="updateRole">

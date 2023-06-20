@@ -1,6 +1,7 @@
 package com.backend.last_stand.controller;
 
 import com.backend.last_stand.entity.ResponseResult;
+import com.backend.last_stand.entity.Team;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -158,16 +159,14 @@ public class UserController {
     }
 
 
-
-
-
     /**
-     * 测试接口用的
+     * 队员加入队伍,如果在当前活动年份已经有队伍，那就不能再加入新的队伍，除非退出原来队伍,需要传入队伍id和活动年份
+     * @param info
      * @return
      */
-    @GetMapping("/user/hello")
-    public ResponseResult hello() {
-        return new ResponseResult(200, "HELLO~");
+    @PostMapping("/addTeam")
+    public ResponseResult addTeam(@RequestBody String info) {
+        return userService.addTeam(info);
     }
 
 }

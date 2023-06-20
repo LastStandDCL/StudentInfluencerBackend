@@ -1,6 +1,7 @@
 package com.backend.last_stand.service;
 
 
+import com.backend.last_stand.entity.Team;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.backend.last_stand.entity.ResponseResult;
@@ -55,5 +56,7 @@ public interface UserService extends IService<User> {
     ResponseResult getUserInfoFromRedis(Long id);
 
     ResponseResult getUserTeam(User user);
+
+    ResponseResult addTeam(String info);
 }
 

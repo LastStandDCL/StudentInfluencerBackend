@@ -47,4 +47,6 @@ public interface UserMapper extends BaseMapper<User> {
     User selectByEmail(String email);
 
     List<Team> getUserTeam(Long id);
+
+    Integer addTeam(Long userId, Long teamId);
 }
