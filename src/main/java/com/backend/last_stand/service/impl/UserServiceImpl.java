@@ -279,10 +279,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //如果不存在问题，那么就会在sys_ts表中添加记录  user_id team_id
         userMapper.addTeam(luser, lteam);
 
-
-
-
-        return null;
+        return new ResponseResult<>(200, "加入队伍成功");
     }
 
 
