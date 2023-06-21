@@ -9,6 +9,7 @@ import com.backend.last_stand.service.ActivityNewsService;
 import com.backend.last_stand.service.ActivityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
  * @description TODO
  * @date 2023/6/21 12:23
  */
+@Service
 public class ActivityNewsServiceImpl  extends ServiceImpl<ActivityNewsMapper, ActivityNews> implements ActivityNewsService {
 
     @Autowired
