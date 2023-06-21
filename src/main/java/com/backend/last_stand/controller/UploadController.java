@@ -30,45 +30,52 @@ public class UploadController{
 	@Autowired
 	private UploadService uploadService;
 
-	/**
-	 * 视频文件上传
-	 * @param request
-	 * @return
-	 * @throws Exception 
-	 */
-	@PostMapping("/uploadVideo")
+    /**
+     * 视频文件上传
+     *
+     * @param file    the file
+     * @param request the request
+     * @return response result
+     * @throws Exception the exception
+     */
+    @PostMapping("/uploadVideo")
 	public ResponseResult uploadVideo(@RequestParam("file")MultipartFile file, HttpServletRequest request) throws Exception{
 		return uploadService.uploadVideo(file, request);
 	}
-	
-	/**
-	 * 图片文件上传
-	 * @param request
-	 * @return
-	 * @throws Exception 
-	 */
-	@PostMapping("/uploadImage")
+
+    /**
+     * 图片文件上传
+     *
+     * @param file    the file
+     * @param request the request
+     * @return response result
+     * @throws Exception the exception
+     */
+    @PostMapping("/uploadImage")
 	public ResponseResult uploadImage(@RequestParam("file")MultipartFile file,HttpServletRequest request) throws Exception{
 		return uploadService.uploadImage(file, request);
 	}
 
 
-
-
-	/**
-	 * 请求body中携带file， 返回内容会携带url，提供给前端预览使用
-	 * @param multipartFile
-	 * @param req
-	 * @return
-	 */
-	@PostMapping("/uploadfile")
+    /**
+     * 请求body中携带file， 返回内容会携带url，提供给前端预览使用
+     *
+     * @param multipartFile the multipart file
+     * @param req           the req
+     * @return response result
+     */
+    @PostMapping("/uploadfile")
 	public ResponseResult fileUpload(@RequestParam("file")MultipartFile multipartFile, HttpServletRequest req) {
 		return uploadService.uploadFile(multipartFile, req);
 	}
 
 
-
-	@GetMapping("/downloadfile")
+    /**
+     * Download.
+     *
+     * @param response the response
+     */
+    @GetMapping("/downloadfile")
 	public void download(HttpServletResponse response) {
 		response.reset();
 		response.setContentType("application/octet-stream");

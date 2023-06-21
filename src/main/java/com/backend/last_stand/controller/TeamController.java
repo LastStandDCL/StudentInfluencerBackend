@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * The type Team controller.
+ *
  * @author chenhong
  * @version 1.0
  * @description TODO
- * @date 2023/6/18 12:18
+ * @date 2023 /6/18 12:18
  */
 @Slf4j
 @RestController
@@ -24,8 +26,9 @@ public class TeamController {
 
     /**
      * 需要传入 team_name、school_id
-     * @param team
-     * @return
+     *
+     * @param team the team
+     * @return response result
      */
     @PostMapping("/createTeam")
     public ResponseResult createTeam(@RequestBody Team team) {
@@ -34,23 +37,47 @@ public class TeamController {
     }
 
 
+    /**
+     * Delete team response result.
+     *
+     * @param team the team
+     * @return the response result
+     */
     @PostMapping("/deleteTeam")
     public ResponseResult deleteTeam(@RequestBody Team team) {
         log.info("请求/team/deleteTeam");
         return teamService.deleteTeam(team);
     }
 
+    /**
+     * Update team response result.
+     *
+     * @param team the team
+     * @return the response result
+     */
     @PostMapping("/updateTeam")
     public ResponseResult updateTeam(@RequestBody Team team) {
         log.info("请求/team/updateTeam");
         return teamService.updateTeam(team);
     }
 
+    /**
+     * Gets team by year.
+     *
+     * @param year the year
+     * @return the team by year
+     */
     @PostMapping("/getTeamByYear")
     public ResponseResult getTeamByYear(@RequestBody String year) {
         return teamService.getTeamByYear(year);
     }
 
+    /**
+     * Gets team by school name.
+     *
+     * @param schoolName the school name
+     * @return the team by school name
+     */
     @PostMapping("/getTeamBySchoolName")
     public ResponseResult getTeamBySchoolName(@RequestBody String schoolName) {
         return teamService.getTeamBySchoolName(schoolName);
@@ -69,8 +96,9 @@ public class TeamController {
 
     /**
      * 传入team的id， 可以获取队伍成员
-     * @param
-     * @return
+     *
+     * @param team the team
+     * @return team members
      */
     @PostMapping("/getMemembers")
     public ResponseResult getTeamMembers(@RequestBody Team team) {
@@ -80,8 +108,9 @@ public class TeamController {
 
     /**
      * 传入id，获取队伍所在学校
-     * @param team
-     * @return
+     *
+     * @param team the team
+     * @return school
      */
     @PostMapping("/getSchool")
     public ResponseResult getSchool(@RequestBody Team team) {
@@ -91,8 +120,9 @@ public class TeamController {
 
     /**
      * 传入id
-     * @param team
-     * @return
+     *
+     * @param team the team
+     * @return team info
      */
     @PostMapping("/getTeamInfo")
     public ResponseResult getTeamInfo(@RequestBody Team team) {

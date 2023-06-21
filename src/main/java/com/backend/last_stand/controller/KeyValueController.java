@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * The type Key value controller.
+ *
  * @author chenhong
  * @version 1.0
  * @description TODO
- * @date 2023/6/19 10:34
+ * @date 2023 /6/19 10:34
  */
 @Slf4j
 @RestController
@@ -26,8 +28,9 @@ public class KeyValueController {
 
     /**
      * 格式  "key" : "value"
-     * @param key
-     * @return
+     *
+     * @param key the key
+     * @return response result
      */
     @PostMapping("/insertkey")
     public ResponseResult insertkey(@RequestBody String key) {

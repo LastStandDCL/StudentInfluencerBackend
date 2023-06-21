@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * The type School controller.
+ *
  * @author chenhong
  * @version 1.0
  * @description TODO
- * @date 2023/6/19 10:00
+ * @date 2023 /6/19 10:00
  */
 @Slf4j
 @RestController
@@ -22,8 +24,9 @@ public class SchoolController {
 
     /**
      * 直接传入名称即获取学校的信息  如   七台河市第一中学     不需要加引号，不需要以JSON格式给出，直接Body中写学校名称
-     * @param schoolName
-     * @return
+     *
+     * @param schoolName the school name
+     * @return school by name
      */
     @PostMapping("/getSchoolByName")
     public ResponseResult getSchoolByName(@RequestBody String schoolName) {
@@ -33,8 +36,9 @@ public class SchoolController {
 
     /**
      * 同上，直接传入省份，会返回这个省份的所有学校
-     * @param province
-     * @return
+     *
+     * @param province the province
+     * @return school by province
      */
     @PostMapping("/getSchoolByProvince")
     public ResponseResult getSchoolByProvince(@RequestBody String province) {

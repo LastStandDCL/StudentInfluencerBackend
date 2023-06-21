@@ -16,21 +16,35 @@ import java.io.IOException;
 
 
 /**
+ * The type Rest auth controller.
+ *
  * @author chenhong
  * @version 1.0
  * @description justoauth集成第三方gitee登录
- * @date 2023/6/13 19:41
+ * @date 2023 /6/13 19:41
  */
 @RestController
 @RequestMapping("/oauth")
 public class RestAuthController {
 
+    /**
+     * Render auth.
+     *
+     * @param response the response
+     * @throws IOException the io exception
+     */
     @RequestMapping("/render")
     public void renderAuth(HttpServletResponse response) throws IOException {
         AuthRequest authRequest = getAuthRequest();
         response.sendRedirect(authRequest.authorize(AuthStateUtils.createState()));
     }
 
+    /**
+     * Login object.
+     *
+     * @param callback the callback
+     * @return the object
+     */
     @RequestMapping("/callback")
     public Object login(AuthCallback callback) {
         AuthRequest authRequest = getAuthRequest();

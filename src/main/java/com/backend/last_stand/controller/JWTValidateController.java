@@ -9,15 +9,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 /**
+ * The type Jwt validate controller.
+ *
  * @author chenhong
  * @version 1.0
  * @description TODO
- * @date 2023/6/15 16:58
+ * @date 2023 /6/15 16:58
  */
 @RestController
 @RequestMapping("/jwt")
 public class JWTValidateController {
 
+    /**
+     * Get jwt infos response result.
+     *
+     * @param token the token
+     * @return the response result
+     */
     @PostMapping("/infos")
     public ResponseResult getJwtInfos(@RequestBody String token){
         if (token == null) {

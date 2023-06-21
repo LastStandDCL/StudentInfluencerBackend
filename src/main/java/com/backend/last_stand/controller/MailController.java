@@ -19,8 +19,9 @@ public class MailController {
 
     /**
      * 只接受email数据
-     * @param emailObj
-     * @return
+     *
+     * @param emailObj the email obj
+     * @return string
      */
     @PostMapping ("/mails/sendRegisterCode")
     public String getRegisterCode(@RequestBody Map<String,String> emailObj){
@@ -38,6 +39,12 @@ public class MailController {
         return checkCode;
     }
 
+    /**
+     * Get login code string.
+     *
+     * @param emailObj the email obj
+     * @return the string
+     */
     @PostMapping("/mails/sendLoginCode")
     public String getLoginCode(@RequestBody Map<String,String> emailObj){
         String email = emailObj.get("email");
@@ -54,6 +61,12 @@ public class MailController {
         return checkCode;
     }
 
+    /**
+     * Get reset code string.
+     *
+     * @param emailObj the email obj
+     * @return the string
+     */
     @PostMapping("/mails/sendResetCode")
     public String getResetCode(@RequestBody Map<String,String> emailObj){
         String email = emailObj.get("email");
