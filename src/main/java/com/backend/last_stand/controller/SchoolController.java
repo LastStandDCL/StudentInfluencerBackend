@@ -1,6 +1,7 @@
 package com.backend.last_stand.controller;
 
 import com.backend.last_stand.entity.ResponseResult;
+import com.backend.last_stand.entity.School;
 import com.backend.last_stand.service.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class SchoolController {
 
     /**
      * 直接传入名称即获取学校的信息  如   七台河市第一中学     不需要加引号，不需要以JSON格式给出，直接Body中写学校名称
-     *
+     * 模糊查询
      * @param schoolName the school name
      * @return school by name
      */
@@ -44,6 +45,12 @@ public class SchoolController {
     public ResponseResult getSchoolByProvince(@RequestBody String province) {
         log.info("/school/getSchoolByProvince");
         return schoolService.getSchoolByProvince(province);
+    }
+
+    @PostMapping("/addSchool")
+    public ResponseResult addSchool(@RequestBody School school) {
+        log.info("/school/addSchool");
+        return schoolService.addSchool(school);
     }
 
 }

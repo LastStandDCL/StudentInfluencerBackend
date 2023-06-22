@@ -41,4 +41,9 @@ public class School  implements Serializable {
      */
     private Date updateTime;
 
+    /**
+     * 学校审核
+     */
+    private String ischeck;
+
 }

@@ -23,4 +23,10 @@ public interface TeamMapper extends BaseMapper<Team> {
     List<Team> getTeamBySchoolName(String schoolName);
 
     List<Team> getTeamByYear(String year);
+
+    List<Team> getTeamByProvince(String province);
+
+    List<Team> getTeamByProvinceAndYear(String province, String year);
+
+    List<Team> getTeamByYearAndProvince(String years, String provinceName);
 }

@@ -32,7 +32,7 @@ public class ActivityController {
      */
     @PostMapping("/getActivityByYear")
     public ResponseResult getActivityByYear(@RequestBody String year) {
-        return null;
+        return activityService.getActivityByYear(year);
     }
 
     /**

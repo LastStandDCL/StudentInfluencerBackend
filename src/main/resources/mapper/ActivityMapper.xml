@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.backend.last_stand.mapper.ActivityMapper">
+
+
+    <select id="getByYear" resultType="com.backend.last_stand.entity.Activity"
+            parameterType="java.lang.String">
+        select * from sys_activity
+        where year = #{years}
+    </select>
+    <select id="getStudents" resultType="com.backend.last_stand.entity.User">
+            SELECT * FROM sys_user
+            WHERE user_name LIKE #{username}
+              AND id IN (
+                SELECT user_id FROM sys_activity_user
+                WHERE activity_id = #{id}
+            )
+    </select>
+
+
+</mapper>

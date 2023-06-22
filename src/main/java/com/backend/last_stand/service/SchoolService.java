@@ -12,4 +12,6 @@ public interface SchoolService extends IService<School> {
     ResponseResult getSchoolByName(String schoolName);
 
     ResponseResult getSchoolByProvince(String province);
+
+    ResponseResult addSchool(School school);
 }

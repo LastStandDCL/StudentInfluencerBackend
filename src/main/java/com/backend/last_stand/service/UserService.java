@@ -58,5 +58,9 @@ public interface UserService extends IService<User> {
     ResponseResult getUserTeam(User user);
 
     ResponseResult addTeam(String info);
+
+    ResponseResult updatePassword(User user);
+
+    ResponseResult activitycount(String year);
 }
 

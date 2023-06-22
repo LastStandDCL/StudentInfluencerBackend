@@ -47,8 +47,8 @@ public class UserController {
      *
      * @return response result
      */
-    @PostMapping("logout")
-    @PreAuthorize("hasAnyAuthority('student')")
+    @PostMapping("/logout")
+//    @PreAuthorize("hasAnyAuthority('student')")
     public ResponseResult logout(){
         return userService.logout();
     }
@@ -59,7 +59,7 @@ public class UserController {
      * @param user the user
      * @return response result
      */
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseResult register(@RequestBody User user) {
         return userService.register(user);
     }
@@ -75,13 +75,18 @@ public class UserController {
         return userService.update(user);
     }
 
+    @PostMapping("/updatePassword")
+    public ResponseResult updatePassword(@RequestBody User user) {
+        return userService.updatePassword(user);
+    }
+
     /**
      * 删除用户
      *
      * @param user the user
      * @return response result
      */
-    @PostMapping("delete")
+    @PostMapping("/delete")
     public ResponseResult delete(@RequestBody User user) {
         return userService.delete(user);
     }
@@ -221,6 +226,11 @@ public class UserController {
     @PostMapping("/addTeam")
     public ResponseResult addTeam(@RequestBody String info) {
         return userService.addTeam(info);
+    }
+
+    @PostMapping("/activitycount")
+    public ResponseResult activitycount(@RequestBody String year) {
+        return userService.activitycount(year);
     }
 
 }

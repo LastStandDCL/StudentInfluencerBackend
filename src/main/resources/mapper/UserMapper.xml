@@ -44,4 +44,15 @@
         )
     </select>
 
+    <select id="getStudentsFromActivity" resultType="com.backend.last_stand.entity.User">
+
+        SELECT * FROM sys_user
+        WHERE user_name LIKE #{username}
+          AND id IN (
+            SELECT user_id FROM sys_activity_user
+            WHERE activity_id = #{activityId}
+        )
+
+    </select>
+
 </mapper>

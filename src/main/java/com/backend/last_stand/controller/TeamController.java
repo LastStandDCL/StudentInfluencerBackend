@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * The type Team controller.
  *
@@ -128,6 +130,13 @@ public class TeamController {
     public ResponseResult getTeamInfo(@RequestBody Team team) {
         return teamService.getTeamInfo(team.getId());
     }
+
+
+    @PostMapping("/count-province-info")
+    public ResponseResult countByYear(@RequestBody Map<String,Object> map) {
+        return teamService.countByYear(map);
+    }
+
 
 
 }

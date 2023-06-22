@@ -75,8 +75,8 @@ public class UserTest {
 
     @Test
     public void test06() {
-        List<Team> userTeam = userMapper.getUserTeam(1663806697192878081L);
-        System.out.println(userTeam);
+        List<User> studentsFromActivity = userMapper.getStudentsFromActivity(1L, "2020%");
+        System.out.println(studentsFromActivity);
 
     }
 }
