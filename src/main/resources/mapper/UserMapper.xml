@@ -55,4 +55,17 @@
 
     </select>
 
+    <select id="getDepartmentCountByYear" resultType="com.backend.last_stand.entity.DepartmentCountByYear" parameterType="String">
+
+        select department as name,count(department) as value
+        from sys_user
+        where sys_user.id in (
+            select sys_activity_user.user_id
+            from sys_activity_user left join sys_activity on sys_activity_user.activity_id = sys_activity.id
+            where sys_activity.year = #{year}
+            )
+        group by department
+
+    </select>
+
 </mapper>
