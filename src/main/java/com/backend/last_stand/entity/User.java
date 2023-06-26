@@ -23,9 +23,16 @@ public class User implements Serializable {
     @TableId
     private Long id;
     /**
-     * 姓名
+     * 邮箱赋值，用作remember_me标识
      */
     private String userName;
+
+    /**
+     * 学生学号信息，不为空
+     */
+    private String studentId;
+
+
     /**
      * 姓名
      */

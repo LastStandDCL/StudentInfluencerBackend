@@ -4,10 +4,9 @@ import com.backend.last_stand.entity.News;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * The type News controller.
@@ -26,27 +25,25 @@ public class NewsController {
     /**
      * 新增新闻, 新闻内容中的url和img需要用户上传后，前端赋值url和img的值，然后插入到数据库中,这里不设置优先级，默认is_show = 0
      *
-     * @param news the news
-     * @param uid  the uid
+     * @param
+     * @param
      * @return response result
      */
     @PostMapping("/addNews")
-    public ResponseResult addNews(News news, Long uid) {
-        return newsService.addNews(news, uid);
+    public ResponseResult addNews(@RequestBody HashMap<String, String> mp) {
+        return newsService.addNews(mp);
     }
 
 
     /**
      * 新增新闻, 并且设置优先级
      *
-     * @param news   the news
-     * @param uid    the uid
-     * @param isShow the is show
+     * @param
      * @return response result
      */
     @PostMapping("/addNewsPriority")
-    public ResponseResult addNewsPriority(News news, Long uid, Integer isShow) {
-        return newsService.addNewsPriority(news, uid, isShow);
+    public ResponseResult addNewsPriority(@RequestBody HashMap<String, String> mp) {
+        return newsService.addNewsPriority(mp);
     }
 
     /**
