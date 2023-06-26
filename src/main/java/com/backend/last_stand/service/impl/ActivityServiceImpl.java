@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @author chenhong
  * @version 1.0
@@ -32,5 +34,20 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
 
         return null;
+    }
+
+    @Override
+    public ResponseResult createActivity(Activity activity) {
+        activity.setBegin(new Date());
+        String year = activity.getYear();
+        Activity byYear = activityMapper.getByYear(year);
+        if (byYear != null) {
+            return new ResponseResult<>(206, "创建活动失败，请检查是否创建已有年份活动", byYear);
+        }
+        int insert = activityMapper.insert(activity);
+        if (insert != 1) {
+            throw new RuntimeException("插入失败，已经存在此年份的活动");
+        }
+        return new ResponseResult<>(206, "创建活动成功", activity);
     }
 }

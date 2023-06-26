@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ActivityService extends IService<Activity> {
     ResponseResult getActivityByYear(String year);
+
+    ResponseResult createActivity(Activity activity);
 }

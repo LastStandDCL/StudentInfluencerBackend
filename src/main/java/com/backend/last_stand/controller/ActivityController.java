@@ -1,5 +1,6 @@
 package com.backend.last_stand.controller;
 
+import com.backend.last_stand.entity.Activity;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.Stage;
 import com.backend.last_stand.service.ActivityService;
@@ -23,6 +24,12 @@ public class ActivityController {
 
     @Autowired
     private ActivityService activityService;
+
+
+    @PostMapping("/createActivity")
+    public ResponseResult createActivity(@RequestBody Activity activity) {
+        return activityService.createActivity(activity);
+    }
 
     /**
      * 根据年份返回活动

@@ -145,7 +145,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //更新时间修改
         user.setUpdateTime(new Date());
 
-
         int i = userMapper.updateById(user);
         if (i != 1) {
             return new ResponseResult<>(203, "更新信息失败", user);
