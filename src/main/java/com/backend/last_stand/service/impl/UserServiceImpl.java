@@ -344,6 +344,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return new ResponseResult<>(200, "返回人数成功", hashMap);
     }
 
+    @Override
+    public ResponseResult countActiveUser(String year) {
+        List<User> total = userMapper.countActiveUser(year);
+        return null;
+    }
+
 
     @Override
     public boolean saveBatch(Collection<User> entityList, int batchSize) {

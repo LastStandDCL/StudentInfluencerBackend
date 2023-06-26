@@ -51,4 +51,6 @@ public interface UserMapper extends BaseMapper<User> {
     Integer addTeam(Long userId, Long teamId);
 
     List<User> getStudentsFromActivity(Long activityId, String username);
+
+    List<User> countActiveUser(String year);
 }

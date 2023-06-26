@@ -2,13 +2,14 @@ package com.backend.last_stand.controller;
 
 import com.backend.last_stand.entity.Activity;
 import com.backend.last_stand.entity.ResponseResult;
-import com.backend.last_stand.entity.Stage;
 import com.backend.last_stand.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 /**
  * The type Activity controller.
@@ -42,38 +43,34 @@ public class ActivityController {
         return activityService.getActivityByYear(year);
     }
 
-    /**
-     * 根据活动 id 返回活动的所有阶段
-     *
-     * @param id the id
-     * @return stage by a id
-     */
-    @PostMapping("/getStageByAId")
-    public ResponseResult getStageByAId(@RequestBody Long id) {
-        return null;
+    @PostMapping("/nextStage")
+    public ResponseResult nextStage(@RequestBody HashMap<String, String> mp) {
+        return  activityService.nextStage(mp);
     }
 
     /**
-     * 当前活动新加阶段Stage
+     * 根据活动 id 返回活动的所有阶段
      *
-     * @param stage the stage
-     * @return response result
+     * @param  mp the id and year
+     * @return stage by a id
      */
-    @PostMapping("/addStage")
-    public ResponseResult addStage(@RequestBody Stage stage) {
-        return null;
+    @PostMapping("/getStageByAId")
+    public ResponseResult getStageByAId(@RequestBody HashMap<String, String> mp) {
+        return activityService.getStageByAId(mp);
     }
 
     /**
      * Gets stage by name.
      *
-     * @param name the name
+     * @param mp the name
      * @return the stage by name
      */
     @PostMapping("/getStageByName")
-    public ResponseResult getStageByName(@RequestBody String name) {
+    public ResponseResult getStageByName(@RequestBody HashMap<String, String> mp) {
         return null;
     }
+
+
 
 
 

@@ -233,4 +233,12 @@ public class UserController {
         return userService.activitycount(year);
     }
 
+
+    @PostMapping("/countActiveUser")
+    public ResponseResult countActiveUser(@RequestBody String year) {
+        return userService.countActiveUser(year);
+    }
+
+
+
 }

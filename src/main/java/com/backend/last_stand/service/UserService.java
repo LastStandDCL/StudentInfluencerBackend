@@ -62,5 +62,7 @@ public interface UserService extends IService<User> {
     ResponseResult updatePassword(User user);
 
     ResponseResult activitycount(String year);
+
+    ResponseResult countActiveUser(String year);
 }
 

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * @author chenhong
@@ -29,11 +30,15 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
     @Override
     public ResponseResult getActivityByYear(String year) {
+        //转换为json对象
         JSONObject jsonObject = JSON.parseObject(year);
         String year1 = jsonObject.get("year").toString();
+        Activity byYear = activityMapper.getByYear(year1);
+        if (byYear == null) {
+            return new ResponseResult<>(201, "不存在此年份活动，返回活动为空");
+        }
 
-
-        return null;
+        return new ResponseResult<>(200, "根据年份返回活动成功", byYear);
     }
 
     @Override
@@ -50,4 +55,32 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         }
         return new ResponseResult<>(206, "创建活动成功", activity);
     }
+
+
+    @Override
+    public ResponseResult nextStage(HashMap<String, String> mp) {
+        String stage = mp.get("stage");
+        String year = mp.get("year");
+        Activity byYear = activityMapper.getByYear(year);
+        if (byYear == null) {
+            return new ResponseResult<>(202, "输入年份有误，此年份活动不存在");
+        }
+        //设置活动阶段
+        byYear.setCurrentStage(Integer.valueOf(stage));
+        activityMapper.updateById(byYear);
+        return new ResponseResult<>(200, "活动阶段设置为指定阶段", byYear);
+    }
+
+    @Override
+    public ResponseResult getStageByAId(HashMap<String, String> mp) {
+        String s = mp.get("id");
+        Long id = Long.valueOf(s);
+        Activity activity = activityMapper.selectById(id);
+        if (activity == null) {
+            return new ResponseResult<>(202, "不存在此活动");
+        }
+        return new ResponseResult<>(200, "根据Id查询活动完成", activity);
+    }
+
+
 }

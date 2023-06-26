@@ -55,4 +55,8 @@
 
     </select>
 
+    <select id="countActiveUser" resultType="com.backend.last_stand.entity.User">
+
+    </select>
+
 </mapper>
