@@ -79,4 +79,11 @@ public class UserTest {
         System.out.println(studentsFromActivity);
 
     }
+
+    @Test
+    public void test07() {
+        Integer users = userMapper.countActiveUser("2019", "2023");
+        System.out.println(users);
+
+    }
 }
