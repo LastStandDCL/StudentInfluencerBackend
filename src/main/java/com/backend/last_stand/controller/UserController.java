@@ -232,6 +232,10 @@ public class UserController {
     public ResponseResult activitycount(@RequestBody String year) {
         return userService.activitycount(year);
     }
+    @PostMapping("/userCountGroupByDepartment")
+    public ResponseResult userCountGroupByDepartmentByYear(@RequestBody String year){
+        return userService.getUserCountGroupByDepartmentByYear(year);
+    }
 
 
     @PostMapping("/countActiveUser")

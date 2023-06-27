@@ -16,6 +16,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jnr.ffi.annotations.In;
+import liquibase.util.CollectionUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -344,12 +346,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return new ResponseResult<>(200, "返回人数成功", hashMap);
     }
 
+
+    /**
+     * 根据年份返回各个学院参加的学生数
+     * @param year
+     * @return
+     */
     @Override
+    public ResponseResult getUserCountGroupByDepartmentByYear(String year) {
+        JSONObject jsonObject = JSON.parseObject(year);
+        String years = jsonObject.get("year").toString();
+        System.out.println(years);
+
+        //获取对应年份各学院参加活动的人数
+        List<DepartmentCountByYear> departmentCountByYears = userMapper.getDepartmentCountByYear(years);
+        List<HashMap<String,String>> data = new ArrayList();
+
+        for(int i = 0 ; i < departmentCountByYears.size() - 1  ; i++){
+            HashMap<String,String> hashMap = new HashMap<>();
+            hashMap.put("value",departmentCountByYears.get(i).getValue().toString());
+            hashMap.put("name",departmentCountByYears.get(i).getName());
+            data.add(hashMap);
+        }
+
+        //返回前端响应，未找到data为空
+        return new ResponseResult<>(200,"返回各学院人数成功",data);
+
+    }
+  
+     @Override
     public ResponseResult countActiveUser(String year) {
-        List<User> total = userMapper.countActiveUser(year);
+    List<User> total = userMapper.countActiveUser(year);
         return null;
     }
-
 
     @Override
     public boolean saveBatch(Collection<User> entityList, int batchSize) {
