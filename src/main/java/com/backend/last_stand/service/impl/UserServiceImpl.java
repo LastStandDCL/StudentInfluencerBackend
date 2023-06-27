@@ -364,8 +364,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         for(int i = 0 ; i < departmentCountByYears.size() - 1  ; i++){
             HashMap<String,String> hashMap = new HashMap<>();
-//            hashMap.put("value",departmentCountByYears.get(i).getValue().toString());
-//            hashMap.put("name",departmentCountByYears.get(i).getName());
+            hashMap.put("value",departmentCountByYears.get(i).getValue().toString());
+            hashMap.put("name",departmentCountByYears.get(i).getName());
             data.add(hashMap);
         }
 
