@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class LastStandApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(LastStandApplication.class, args);
     }
 

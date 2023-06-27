@@ -23,4 +23,6 @@ public interface NewsService extends IService<News> {
     ResponseResult getNewsByTime(Integer pageNum, Integer pageSize);
 
     ResponseResult getNewsByPriority(Integer pageNum, Integer pageSize);
+
+    ResponseResult getNewsCountUndeleted();
 }

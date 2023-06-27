@@ -1,14 +1,12 @@
 package com.backend.last_stand.mapper;
 
 
-import com.backend.last_stand.entity.DepartmentCountByYear;
-import com.backend.last_stand.entity.DepartmentCountByYear;
+import com.backend.last_stand.entity.CountUserByYear;
 import com.backend.last_stand.entity.Role;
 import com.backend.last_stand.entity.Team;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.backend.last_stand.entity.User;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
@@ -55,7 +53,9 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> getStudentsFromActivity(Long activityId, String username);
 
 
-    List<DepartmentCountByYear> getDepartmentCountByYear(String year);
+    List<CountUserByYear> getDepartmentCountByYear(String year);
+
+    List<CountUserByYear> getProvinceCountByYear(String year);
 
     Integer countActiveUser(@Param("begin") String begin, @Param("end") String end);
 }
