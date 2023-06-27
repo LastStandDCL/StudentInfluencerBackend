@@ -6,6 +6,7 @@ import com.backend.last_stand.entity.Activity;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.mapper.ActivityMapper;
 import com.backend.last_stand.service.ActivityService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author chenhong
@@ -107,5 +110,15 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         }else {
             return new ResponseResult(200, "更新成功");
         }
+    }
+
+    @Override
+    public ResponseResult getAllYears() {
+        List<Activity> all = baseMapper.selectList(null);
+        ArrayList<String> years = new ArrayList<>();
+        for(Activity activity : all){
+            years.add(activity.getYear());
+        }
+        return new ResponseResult(200, "所有年份", years);
     }
 }

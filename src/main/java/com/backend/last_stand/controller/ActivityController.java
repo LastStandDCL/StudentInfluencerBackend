@@ -34,6 +34,16 @@ public class ActivityController {
     }
 
     /**
+     * 返回所有活动的年份
+     *
+     * @return activity by year
+     */
+    @PostMapping("/get-years")
+    public ResponseResult getActivityByYear() {
+        return activityService.getAllYears();
+    }
+
+    /**
      * 根据年份返回活动
      *
      * @param year the year

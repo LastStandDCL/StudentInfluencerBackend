@@ -14,4 +14,6 @@ public interface ActivityService extends IService<Activity> {
     ResponseResult updateActivity(Activity Activity);
 
     ResponseResult updateDescription(String year, int stage, String description);
+
+    ResponseResult getAllYears();
 }
