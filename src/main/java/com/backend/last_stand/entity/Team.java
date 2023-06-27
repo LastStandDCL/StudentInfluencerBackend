@@ -1,5 +1,6 @@
 package com.backend.last_stand.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -53,6 +54,8 @@ public class Team  implements Serializable {
      * 队伍年份
      */
     private String year;
+
+
 
 
 

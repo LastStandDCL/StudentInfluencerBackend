@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ *
+ * 分类计数用户实体
+ *
  * @author chenhong
  * @version 1.0
  * @description TODO
@@ -13,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DepartmentCountByYear {
+public class CountUserByYear {
 
     private String name;
 

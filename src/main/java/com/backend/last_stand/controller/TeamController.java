@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -83,6 +84,17 @@ public class TeamController {
     @PostMapping("/getTeamBySchoolName")
     public ResponseResult getTeamBySchoolName(@RequestBody String schoolName) {
         return teamService.getTeamBySchoolName(schoolName);
+    }
+
+    /**
+     * Gets team by year and school name
+     *
+     * @param map year and school name
+     * @return the team by year and school name
+     */
+    @PostMapping("/getTeamByYearAndSchoolName")
+    public ResponseResult getTeamByYearAndSchoolName(@RequestBody HashMap<String,Object> map){
+        return teamService.getTeamByYearAndSchoolName(map);
     }
 
 //    /**

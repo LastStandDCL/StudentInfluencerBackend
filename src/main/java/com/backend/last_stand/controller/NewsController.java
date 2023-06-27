@@ -106,5 +106,10 @@ public class NewsController {
         return newsService.getNewsByPriority(pageNum, pageSize);
     }
 
+    @GetMapping("/count-news-undeleted")
+    public ResponseResult getNewsCountUndeleted(){
+        return newsService.getNewsCountUndeleted();
+    }
+
 
 }
