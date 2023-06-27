@@ -126,7 +126,17 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
         return new ResponseResult<>(200, "根据新闻优先级返回最新新闻结果", getNews);
     }
 
-
+    /**
+     * 获取未被删除的news数
+     * @return
+     */
+    @Override
+    public ResponseResult getNewsCountUndeleted() {
+        Integer newsCount = newsMapper.getNewsCountUndeleted();
+        HashMap<String,Object> data = new HashMap<>();
+        data.put("newsCount", newsCount);
+        return new ResponseResult(200, "未被删除的新闻数", data);
+    }
 
 
 }

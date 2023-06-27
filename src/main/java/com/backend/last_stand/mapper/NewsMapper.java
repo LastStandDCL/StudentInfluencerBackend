@@ -19,4 +19,6 @@ public interface NewsMapper extends BaseMapper<News> {
     IPage<News> getNewsByTime(Page<News> page);
 
     IPage<News> getNewsByPriority(Page<News> page);
+
+    Integer getNewsCountUndeleted();
 }
