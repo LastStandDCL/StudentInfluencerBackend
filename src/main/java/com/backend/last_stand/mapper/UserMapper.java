@@ -57,5 +57,5 @@ public interface UserMapper extends BaseMapper<User> {
 
     List<DepartmentCountByYear> getDepartmentCountByYear(String year);
 
-    List<User> countActiveUser(String year);
+    Integer countActiveUser(@Param("begin") String begin, @Param("end") String end);
 }

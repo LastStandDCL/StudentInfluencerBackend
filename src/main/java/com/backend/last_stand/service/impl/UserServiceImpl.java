@@ -376,8 +376,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
   
      @Override
     public ResponseResult countActiveUser(String year) {
-    List<User> total = userMapper.countActiveUser(year);
-        return null;
+         JSONObject jsonObject = JSON.parseObject(year);
+         String year1 = jsonObject.get("year").toString();
+         System.out.println(year1);
+         int year2, year3;
+         year2 = Integer.parseInt(year1);
+         year3 = year2 - 4;
+
+         //获取当前年份
+
+         String begin = String.valueOf(year3);
+         String end = year1;
+
+         Integer total = userMapper.countActiveUser(begin, end);
+         System.out.println(total);
+        return new ResponseResult(200, "返回没有毕业的用户数量成功", total);
     }
 
     @Override
