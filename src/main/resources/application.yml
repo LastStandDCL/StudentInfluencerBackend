@@ -16,6 +16,16 @@ spring:
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${file_address}
 
+  rabbitmq:
+    host: 43.143.250.239
+    port: 5672
+    username: chenhong
+    password: 12345
+    # 确认消息发送到交换机上
+    publisher-confirm-type: correlated
+    # 确认消息已发送到队列
+    publisher-returns: true
+
   mail:
     defaultEncoding: UTF-8
     host: smtp.qq.com

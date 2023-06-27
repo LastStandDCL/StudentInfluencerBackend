@@ -7,4 +7,7 @@ package com.backend.last_stand.entity;
  * @date 2023/6/19 21:36
  */
 public class CheckItem {
+
+
+
 }
