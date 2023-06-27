@@ -21,10 +21,16 @@ spring:
     port: 5672
     username: chenhong
     password: 12345
-    # 确认消息发送到交换机上
-    publisher-confirm-type: correlated
+    publisher-confirms: true  # 开启Rabbitmq发送消息确认机制，发送消息到队列并触发回调方法
     # 确认消息已发送到队列
     publisher-returns: true
+    listener:
+      simple:
+        concurrency: 10 #消费者数量
+        max-concurrency: 10 #最大消费者数量
+        prefetch: 1 #限流（消费者每次从队列获取的消息数量）
+        auto-startup: true  #启动时自动启动容器
+        acknowledge-mode: manual #开启ACK手动确认模式
 
   mail:
     defaultEncoding: UTF-8
