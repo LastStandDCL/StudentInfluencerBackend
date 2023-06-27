@@ -66,6 +66,7 @@
             where sys_activity.year = #{year}
             )
         group by department
+    </select>
 
     <select id="countActiveUser" resultType="com.backend.last_stand.entity.User">
 
