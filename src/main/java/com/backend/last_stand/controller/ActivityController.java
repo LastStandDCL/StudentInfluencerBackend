@@ -38,7 +38,7 @@ public class ActivityController {
      *
      * @return activity by year
      */
-    @PostMapping("/get-years")
+    @GetMapping("/get-years")
     public ResponseResult getActivityByYear() {
         return activityService.getAllYears();
     }
