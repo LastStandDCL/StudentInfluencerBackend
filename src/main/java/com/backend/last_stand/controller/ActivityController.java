@@ -3,20 +3,18 @@ package com.backend.last_stand.controller;
 import com.backend.last_stand.entity.Activity;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.service.ActivityService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The type Activity controller.
  *
  * @author chenhong
  * @version 1.0
- * &#064;description TODO
+ * &#064;description
  * &#064;date 2023 /6/19 20:58
  */
 @RestController
@@ -30,9 +28,9 @@ public class ActivityController {
         this.activityService = activityService;
     }
 
-    @PostMapping("/createActivity")
-    public ResponseResult createActivity(@RequestBody Activity Activity) {
-        return activityService.createActivity(Activity);
+    @GetMapping("/createActivity")
+    public ResponseResult createActivity() {
+        return activityService.createActivity();
     }
 
     /**
@@ -47,30 +45,29 @@ public class ActivityController {
     }
 
     /**
-     * 根据活动 id 返回活动的所有阶段
+     * 根据年份更新活动信息
      *
-     * @param  mp the id and year
-     * @return stage by a id
+     * @param activity 更改后的activity，后端会把非空字段都更新掉
+     * @return 更新是否成功
      */
-    @PostMapping("/getStageByAId")
-    public ResponseResult getStageByAId(@RequestBody HashMap<String, String> mp) {
-        return activityService.getStageByAId(mp);
+    @PostMapping("/updateActivityByYear")
+    public ResponseResult updateActivity(@RequestBody Activity activity) {
+        return activityService.updateActivity(activity);
     }
 
     /**
-     * Gets stage by name.
+     * 根据年份更新活动信息
      *
-     * @param mp the name
-     * @return the stage by name
+     * @param params 传入 year， stage， description
+     * @return 更新是否成功
      */
-    @PostMapping("/getStageByName")
-    public ResponseResult getStageByName(@RequestBody HashMap<String, String> mp) {
-        return null;
+    @PostMapping("/updateDescriptionByYear")
+    public ResponseResult updateDescription(
+            @RequestBody @NotNull
+            Map<String,String> params) {
+        return activityService.updateDescription(
+                params.get("year"),
+                Integer.parseInt(params.get("stage")),
+                params.get("description"));
     }
-
-
-
-
-
-
 }

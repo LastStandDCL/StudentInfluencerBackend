@@ -6,23 +6,31 @@ import com.backend.last_stand.entity.Activity;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.mapper.ActivityMapper;
 import com.backend.last_stand.service.ActivityService;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * @author chenhong
  * @version 1.0
- * &#064;description TODO
+ * &#064;description
  * &#064;date 2023/6/19 21:02
  */
 
 @Service
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> implements ActivityService {
+
+    private static final int SIGN_UP_STAGE = 0;
+    private static final int MATERIAL_STAGE = 1;
+    private static final int SPEECH_STAGE = 2;
+    private static final int SUMMARY_STAGE = 3;
+    private static final int END_STAGE = 4;
+
     @Override
     public ResponseResult getActivityByYear(String year) {
         //转换为json对象
@@ -37,30 +45,67 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     }
 
     @Override
-    public ResponseResult createActivity(Activity Activity) {
-        Activity.setBegin(LocalDate.now());
-        String year = Activity.getYear();
-        Activity byYear = baseMapper.getByYear(year);
-        if (byYear != null) {
-            return new ResponseResult(206, "创建活动失败，请检查是否创建已有年份活动", byYear);
+    public ResponseResult createActivity() {
+        LocalDate date = LocalDate.now();
+        int year;
+        if(date.getMonth().ordinal() >= Month.JULY.ordinal()){
+            year = date.getYear();
+        }else {
+            year = date.getYear() - 1;
         }
-        int insert = baseMapper.insert(Activity);
-        if (insert != 1) {
-            throw new RuntimeException("插入失败，已经存在此年份的活动");
+        if(getActivityByYear(String.valueOf(year)).getCode() == 200){
+            return new ResponseResult(200, "已存在该年的活动");
         }
-        return new ResponseResult(206, "创建活动成功", Activity);
+        var newAct = Activity.builder()
+                .activityName(date.getYear() + "学生大使活动")
+                .year(String.valueOf(year))
+                .begin(date)
+                .signupDue(date.plusDays(10))
+                .materialDue(date.plusDays(20))
+                .speechDue(date.plusDays(30))
+                .summaryDue(date.plusDays(40))
+                .build();
+        int rows = baseMapper.insert(newAct);
+        if(rows == 0){
+            return new ResponseResult(200, "创建失败");
+        }else {
+            return new ResponseResult(200, "创建成功");
+        }
     }
 
     @Override
-    public ResponseResult getStageByAId(HashMap<String, String> mp) {
-        String s = mp.get("id");
-        Long id = Long.valueOf(s);
-        Activity Activity = baseMapper.selectById(id);
-        if (Activity == null) {
-            return new ResponseResult(202, "不存在此活动");
+    public ResponseResult updateActivity(@NotNull Activity activity) {
+        UpdateWrapper<Activity> wrapper = new UpdateWrapper<>();
+        wrapper.eq("year", activity.getYear());
+        int rows = baseMapper.update(activity, wrapper);
+        if(rows == 0){
+            return new ResponseResult(200, "更新失败");
+        }else {
+            return new ResponseResult(200, "更新成功");
         }
-        return new ResponseResult(200, "根据Id查询活动完成", Activity);
     }
 
-
+    @Override
+    public ResponseResult updateDescription(
+            String year, int stage, String description) {
+        UpdateWrapper<Activity> wrapper = new UpdateWrapper<>();
+        String descriptionTitle;
+        switch (stage) {
+            case SIGN_UP_STAGE -> descriptionTitle = "sign_up_description";
+            case MATERIAL_STAGE -> descriptionTitle = "material_description";
+            case SPEECH_STAGE -> descriptionTitle = "speech_description";
+            case SUMMARY_STAGE -> descriptionTitle = "summary_description";
+            case END_STAGE -> descriptionTitle = "end_description";
+            default -> {
+                return null;
+            }
+        }
+        wrapper.set(descriptionTitle, description).eq("year", year);
+        int rows = baseMapper.update(null, wrapper);
+        if(rows == 0){
+            return new ResponseResult(200, "更新失败");
+        }else {
+            return new ResponseResult(200, "更新成功");
+        }
+    }
 }
