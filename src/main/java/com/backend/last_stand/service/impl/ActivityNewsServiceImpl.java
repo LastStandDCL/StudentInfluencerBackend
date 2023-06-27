@@ -1,12 +1,9 @@
 package com.backend.last_stand.service.impl;
 
-import com.backend.last_stand.entity.Activity;
 import com.backend.last_stand.entity.ActivityNews;
 import com.backend.last_stand.entity.ResponseResult;
-import com.backend.last_stand.mapper.ActivityMapper;
 import com.backend.last_stand.mapper.ActivityNewsMapper;
 import com.backend.last_stand.service.ActivityNewsService;
-import com.backend.last_stand.service.ActivityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

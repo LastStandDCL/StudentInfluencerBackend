@@ -312,31 +312,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String years = jsonObject.get("year").toString();
         System.out.println(years);
         //根据年份获取活动信息
-        Activity activity = activityMapper.getByYear(years);
-        System.out.println(activity);
+        Activity Activity = activityMapper.getByYear(years);
+        System.out.println(Activity);
         HashMap<String, String> hashMap = new HashMap<>();
 
         //获取参与这个活动的年份的学生总数
-        if (activity != null) {
+        if (Activity != null) {
             String str = "2020%";
-            List<User> users1 = activityMapper.getStudents(activity.getId(), str);
+            List<User> users1 = activityMapper.getStudents(Activity.getId(), str);
 
             hashMap.put("2020", Integer.toString(users1.size()));
 
             //获取参与这个活动的年份的学生总数
-            List<User> users2 = activityMapper.getStudents(activity.getId(), "2021%");
+            List<User> users2 = activityMapper.getStudents(Activity.getId(), "2021%");
             hashMap.put("2021", Integer.toString(users2.size()));
 
             //获取参与这个活动的年份的学生总数
-            List<User> users3 = activityMapper.getStudents(activity.getId(), "2022%");
+            List<User> users3 = activityMapper.getStudents(Activity.getId(), "2022%");
             hashMap.put("2022", Integer.toString(users3.size()));
 
             //获取参与这个活动的年份的学生总数
-            List<User> users4 = activityMapper.getStudents(activity.getId(), "2023%");
+            List<User> users4 = activityMapper.getStudents(Activity.getId(), "2023%");
             hashMap.put("2023", Integer.toString(users4.size()));
 
             //获取参与这个活动的年份的学生总数
-            List<User> users5 = activityMapper.getStudents(activity.getId(), "2024%");
+            List<User> users5 = activityMapper.getStudents(Activity.getId(), "2024%");
             hashMap.put("2024", Integer.toString(users5.size()));
         }
 
@@ -390,7 +390,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //返回前端响应，未找到data为空
         return new ResponseResult<>(200,"返回各省份人数成功",data);
     }
-  
+
      @Override
     public ResponseResult countActiveUser(String year) {
          JSONObject jsonObject = JSON.parseObject(year);

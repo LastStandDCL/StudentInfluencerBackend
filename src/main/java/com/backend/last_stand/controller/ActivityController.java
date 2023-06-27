@@ -28,8 +28,8 @@ public class ActivityController {
 
 
     @PostMapping("/createActivity")
-    public ResponseResult createActivity(@RequestBody Activity activity) {
-        return activityService.createActivity(activity);
+    public ResponseResult createActivity(@RequestBody Activity Activity) {
+        return activityService.createActivity(Activity);
     }
 
     /**
@@ -41,11 +41,6 @@ public class ActivityController {
     @PostMapping("/getActivityByYear")
     public ResponseResult getActivityByYear(@RequestBody String year) {
         return activityService.getActivityByYear(year);
-    }
-
-    @PostMapping("/nextStage")
-    public ResponseResult nextStage(@RequestBody HashMap<String, String> mp) {
-        return  activityService.nextStage(mp);
     }
 
     /**

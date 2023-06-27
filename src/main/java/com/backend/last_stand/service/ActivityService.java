@@ -11,9 +11,7 @@ import java.util.HashMap;
 public interface ActivityService extends IService<Activity> {
     ResponseResult getActivityByYear(String year);
 
-    ResponseResult createActivity(Activity activity);
-
-    ResponseResult nextStage(HashMap<String, String> mp);
+    ResponseResult createActivity(Activity Activity);
 
     ResponseResult getStageByAId(HashMap<String, String> mp);
 }
