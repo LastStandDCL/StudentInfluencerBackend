@@ -68,9 +68,14 @@
         group by department
     </select>
 
-    <select id="countActiveUser" resultType="com.backend.last_stand.entity.User">
+    <select id="countActiveUser" resultType="java.lang.Integer">
 
+        SELECT SUM(1) AS count
+        FROM sys_user
+        WHERE SUBSTRING(sys_user.student_id, 1, 4) BETWEEN #{begin} AND #{end}
 
     </select>
+
+
 
 </mapper>
