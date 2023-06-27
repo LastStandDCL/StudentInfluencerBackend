@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 
 
 /**
@@ -28,38 +29,49 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
 
 
     @Override
-    public ResponseResult addNews(News news, Long id) {
-        //获取url
-        String url = news.getUrl();
-        System.out.println(url);
-        //设置新增时间
-        news.setCreateTime(new Date());
-        //设置创建新闻的用户id
-        news.setCreateBy(id);
+    public ResponseResult addNews(HashMap<String, String> mp) {
 
-        int insert = newsMapper.insert(news);
-        if (insert != 1) {
-            throw new RuntimeException("新增新闻失败");
+        String url = mp.get("url");
+        String img = mp.get("img");
+        String user = mp.get("userId");
+        Long userId = Long.valueOf(user);
+
+        News news = new News();
+        news.setUrl(url);
+        news.setImg(img);
+        news.setCreateBy(userId);
+        news.setCreateTime(new Date());
+        //代表插入的数据没有被删除
+        news.setDelFlag(0);
+
+        int insert1 = newsMapper.insert(news);
+        if (insert1 != 1) {
+            throw new RuntimeException("插入新闻数据异常");
         }
-        return new ResponseResult<>(200, "新增新闻成功");
+        return new ResponseResult<>(200, "新增新闻成功", news);
     }
 
     @Override
-    public ResponseResult addNewsPriority(News news, Long uid, Integer isShow) {
-        //设置新增时间
+    public ResponseResult addNewsPriority(HashMap<String, String> mp) {
+        String url = mp.get("url");
+        String img = mp.get("img");
+        String user = mp.get("userId");
+        String priority = mp.get("priority");
+        Long userId = Long.valueOf(user);
+        News news = new News();
+        news.setUrl(url);
+        news.setImg(img);
+        news.setCreateBy(userId);
         news.setCreateTime(new Date());
-        //设置创建新闻的用户id
-        news.setCreateBy(uid);
-        //设置新闻优先级
-        news.setIsShow(isShow);
+        news.setDelFlag(0);
+        news.setIsShow(Integer.valueOf(priority));
 
         int insert = newsMapper.insert(news);
         if (insert != 1) {
             throw new RuntimeException("新增新闻失败");
         }
-        return new ResponseResult<>(200, "新增新闻成功");
+        return new ResponseResult<>(200, "新增新闻成功", news);
     }
-
 
 
     @Override

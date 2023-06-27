@@ -208,8 +208,6 @@ public class SpringSecurityConfig {
             Long id = enhancedUser.getUser().getId();
             List<Team> userTeam = userMapper.getUserTeam(id);
 
-
-
             //使用userid生成token
             String userId = enhancedUser.getUser().getId().toString();
             //使用jwt工具类来生成token

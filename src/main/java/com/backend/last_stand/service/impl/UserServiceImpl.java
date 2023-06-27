@@ -147,7 +147,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //更新时间修改
         user.setUpdateTime(new Date());
 
-
         int i = userMapper.updateById(user);
         if (i != 1) {
             return new ResponseResult<>(203, "更新信息失败", user);
@@ -347,6 +346,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return new ResponseResult<>(200, "返回人数成功", hashMap);
     }
 
+
     /**
      * 根据年份返回各个学院参加的学生数
      * @param year
@@ -373,7 +373,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return new ResponseResult<>(200,"返回各学院人数成功",data);
 
     }
-
+  
+     @Override
+    public ResponseResult countActiveUser(String year) {
+    List<User> total = userMapper.countActiveUser(year);
+        return null;
+    }
 
     @Override
     public boolean saveBatch(Collection<User> entityList, int batchSize) {

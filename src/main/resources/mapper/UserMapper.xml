@@ -55,6 +55,7 @@
 
     </select>
 
+
     <select id="getDepartmentCountByYear" resultType="com.backend.last_stand.entity.DepartmentCountByYear" parameterType="String">
 
         select department as name,count(department) as value
@@ -65,6 +66,9 @@
             where sys_activity.year = #{year}
             )
         group by department
+
+    <select id="countActiveUser" resultType="com.backend.last_stand.entity.User">
+
 
     </select>
 

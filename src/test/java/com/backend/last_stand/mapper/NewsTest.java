@@ -36,8 +36,6 @@ public class NewsTest {
     public void test02() {
         News news = new News();
         news.setImg("http://localhost:8010/ahasfafa.png");
-        news.setUrl("http://localhost:8010/ahasfafa.video");
-        newsService.addNews(news, 123L);//插入新闻的用户id
     }
 
 
