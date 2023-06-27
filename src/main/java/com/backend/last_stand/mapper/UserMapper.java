@@ -2,6 +2,7 @@ package com.backend.last_stand.mapper;
 
 
 import com.backend.last_stand.entity.DepartmentCountByYear;
+import com.backend.last_stand.entity.DepartmentCountByYear;
 import com.backend.last_stand.entity.Role;
 import com.backend.last_stand.entity.Team;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
