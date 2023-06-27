@@ -16,16 +16,19 @@ import java.util.HashMap;
  *
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023 /6/19 20:58
+ * &#064;description TODO
+ * &#064;date 2023 /6/19 20:58
  */
 @RestController
 @RequestMapping("/activity")
 public class ActivityController {
 
-    @Autowired
-    private ActivityService activityService;
+    private final ActivityService activityService;
 
+    @Autowired
+    public ActivityController(ActivityService activityService) {
+        this.activityService = activityService;
+    }
 
     @PostMapping("/createActivity")
     public ResponseResult createActivity(@RequestBody Activity Activity) {

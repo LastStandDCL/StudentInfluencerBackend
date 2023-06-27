@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/5/31 19:13
+ * &#064;description TODO
+ * &#064;date 2023/5/31 19:13
  */
 public interface SchoolMapper extends BaseMapper<School> {
 

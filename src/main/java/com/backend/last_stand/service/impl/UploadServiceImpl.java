@@ -55,7 +55,7 @@ public class UploadServiceImpl implements UploadService, WebMvcConfigurer {
 	@Override
 	public ResponseResult uploadVideo(MultipartFile multipartFile, HttpServletRequest req){
 		if (multipartFile.isEmpty()) {
-			return new ResponseResult<>(400, "文件内容为空");
+			return new ResponseResult(400, "文件内容为空");
 		}
 		ResponseResult result = new ResponseResult();
 		//获取客户端系统中文件的原始名称
@@ -180,7 +180,7 @@ public class UploadServiceImpl implements UploadService, WebMvcConfigurer {
 	@Override
 	public ResponseResult uploadImage(MultipartFile multipartFile, HttpServletRequest req) throws Exception {
 		if (multipartFile.isEmpty()) {
-			return new ResponseResult<>(400, "文件内容为空");
+			return new ResponseResult(400, "文件内容为空");
 		}
 		ResponseResult result = new ResponseResult();
 		//获取客户端系统中文件的原始名称
@@ -233,7 +233,7 @@ public class UploadServiceImpl implements UploadService, WebMvcConfigurer {
 	@Override
 	public ResponseResult uploadFile(MultipartFile multipartFile, jakarta.servlet.http.HttpServletRequest req) {
 		if (multipartFile.isEmpty()) {
-			return new ResponseResult<>(400, "文件内容为空");
+			return new ResponseResult(400, "文件内容为空");
 		}
 		ResponseResult result = new ResponseResult();
 		//获取客户端系统中文件的原始名称

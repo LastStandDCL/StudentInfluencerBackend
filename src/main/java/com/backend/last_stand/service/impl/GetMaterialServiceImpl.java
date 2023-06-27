@@ -11,8 +11,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/27 21:56
+ * &#064;description TODO
+ * &#064;date 2023/6/27 21:56
  */
 public class GetMaterialServiceImpl  extends ServiceImpl<GetMaterialMapper, GetMaterial> implements GetMaterialService {
 

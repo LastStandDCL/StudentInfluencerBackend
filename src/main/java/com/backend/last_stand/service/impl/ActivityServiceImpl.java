@@ -17,8 +17,8 @@ import java.util.HashMap;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/19 21:02
+ * &#064;description TODO
+ * &#064;date 2023/6/19 21:02
  */
 
 @Service
@@ -30,10 +30,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         String year1 = jsonObject.get("year").toString();
         Activity byYear = baseMapper.getByYear(year1);
         if (byYear == null) {
-            return new ResponseResult<>(201, "不存在此年份活动，返回活动为空");
+            return new ResponseResult(201, "不存在此年份活动，返回活动为空");
         }
 
-        return new ResponseResult<>(200, "根据年份返回活动成功", byYear);
+        return new ResponseResult(200, "根据年份返回活动成功", byYear);
     }
 
     @Override
@@ -42,13 +42,13 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         String year = Activity.getYear();
         Activity byYear = baseMapper.getByYear(year);
         if (byYear != null) {
-            return new ResponseResult<>(206, "创建活动失败，请检查是否创建已有年份活动", byYear);
+            return new ResponseResult(206, "创建活动失败，请检查是否创建已有年份活动", byYear);
         }
         int insert = baseMapper.insert(Activity);
         if (insert != 1) {
             throw new RuntimeException("插入失败，已经存在此年份的活动");
         }
-        return new ResponseResult<>(206, "创建活动成功", Activity);
+        return new ResponseResult(206, "创建活动成功", Activity);
     }
 
     @Override
@@ -57,9 +57,9 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         Long id = Long.valueOf(s);
         Activity Activity = baseMapper.selectById(id);
         if (Activity == null) {
-            return new ResponseResult<>(202, "不存在此活动");
+            return new ResponseResult(202, "不存在此活动");
         }
-        return new ResponseResult<>(200, "根据Id查询活动完成", Activity);
+        return new ResponseResult(200, "根据Id查询活动完成", Activity);
     }
 
 

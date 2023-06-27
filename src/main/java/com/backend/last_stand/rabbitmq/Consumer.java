@@ -15,8 +15,8 @@ import java.util.Collection;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/27 20:56
+ * &#064;description TODO
+ * &#064;date 2023/6/27 20:56
  */
 @Component
 public class Consumer {

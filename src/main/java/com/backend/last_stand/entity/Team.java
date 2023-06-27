@@ -13,8 +13,8 @@ import java.util.Date;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/18 10:19
+ * &#064;description TODO
+ * &#064;date 2023/6/18 10:19
  */
 @TableName(value ="sys_team")
 @Data

@@ -6,20 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/27 15:06
+ * &#064;description  TODO  &#064;date  2023/6/27 15:06
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value="sys_sendmaterial")
 public class SendMaterial implements Serializable {
+    @Serial
     private static final long serialVersionUID = -403567814121212312L;
 
     /**

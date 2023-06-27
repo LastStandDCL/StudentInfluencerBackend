@@ -15,8 +15,8 @@ import java.nio.charset.Charset;
 /**
  * @author chenhong
  * @version 1.0
- * @description Redis使用fastjson来序列化，替换掉默认的初始化方法
- * @date 2023/5/21 21:56
+ * &#064;description Redis使用fastjson来序列化，替换掉默认的初始化方法
+ * &#064;date 2023/5/21 21:56
  */
 public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 

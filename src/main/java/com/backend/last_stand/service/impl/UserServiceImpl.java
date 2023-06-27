@@ -28,8 +28,8 @@ import java.util.function.Function;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/5/24 22:46
+ * &#064;description TODO
+ * &#064;date 2023/5/24 22:46
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -146,11 +146,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         int i = userMapper.updateById(user);
         if (i != 1) {
-            return new ResponseResult<>(203, "更新信息失败", user);
+            return new ResponseResult(203, "更新信息失败", user);
 //            throw new RuntimeException("更新信息失败");
         }
 
-        return new ResponseResult<>(200, "更新信息成功", user);
+        return new ResponseResult(200, "更新信息成功", user);
     }
 
     @Override
@@ -158,10 +158,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         int i = userMapper.deleteById(user);
         if (i != 1) {
-            return new ResponseResult<>(206, "删除信息失败");
+            return new ResponseResult(206, "删除信息失败");
 //            throw new RuntimeException("删除信息失败");
         }
-        return new ResponseResult<>(200, "删除信息成功");
+        return new ResponseResult(200, "删除信息成功");
     }
 
     @Override
@@ -186,41 +186,41 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Page<User> page = new Page<>(pageNum, pageSize);
 
         IPage<User> getUser = userMapper.getUsers(page, 1L);
-        return new ResponseResult<>(200, "返回学生结果", getUser);
+        return new ResponseResult(200, "返回学生结果", getUser);
     }
 
     @Override
     public ResponseResult getViceStudents(Integer pageNum, Integer pageSize) {
         Page<User> page = new Page<>(pageNum, pageSize);
         IPage<User> getUser = userMapper.getUsers(page, 2L);
-        return new ResponseResult<>(200, "返回分省负责人结果", getUser);
+        return new ResponseResult(200, "返回分省负责人结果", getUser);
     }
 
     @Override
     public ResponseResult getMainStudents(Integer pageNum, Integer pageSize) {
         Page<User> page = new Page<>(pageNum, pageSize);
         IPage<User> getUser = userMapper.getUsers(page, 3L);
-        return new ResponseResult<>(200, "返回总负责人结果", getUser);
+        return new ResponseResult(200, "返回总负责人结果", getUser);
     }
 
     @Override
     public ResponseResult getTeachers(Integer pageNum, Integer pageSize) {
         Page<User> page = new Page<>(pageNum, pageSize);
         IPage<User> getUser = userMapper.getUsers(page, 4L);
-        return new ResponseResult<>(200, "返回老师结果", getUser);
+        return new ResponseResult(200, "返回老师结果", getUser);
     }
 
     @Override
     public ResponseResult getManagers(Integer pageNum, Integer pageSize) {
         Page<User> page = new Page<>(pageNum, pageSize);
         IPage<User> getUser = userMapper.getUsers(page, 5L);
-        return new ResponseResult<>(200, "返回管理员结果", getUser);
+        return new ResponseResult(200, "返回管理员结果", getUser);
     }
 
     @Override
     public ResponseResult selectUserByRole(Page<User> userPage, Long roleId) {
         IPage<User> users = userMapper.getUsers(userPage, roleId);
-        return new ResponseResult<>(200, "返回指定角色结果", users);
+        return new ResponseResult(200, "返回指定角色结果", users);
     }
 
     @Override
@@ -283,7 +283,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //如果不存在问题，那么就会在sys_ts表中添加记录  user_id team_id
         userMapper.addTeam(luser, lteam);
 
-        return new ResponseResult<>(200, "加入队伍成功");
+        return new ResponseResult(200, "加入队伍成功");
     }
 
     @Override
@@ -297,12 +297,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setPassword(encode);
             int update = userMapper.updateById(user);
             if (update != 1) {
-                return new ResponseResult<>(204, "更新密码失败", user);
+                return new ResponseResult(204, "更新密码失败", user);
             } else {
-                return new ResponseResult<>(200, "更新用户密码成功", user);
+                return new ResponseResult(200, "更新用户密码成功", user);
             }
         } else {
-            return new ResponseResult<>(205, "输入密码为空", user);
+            return new ResponseResult(205, "输入密码为空", user);
         }
     }
 
@@ -340,7 +340,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             hashMap.put("2024", Integer.toString(users5.size()));
         }
 
-        return new ResponseResult<>(200, "返回人数成功", hashMap);
+        return new ResponseResult(200, "返回人数成功", hashMap);
     }
 
 
@@ -367,7 +367,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         //返回前端响应，未找到data为空
-        return new ResponseResult<>(200,"返回各学院人数成功",data);
+        return new ResponseResult(200,"返回各学院人数成功",data);
 
     }
 
@@ -388,7 +388,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         //返回前端响应，未找到data为空
-        return new ResponseResult<>(200,"返回各省份人数成功",data);
+        return new ResponseResult(200,"返回各省份人数成功",data);
     }
 
      @Override

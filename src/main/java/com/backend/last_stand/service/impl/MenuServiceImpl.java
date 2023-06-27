@@ -16,8 +16,8 @@ import java.util.function.Function;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/5 13:52
+ * &#064;description TODO
+ * &#064;date 2023/6/5 13:52
  */
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
 

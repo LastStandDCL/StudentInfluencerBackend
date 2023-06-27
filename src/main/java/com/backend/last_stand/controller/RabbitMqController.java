@@ -17,13 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequestMapping("/send")
 public class RabbitMqController {
- 
-    @Autowired
-    private SendMaterialService sendMaterialService;
 
+    private final SendMaterialService sendMaterialService;
 
+    private final RabbitTemplate rabbitTemplate;
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    public RabbitMqController(
+            SendMaterialService sendMaterialService,
+            RabbitTemplate rabbit){
+        this.sendMaterialService = sendMaterialService;
+        this.rabbitTemplate = rabbit;
+    }
 
     /**
      * 生产者  存入申报材料信息到消息队列缓存
@@ -34,9 +38,9 @@ public class RabbitMqController {
     public ResponseResult sendMsg(@RequestBody String msg){
         //发送消息到消息队列中
         rabbitTemplate.convertAndSend("", "material", msg);
-        return new ResponseResult<>(200, "发送到消息队列中");
+        return new ResponseResult(200, "发送到消息队列中");
     }
 
 
- 
+
 }

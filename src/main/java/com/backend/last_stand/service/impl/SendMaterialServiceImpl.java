@@ -20,8 +20,8 @@ import java.util.Set;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/27 21:57
+ * &#064;description TODO
+ * &#064;date 2023/6/27 21:57
  */
 @Service
 public class SendMaterialServiceImpl  extends ServiceImpl<SendMaterialMapper, SendMaterial> implements SendMaterialService {

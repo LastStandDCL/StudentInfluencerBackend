@@ -17,16 +17,20 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author chenhong
  * @version 1.0
- * @description 用户类
- * @date 2023 /5/21 21:56
+ * &#064;description 用户类
+ * &#064;date 2023 /5/21 21:56
  */
 @Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * 登录 只需要在请求体中携带Json数据即可,格式如 {"userName" : "*", "password":"1234"}

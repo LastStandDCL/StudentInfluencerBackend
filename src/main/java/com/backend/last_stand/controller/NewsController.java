@@ -13,15 +13,19 @@ import java.util.HashMap;
  *
  * @author chenhong
  * @version 1.0
- * @description 新闻接口
- * @date 2023 /6/16 19:24
+ * &#064;description 新闻接口
+ * &#064;date 2023 /6/16 19:24
  */
 @RestController
 @RequestMapping("/news")
 public class NewsController {
-    @Autowired
-    private NewsService newsService;
 
+    private final NewsService newsService;
+
+    @Autowired
+    public NewsController(NewsService newsService){
+        this.newsService = newsService;
+    }
     /**
      * 新增新闻, 新闻内容中的url和img需要用户上传后，前端赋值url和img的值，然后插入到数据库中,这里不设置优先级，默认is_show = 0
      *
