@@ -1,5 +1,7 @@
 package com.backend.last_stand.config;
 
+
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.transaction.RabbitTransactionManager;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -33,4 +35,10 @@ public class RabbitConfig {
     public RabbitTransactionManager rabbitTransactionManager(CachingConnectionFactory connectionFactory) {
         return new RabbitTransactionManager(connectionFactory);
     }
+
+    @Bean("material")
+    public Queue getFirstQueue(){
+        return new Queue("material");
+    }
+
 }

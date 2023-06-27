@@ -239,4 +239,21 @@ public class RedisCache
     {
         return redisTemplate.keys(pattern);
     }
+
+    /**
+     * 获取指定前缀的值
+     * @param prefix key前缀
+     * @return
+     */
+    public List<String> getPrefixKeyValue(String prefix) {
+        List<String> values = null;
+        // 获取所有的key
+        Set<String> keys = redisTemplate.keys(prefix);
+        if (null != keys){
+            // 批量获取数据
+            values = redisTemplate.opsForValue().multiGet(keys);
+        }
+        return values;
+    }
+
 }
