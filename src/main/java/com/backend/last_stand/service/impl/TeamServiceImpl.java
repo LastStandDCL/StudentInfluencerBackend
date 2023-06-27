@@ -241,4 +241,62 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
 
         return new ResponseResult(200, "返回参与队伍数量统计成功", list);
     }
+
+    /**
+     * 通过年份和学校名称查找队伍
+     * @param info
+     * @return
+     */
+    @Override
+    public ResponseResult getTeamByYearAndSchoolName(HashMap<String,Object> info) {
+
+        //获取前端传过来的年份和学校名称
+        String year = info.get("year").toString();
+        String schoolName = info.get("schoolName").toString();
+        String newName = "%";
+        for (int i = 0; i < schoolName.length(); i++) {
+            newName += schoolName.charAt(i) + "%";
+        }
+        List<Team> teamByYearAndSchoolName = teamMapper.getTeamByYearAndSchoolName(year, newName);
+
+        //设置返回信息
+        HashMap<String, String> hashMap = new HashMap<>();
+        Integer total = teamByYearAndSchoolName.size();
+        hashMap.put("total", total.toString());
+        //存储数组结果
+        List<HashMap<String, String>> array = new ArrayList<>();
+        for (Team newTeam : teamByYearAndSchoolName) {
+            HashMap<String, String> hashMap1 = new HashMap<>();
+            hashMap1.put("teamName", newTeam.getTeamName());
+
+            Long schoolId = newTeam.getSchoolId();
+            //学校信息，省份，年份
+            School school = schoolMapper.selectById(schoolId);
+            hashMap1.put("schoolName", school.getSchoolName());
+            hashMap1.put("province", school.getProvince());
+            hashMap1.put("year", newTeam.getYear());
+
+            //成员信息
+            List<User> teamMembers = teamMapper.getTeamMembers(newTeam.getId());
+            //存储学生信息的数组
+            List<HashMap<String, String>> studentinfos = new ArrayList<>();
+            for (User user : teamMembers) {
+                //用户姓名
+                String name = user.getName();
+                //用户头像url
+                String url = user.getAvatar();
+                HashMap<String, String> student = new HashMap<>();
+                student.put("name", name);
+                student.put("avatar", url);
+                studentinfos.add(student);
+            }
+            hashMap1.put("members", studentinfos.toString());
+            array.add(hashMap1);
+        }
+
+        hashMap.put("info", array.toString());
+
+
+        return new ResponseResult<>(200,"根据年份和学校名称返回队伍名称成功",hashMap);
+    }
 }

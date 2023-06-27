@@ -5,6 +5,7 @@ import com.backend.last_stand.entity.Team;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -26,4 +27,6 @@ public interface TeamService extends IService<Team> {
     ResponseResult getTeamByYear(String year);
 
     ResponseResult countByYear(Map<String,Object> map);
+
+    ResponseResult getTeamByYearAndSchoolName(HashMap<String,Object> info);
 }
