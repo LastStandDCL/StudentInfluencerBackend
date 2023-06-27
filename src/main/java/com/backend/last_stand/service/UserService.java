@@ -68,5 +68,6 @@ public interface UserService extends IService<User> {
 
     ResponseResult countActiveUser(String year);
 
+    ResponseResult getUserCountGroupByProvinceByYear(String year);
 }
 

@@ -232,9 +232,25 @@ public class UserController {
     public ResponseResult activitycount(@RequestBody String year) {
         return userService.activitycount(year);
     }
-    @PostMapping("/userCountGroupByDepartment")
+
+    /**
+     * 根据年份返回各学院参加的人数
+     * @param year
+     * @return
+     */
+    @PostMapping("/count-department-info")
     public ResponseResult userCountGroupByDepartmentByYear(@RequestBody String year){
         return userService.getUserCountGroupByDepartmentByYear(year);
+    }
+
+    /**
+     * 根据年份返回各省份参加的人数
+     * @param year
+     * @return
+     */
+    @PostMapping("/count-province-info")
+    public ResponseResult userCountGroupByProvinceByYear(@RequestBody String year){
+        return userService.getUserCountGroupByProvinceByYear(year);
     }
 
 

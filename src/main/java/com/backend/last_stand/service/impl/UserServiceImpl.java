@@ -15,9 +15,6 @@ import com.backend.last_stand.util.RedisCache;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jnr.ffi.annotations.In;
-import liquibase.util.CollectionUtil;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -356,22 +353,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseResult getUserCountGroupByDepartmentByYear(String year) {
         JSONObject jsonObject = JSON.parseObject(year);
         String years = jsonObject.get("year").toString();
-        System.out.println(years);
+//        System.out.println(years);
 
         //获取对应年份各学院参加活动的人数
-        List<DepartmentCountByYear> departmentCountByYears = userMapper.getDepartmentCountByYear(years);
-        List<HashMap<String,String>> data = new ArrayList();
+        List<CountUserByYear> countUserByYears = userMapper.getDepartmentCountByYear(years);
+        List<HashMap<String,Object>> data = new ArrayList();
 
-        for(int i = 0 ; i < departmentCountByYears.size() - 1  ; i++){
-            HashMap<String,String> hashMap = new HashMap<>();
-            hashMap.put("value",departmentCountByYears.get(i).getValue().toString());
-            hashMap.put("name",departmentCountByYears.get(i).getName());
+        for(int i = 0; i < countUserByYears.size() ; i++){
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("value", countUserByYears.get(i).getValue());
+            hashMap.put("name", countUserByYears.get(i).getName());
             data.add(hashMap);
         }
 
         //返回前端响应，未找到data为空
         return new ResponseResult<>(200,"返回各学院人数成功",data);
 
+    }
+
+    @Override
+    public ResponseResult getUserCountGroupByProvinceByYear(String year) {
+        JSONObject jsonObject = JSON.parseObject(year);
+        String years = jsonObject.get("year").toString();
+
+        //获取对应年份各学院参加活动的人数
+        List<CountUserByYear> countUserByYears = userMapper.getProvinceCountByYear(years);
+        List<HashMap<String,Object>> data = new ArrayList();
+
+        for(int i = 0; i < countUserByYears.size() ; i++){
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("value", countUserByYears.get(i).getValue());
+            hashMap.put("name", countUserByYears.get(i).getName());
+            data.add(hashMap);
+        }
+
+        //返回前端响应，未找到data为空
+        return new ResponseResult<>(200,"返回各省份人数成功",data);
     }
   
      @Override
@@ -392,6 +409,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
          System.out.println(total);
         return new ResponseResult(200, "返回没有毕业的用户数量成功", total);
     }
+
+
 
     @Override
     public boolean saveBatch(Collection<User> entityList, int batchSize) {
