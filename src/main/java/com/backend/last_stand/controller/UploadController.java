@@ -25,10 +25,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RestController
 @RequestMapping("/files")
 public class UploadController{
-
+	private final UploadService uploadService;
 
 	@Autowired
-	private UploadService uploadService;
+	public UploadController(UploadService uploadService){
+		this.uploadService = uploadService;
+	}
 
     /**
      * 视频文件上传

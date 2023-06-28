@@ -12,8 +12,8 @@ import java.util.*;
 /**
  * @author chenhong
  * @version 1.0
- * @description redis工具类,可以帮助完成redis的取值和存值相关操作
- * @date 2023/5/23 17:29
+ * &#064;description redis工具类,可以帮助完成redis的取值和存值相关操作
+ * &#064;date 2023/5/23 17:29
  */
 @Component
 public class RedisCache
@@ -239,4 +239,21 @@ public class RedisCache
     {
         return redisTemplate.keys(pattern);
     }
+
+    /**
+     * 获取指定前缀的值
+     * @param prefix key前缀
+     * @return
+     */
+    public List<String> getPrefixKeyValue(String prefix) {
+        List<String> values = null;
+        // 获取所有的key
+        Set<String> keys = redisTemplate.keys(prefix);
+        if (null != keys){
+            // 批量获取数据
+            values = redisTemplate.opsForValue().multiGet(keys);
+        }
+        return values;
+    }
+
 }

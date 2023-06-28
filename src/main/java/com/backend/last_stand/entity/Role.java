@@ -3,21 +3,21 @@ package com.backend.last_stand.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 /**
  * @author chenhong
  * @version 1.0
- * @description 角色表
- * @date 2023/5/29 16:55
+ * &#064;description  角色表
+ * &#064;date  2023/5/29 16:55
  */
 @TableName(value="sys_role")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Role {
     @TableId
     Long Id;

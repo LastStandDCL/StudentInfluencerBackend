@@ -1,6 +1,7 @@
 package com.backend.last_stand.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,12 +11,13 @@ import lombok.NoArgsConstructor;
  *
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/27 9:19
+ * &#064;description TODO
+ * &#064;date 2023/6/27 9:19
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CountUserByYear {
 
     private String name;

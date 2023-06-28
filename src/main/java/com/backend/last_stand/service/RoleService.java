@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public interface RoleService extends IService<Role> {
 
 
-    ResponseResult getPermissonFromRoleId(Long id);
+    ResponseResult getPermissionFromRoleId(Long id);
 
     ResponseResult getAllRoles();
 

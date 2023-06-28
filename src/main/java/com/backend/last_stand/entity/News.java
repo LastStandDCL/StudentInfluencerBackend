@@ -3,23 +3,27 @@ package com.backend.last_stand.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/15 22:58
+ * &#064;description  TODO
+ * &#064;date  2023/6/15 22:58
  */
 @TableName("sys_news")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class News implements Serializable {
+    @Serial
     private static final long serialVersionUID = -4035678223458312L;
 
     /**

@@ -21,8 +21,8 @@ import java.util.*;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/18 12:19
+ * &#064;description TODO
+ * &#064;date 2023/6/18 12:19
  */
 @Service
 public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements TeamService {
@@ -39,7 +39,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         if (teamMembers == null) {
             throw new RuntimeException("队伍中人员为空");
         }
-        return new ResponseResult<>(200, "获取队伍成员成功", teamMembers);
+        return new ResponseResult(200, "获取队伍成员成功", teamMembers);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         if (school == null) {
             throw new RuntimeException("队伍所属学校为空");
         }
-        return new ResponseResult<>(200, "获取队伍所属成功", school);
+        return new ResponseResult(200, "获取队伍所属成功", school);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         hashMap.put("members", teamMembers.toString());
 //        hashMap.put("createTime", team.getCreateTime().toString());
 
-        return new ResponseResult<>(200, "返回队伍相关信息", hashMap);
+        return new ResponseResult(200, "返回队伍相关信息", hashMap);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         if (insert != 1) {
             throw new RuntimeException("插入队伍信息失败");
         }
-        return new ResponseResult<>(200, "创建队伍成功");
+        return new ResponseResult(200, "创建队伍成功");
     }
 
     @Override
@@ -84,7 +84,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         if (i != 1) {
             throw new RuntimeException("删除队伍失败");
         }
-        return new ResponseResult<>(200, "删除队伍成功");
+        return new ResponseResult(200, "删除队伍成功");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         if (i != 1) {
             throw new RuntimeException("更新队伍失败");
         }
-        return new ResponseResult<>(200, "更新队伍成功");
+        return new ResponseResult(200, "更新队伍成功");
     }
 
     @Override
@@ -137,7 +137,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
             list.add(mp);
         }
         hashMap.put("teams", list.toString());
-        ResponseResult result = new ResponseResult<>();
+        ResponseResult result = new ResponseResult();
         result.setCode(200);
         result.setMsg("根据学校返回队伍名称成功");
         result.setData(hashMap);
@@ -192,7 +192,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
 
         hashMap.put("info", array.toString());
 
-        ResponseResult result = new ResponseResult<>();
+        ResponseResult result = new ResponseResult();
         result.setCode(200);
         result.setMsg("根据年份返回队伍名称成功");
         result.setData(hashMap);
@@ -297,6 +297,6 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         hashMap.put("info", array.toString());
 
 
-        return new ResponseResult<>(200,"根据年份和学校名称返回队伍名称成功",hashMap);
+        return new ResponseResult(200,"根据年份和学校名称返回队伍名称成功",hashMap);
     }
 }

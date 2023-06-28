@@ -15,17 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023 /6/19 10:34
+ * &#064;description TODO
+ * &#064;date 2023 /6/19 10:34
  */
 @Slf4j
 @RestController
 @RequestMapping("/key")
 public class KeyValueController {
 
-    @Autowired
-    private KeyValueServiceImpl keyValueService;
+    private final KeyValueServiceImpl keyValueService;
 
+    @Autowired
+    public KeyValueController(KeyValueServiceImpl keyValueService) {
+        this.keyValueService = keyValueService;
+    }
     /**
      * 格式  "key" : "value"
      *

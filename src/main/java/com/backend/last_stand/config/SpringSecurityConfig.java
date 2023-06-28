@@ -57,8 +57,8 @@ import java.util.*;
 /**
  * @author chenhong
  * @version 1.0
- * @description Springsecurity配置类
- * @date 2023/5/21 21:52
+ * &#064;description Springsecurity配置类
+ * &#064;date 2023/5/21 21:52
  */
 @Configuration
 @EnableWebSecurity//开启springSecurity过滤器

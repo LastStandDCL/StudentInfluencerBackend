@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 /**
  * @author chenhong
  * @version 1.0
- * @description token出了问题，那么就会认证失败，会返回一个json给前端，提示前端token有问题,认证失败
- * @date 2023/5/25 18:18
+ * &#064;description token出了问题，那么就会认证失败，会返回一个json给前端，提示前端token有问题,认证失败
+ * &#064;date 2023/5/25 18:18
  */
 
 @Component

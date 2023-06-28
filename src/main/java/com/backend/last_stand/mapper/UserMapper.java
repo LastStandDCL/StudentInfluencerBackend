@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/5/24 19:13
+ * &#064;description TODO
+ * &#064;date 2023/5/24 19:13
  */
 
 public interface UserMapper extends BaseMapper<User> {

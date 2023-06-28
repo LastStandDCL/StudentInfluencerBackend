@@ -15,16 +15,19 @@ import java.util.Map;
  *
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023 /6/18 12:18
+ * &#064;description TODO
+ * &#064;date 2023 /6/18 12:18
  */
 @Slf4j
 @RestController
 @RequestMapping("/team")
 public class TeamController {
 
+    private final TeamService teamService;
     @Autowired
-    private TeamService teamService;
+    public TeamController(TeamService teamService) {
+        this.teamService = teamService;
+    }
 
 
     /**

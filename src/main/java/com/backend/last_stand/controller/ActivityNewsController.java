@@ -12,16 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/21 12:24
+ * &#064;description TODO
+ * &#064;date 2023/6/21 12:24
  */
 @RestController
 @RequestMapping("/activityNews")
 public class ActivityNewsController {
 
-    @Autowired
-    private ActivityNewsService activityNewsService;
+    private final ActivityNewsService activityNewsService;
 
+    @Autowired
+    public ActivityNewsController(ActivityNewsService activityNewsService) {
+        this.activityNewsService = activityNewsService;
+    }
 
     /**
      * 传入队伍id

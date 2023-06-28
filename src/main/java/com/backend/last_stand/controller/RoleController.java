@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author chenhong
  * @version 1.0
- * @description 这个接口主要提供给manager和 super使用
- * @date 2023 /6/6 11:44
+ * &#064;description 这个接口主要提供给manager和 super使用
+ * &#064;date 2023 /6/6 11:44
  */
 @RestController
 @RequestMapping("/managers")
 public class RoleController {
 
+    private final RoleService roleService;
+
     @Autowired
-    private RoleService roleService;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     /**
      * Gets permisson from role id.
@@ -29,7 +33,7 @@ public class RoleController {
      */
     @GetMapping("/getPermissonFromRoleId")
     public ResponseResult getPermissonFromRoleId(@RequestBody Long id) {
-        return roleService.getPermissonFromRoleId(id);
+        return roleService.getPermissionFromRoleId(id);
     }
 
     /**

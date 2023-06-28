@@ -12,14 +12,18 @@ import java.util.HashMap;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/19 10:36
+ * &#064;description TODO
+ * &#064;date 2023/6/19 10:36
  */
 @Service
 public class KeyValueServiceImpl {
 
+    private final RedisCache redisCache;
+
     @Autowired
-    private RedisCache redisCache;
+    public KeyValueServiceImpl(RedisCache redisCache){
+        this.redisCache = redisCache;
+    }
 
 
     public ResponseResult insertkey(String key) {
@@ -27,6 +31,6 @@ public class KeyValueServiceImpl {
         String keys = jsonObject.get("key").toString();
         String value = jsonObject.get("value").toString();
         redisCache.setCacheObject(keys, value);
-        return new ResponseResult<>(200, "插入键值对成功");
+        return new ResponseResult(200, "插入键值对成功");
     }
 }

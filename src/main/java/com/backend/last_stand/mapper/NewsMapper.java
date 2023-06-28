@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/16 19:26
+ * &#064;description TODO
+ * &#064;date 2023/6/16 19:26
  */
 public interface NewsMapper extends BaseMapper<News> {
 

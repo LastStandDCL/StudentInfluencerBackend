@@ -14,9 +14,12 @@ import java.util.Random;
 @RestController
 public class MailController {
 
-    @Autowired
-    private MailService mailService;
+    private final MailService mailService;
 
+    @Autowired
+    public MailController(MailService mailService){
+        this.mailService = mailService;
+    }
     /**
      * 只接受email数据
      *

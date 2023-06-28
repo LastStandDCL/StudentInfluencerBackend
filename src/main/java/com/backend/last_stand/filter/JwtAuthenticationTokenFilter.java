@@ -23,8 +23,8 @@ import java.util.Objects;
 /**
  * @author chenhong
  * @version 1.0
- * @description 用来认证token中的jwt并且解读信息
- * @date 2023/5/25 16:47
+ * &#064;description 用来认证token中的jwt并且解读信息
+ * &#064;date 2023/5/25 16:47
  */
 @Slf4j
 @Component

@@ -13,8 +13,8 @@ import java.util.Date;
  *
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023 /6/15 16:58
+ * &#064;description TODO
+ * &#064;date 2023 /6/15 16:58
  */
 @RestController
 @RequestMapping("/jwt")
@@ -40,9 +40,9 @@ public class JWTValidateController {
             Date date = new Date();
             int compareTo = expiration.compareTo(date);
             if (compareTo >= 1) {
-                return new ResponseResult<>(202, "jwt过期");
+                return new ResponseResult(202, "jwt过期");
             } else {
-                return new ResponseResult<>(200, "jwt未过期");
+                return new ResponseResult(200, "jwt未过期");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

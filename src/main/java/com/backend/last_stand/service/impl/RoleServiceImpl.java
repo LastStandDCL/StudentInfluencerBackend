@@ -29,15 +29,11 @@ import java.util.function.Function;
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/6 11:46
+ * &#064;description TODO
+ * &#064;date 2023/6/6 11:46
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
-
-    @Autowired
-    private RoleMapper roleMapper;
-
 
     @Override
     public boolean save(Role entity) {
@@ -270,8 +266,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public ResponseResult getPermissonFromRoleId(Long id) {
-        List<Menu> permissonFromRoleId = roleMapper.getPermissonFromRoleId(id);
+    public ResponseResult getPermissionFromRoleId(Long id) {
+        List<Menu> permissonFromRoleId = baseMapper.getPermissonFromRoleId(id);
         if (permissonFromRoleId == null) {
             throw new RuntimeException("查询指定角色权限失败");
         }
@@ -280,13 +276,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public ResponseResult getAllRoles() {
-        List<Role> roles = roleMapper.selectList(null);
+        List<Role> roles = baseMapper.selectList(null);
         return new ResponseResult(200, "查询全部角色成功", roles);
     }
 
     @Override
     public ResponseResult updateRole(Role role) {
-        int i = roleMapper.updateById(role);
+        int i = baseMapper.updateById(role);
         if (i != 1) {
             throw new RuntimeException("更新角色表信息失败");
         }
@@ -295,7 +291,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public ResponseResult deleteRole(Long id) {
-        int i = roleMapper.deleteById(id);
+        int i = baseMapper.deleteById(id);
         if(i != 1) {
             throw new RuntimeException("删除角色表信息失败");
         }
@@ -304,7 +300,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public ResponseResult addRole(Role role) {
-        int i = roleMapper.insert(role);
+        int i = baseMapper.insert(role);
         if (i != 1) {
             throw new RuntimeException("添加角色表信息失败");
         }

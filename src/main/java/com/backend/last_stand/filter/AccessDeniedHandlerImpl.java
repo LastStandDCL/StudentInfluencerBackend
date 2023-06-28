@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 /**
  * @author chenhong
  * @version 1.0
- * @description 授权异常拦截，在用户没有权限的时候回给前端提示
+ * &#064;description 授权异常拦截，在用户没有权限的时候回给前端提示
  * 访问被拒绝,这个类在用户权限不足的时候，会返回一个Json给前端{"code" : 403, "msg" : "权限不足"}
- * @date 2023/5/25 18:17
+ * &#064;date 2023/5/25 18:17
  */
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
