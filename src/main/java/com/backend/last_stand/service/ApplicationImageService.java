@@ -4,6 +4,9 @@ import com.backend.last_stand.entity.ApplicationImage;
 import com.backend.last_stand.entity.ResponseResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.math.BigInteger;
 
 /**
  * <p>
@@ -15,11 +18,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface ApplicationImageService extends IService<ApplicationImage> {
-    ResponseResult uploadImage();
+    ResponseResult uploadImage(MultipartFile uploadFile, Long userId);
 
-    ResponseResult applyForMerit();
+    ResponseResult applyForMerit(Long imageId, Long userId);
 
-    ResponseResult pendingMerit();
+    ResponseResult pendingMerit(Long imageId, boolean pass, Long judgeId);
 
-    ResponseResult deleteImage();
+    ResponseResult deleteImage(Long imageId, Long userId);
+
+    ResponseResult getTeamImages(Long userId);
+
+    ResponseResult getPublicImages();
+
+    ResponseResult download(String fileName);
 }
