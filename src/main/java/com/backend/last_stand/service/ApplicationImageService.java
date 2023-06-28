@@ -3,9 +3,11 @@ package com.backend.last_stand.service;
 import com.backend.last_stand.entity.ApplicationImage;
 import com.backend.last_stand.entity.ResponseResult;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.math.BigInteger;
 
 /**
@@ -30,5 +32,5 @@ public interface ApplicationImageService extends IService<ApplicationImage> {
 
     ResponseResult getPublicImages();
 
-    ResponseResult download(String fileName);
+    ResponseEntity<Object> download(String fileName) throws FileNotFoundException;
 }

@@ -1,9 +1,12 @@
 package com.backend.last_stand.service.impl;
 
 import com.backend.last_stand.config.FileConfig;
+import com.backend.last_stand.entity.ApplicationImage;
 import com.backend.last_stand.entity.ApplicationTeam;
 import com.backend.last_stand.mapper.ApplicationTeamMapper;
 import com.backend.last_stand.service.FileService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +108,24 @@ public class FileServiceImpl
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType("application/txt"))
                 .body(resource);
+    }
+
+    @Override
+    public String alterFile(@NotNull MultipartFile file,
+                             String prefix, Long userId, String oldFileName){
+        if(!removeFile(oldFileName, prefix)){
+            return FILE_EMPTY;
+        }
+        return saveFile(file, prefix, userId);
+    }
+
+    @Override
+    public boolean removeFile(String fileName, String prefix) {
+
+        String pathAndName = rootPath + "/" + prefix + "/" + fileName;
+
+        File file = new File(pathAndName);
+
+        return file.delete();
     }
 }
