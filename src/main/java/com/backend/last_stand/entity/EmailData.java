@@ -3,6 +3,7 @@ package com.backend.last_stand.entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,11 +12,12 @@ import java.util.List;
 /**
  * 邮件信息
  * @author chenhong
- * @date 2023/5/22 19:01
+ * &#064;date  2023/5/22 19:01
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class EmailData {
 
     /**

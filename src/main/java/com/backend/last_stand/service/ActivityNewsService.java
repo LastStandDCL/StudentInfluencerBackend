@@ -1,6 +1,5 @@
 package com.backend.last_stand.service;
 
-import com.backend.last_stand.entity.Activity;
 import com.backend.last_stand.entity.ActivityNews;
 import com.backend.last_stand.entity.ResponseResult;
 import com.baomidou.mybatisplus.extension.service.IService;

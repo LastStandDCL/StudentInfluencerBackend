@@ -1,77 +1,61 @@
 package com.backend.last_stand.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+
+import lombok.*;
+import lombok.experimental.Accessors;
 
 /**
- * @author chenhong
- * @version 1.0
- * @description 活动表和阶段表是一对多，一个活动中可能涉及多个阶段
- * @date 2023/6/18 10:34
+ * <p>
+ *
+ * </p>
+ *
+ * @author bowen
+ * @since 2023-06-28
  */
-@TableName(value ="sys_activity")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Accessors(chain = true)
+@TableName("sys_activity")
 public class Activity implements Serializable {
-    private static final long serialVersionUID = -40311238742234512L;
 
-    @TableId
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private String activityName;
 
-    private String description;
-
     private String year;
 
-    /**
-     * 活动开始日期
-     */
-    private Date begin;
+    private LocalDate begin;
 
-    /**
-     * 活动报名截止日期
-     */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date signupdue;
+    private LocalDate signupDue;
 
-    /**
-     * 材料申领截止日期
-     */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date materialdue;
+    private LocalDate materialDue;
 
+    private LocalDate summaryDue;
 
-    /**
-     * 宣讲活动截止日期
-     */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date speechdue;
+    private Integer currentComplete;
 
-    /**
-     * 目前活动进展阶段
-     */
-    private Integer currentStage;
+    private String signUpDescription;
 
-    /**
-     * 目前阶段完成人数
-     */
-    private String currentComplete;
+    private String materialDescription;
 
-    /**
-     * 当前阶段的任务教程链接
-     */
-    private String currentTutorial;
+    private LocalDate speechDue;
 
+    private String speechDescription;
+
+    private String summaryDescription;
+
+    private String endDescription;
 }

@@ -18,8 +18,8 @@ import java.util.Objects;
 /**
  * @author chenhong
  * @version 1.0
- * @description UserDetailsService的实现类
- * @date 2023/5/25 13:50
+ * &#064;description UserDetailsService的实现类
+ * &#064;date 2023/5/25 13:50
  */
 
 @Service

@@ -20,8 +20,8 @@ import java.io.IOException;
  *
  * @author chenhong
  * @version 1.0
- * @description justoauth集成第三方gitee登录
- * @date 2023 /6/13 19:41
+ * &#064;description justoauth集成第三方gitee登录
+ * &#064;date 2023 /6/13 19:41
  */
 @RestController
 @RequestMapping("/oauth")

@@ -6,20 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/5/31 12:34
+ * &#064;description  TODO  &#064;date  2023/5/31 12:34
  */
 @TableName(value ="sys_school")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class School  implements Serializable {
+    @Serial
     private static final long serialVersionUID = -40356782823868312L;
     /**
      * 主键

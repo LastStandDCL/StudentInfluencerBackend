@@ -9,9 +9,9 @@ package com.backend.last_stand.service;
 
 /**
  * @ClassName MenuService
- * @Description 权限菜单
+ * &#064;description 权限菜单
  * @Author chenhong
- * @Date 2023/5/26 23:14
+ * &#064;date 2023/5/26 23:14
  * @Version 1.0
  */
  @Service

@@ -1,15 +1,17 @@
 package com.backend.last_stand.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/6/21 13:35
+ * &#064;description  TODO
+ * &#064;date  2023/6/21 13:35
  */
 public class PersonalReport implements Serializable {
+    @Serial
     private static final long serialVersionUID = -54979045413736L;
 
     private Long id;

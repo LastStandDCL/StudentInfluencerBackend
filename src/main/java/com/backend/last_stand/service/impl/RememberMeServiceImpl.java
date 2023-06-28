@@ -8,8 +8,8 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 /**
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023/5/31 14:02
+ * &#064;description TODO
+ * &#064;date 2023/5/31 14:02
  */
 public class RememberMeServiceImpl extends PersistentTokenBasedRememberMeServices {
     public RememberMeServiceImpl(String key, UserDetailsService userDetailsService, PersistentTokenRepository tokenRepository) {

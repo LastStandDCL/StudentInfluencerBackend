@@ -7,9 +7,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -17,15 +19,17 @@ import java.util.List;
 /**
  * @author chenhong
  * @version 1.0
- * @description 权限菜单，某个角色可以干什么
- * @date 2023/5/25 18:06
+ * &#064;description  权限菜单，某个角色可以干什么
+ * &#064;date  2023/5/25 18:06
  */
 @TableName(value="sys_menu")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Menu implements Serializable {
+    @Serial
     private static final long serialVersionUID = -54979041104113736L;
 
     @TableId

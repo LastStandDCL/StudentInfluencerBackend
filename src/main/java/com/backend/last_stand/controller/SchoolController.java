@@ -12,17 +12,20 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author chenhong
  * @version 1.0
- * @description TODO
- * @date 2023 /6/19 10:00
+ * &#064;description TODO
+ * &#064;date 2023 /6/19 10:00
  */
 @Slf4j
 @RestController
 @RequestMapping("/school")
 public class SchoolController {
 
-    @Autowired
-    private SchoolService schoolService;
+    private final SchoolService schoolService;
 
+    @Autowired
+    public SchoolController(SchoolService schoolService) {
+        this.schoolService = schoolService;
+    }
     /**
      * 直接传入名称即获取学校的信息  如   七台河市第一中学     不需要加引号，不需要以JSON格式给出，直接Body中写学校名称
      * 模糊查询

@@ -1,6 +1,7 @@
 package com.backend.last_stand.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,12 +15,13 @@ import java.util.stream.Collectors;
 /**
  * @author chenhong
  * @version 1.0
- * @description 拓展UserDetails类，自定义登录实现类，获取用户的权限使用
- * @date 2023/5/25 13:51
+ * &#064;description  拓展UserDetails类，自定义登录实现类，获取用户的权限使用
+ * &#064;date  2023/5/25 13:51
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class EnhancedUser implements UserDetails {
 
         private User user;

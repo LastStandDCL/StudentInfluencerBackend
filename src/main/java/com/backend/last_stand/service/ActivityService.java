@@ -5,15 +5,15 @@ import com.backend.last_stand.entity.ResponseResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-
 @Service
 public interface ActivityService extends IService<Activity> {
     ResponseResult getActivityByYear(String year);
 
-    ResponseResult createActivity(Activity activity);
+    ResponseResult createActivity();
 
-    ResponseResult nextStage(HashMap<String, String> mp);
+    ResponseResult updateActivity(Activity Activity);
 
-    ResponseResult getStageByAId(HashMap<String, String> mp);
+    ResponseResult updateDescription(String year, int stage, String description);
+
+    ResponseResult getAllYears();
 }

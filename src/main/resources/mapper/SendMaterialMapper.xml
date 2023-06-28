@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.backend.last_stand.mapper.SendMaterialMapper">
+
+
+    <update id="declare" parameterType="java.lang.Long">
+        update sys_sendmaterial
+        set remain = remain - 1
+        where id = #{mid}
+    </update>
+
+    <select id="getRemainInteger" resultType="java.lang.Integer" parameterType="java.lang.Long">
+        select remain from sys_sendmaterial
+        where id = #{mid}
+    </select>
+
+
+</mapper>
