@@ -71,4 +71,9 @@ public class News implements Serializable {
      */
     private Integer delFlag;
 
+    /**
+     * 新闻标题
+     */
+    private String newsTitle;
+
 }
