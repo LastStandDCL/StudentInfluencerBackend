@@ -22,4 +22,19 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
     public ResponseResult uploadImage() {
         return null;
     }
+
+    @Override
+    public ResponseResult applyForMerit() {
+        return null;
+    }
+
+    @Override
+    public ResponseResult pendingMerit() {
+        return null;
+    }
+
+    @Override
+    public ResponseResult deleteImage() {
+        return null;
+    }
 }

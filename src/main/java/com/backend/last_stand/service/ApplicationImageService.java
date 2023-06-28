@@ -17,5 +17,9 @@ import org.springframework.stereotype.Service;
 public interface ApplicationImageService extends IService<ApplicationImage> {
     ResponseResult uploadImage();
 
-    //ResponseResult applyFor
+    ResponseResult applyForMerit();
+
+    ResponseResult pendingMerit();
+
+    ResponseResult deleteImage();
 }
