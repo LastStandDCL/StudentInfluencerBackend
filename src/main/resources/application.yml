@@ -3,6 +3,8 @@ server:
 file_address: laststand/files/
 virtualUploadPath: /getFiles
 
+storage:
+  rootPath: /home/v5/Services/v5zone/app/data
 
 spring:
   servlet:

@@ -156,7 +156,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         List<Team> teamByYear = teamMapper.getTeamByYear(year1);
 
         //设置返回信息
-        HashMap<String, String> hashMap = new HashMap<>();
+        HashMap<String, Object> hashMap = new HashMap<>();
         Integer total = teamByYear.size();
         hashMap.put("total", total.toString());
         //存储数组结果
@@ -190,7 +190,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
             array.add(hashMap1);
         }
 
-        hashMap.put("info", array.toString());
+        hashMap.put("info", array);
 
         ResponseResult result = new ResponseResult();
         result.setCode(200);
