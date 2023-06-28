@@ -30,15 +30,15 @@ public class FileServiceImpl
     private static final String FILE_EXIST = null;
     private static final String INSERTION_ERROR = null;
 
-    private final String filePath;
+    private final String rootPath;
 
     @Autowired
     public FileServiceImpl(@NotNull FileConfig fileConfig){
-        filePath = fileConfig.getRootPath();
+        rootPath = fileConfig.getRootPath();
     }
 
     @Override
-    public String saveFile(@NotNull MultipartFile file, String prefix) {
+    public String saveFile(@NotNull MultipartFile file, String prefix, Long userId) {
         // 检查请求中是否有文件
         if (file.isEmpty()) {
             return FILE_EMPTY;
@@ -50,8 +50,8 @@ public class FileServiceImpl
         String suffix = Objects.requireNonNull(file
                 .getOriginalFilename()).split("\\.")[1];
         String time = sdf.format(new Date());
-        String link = "/" + prefix + "/" + time + "." + suffix;
-        String pathAndName = filePath + link;
+        String fileName = userId + time + "." + suffix;
+        String pathAndName = rootPath + "/" + prefix + "/" + fileName;
 
         // 检查文件是否存在，目录是否创建
         File dest = new File(pathAndName);
@@ -70,7 +70,7 @@ public class FileServiceImpl
                 return INSERTION_ERROR;
             }
             file.transferTo(dest);
-            return pathAndName;
+            return fileName;
         } catch (IOException e) {
             e.printStackTrace();
             return INSERTION_ERROR;
@@ -78,13 +78,14 @@ public class FileServiceImpl
     }
 
     @Override
-    public String saveFile(MultipartFile file) {
-        return saveFile(file, "files");
+    public String saveFile(MultipartFile file, Long userId) {
+        return saveFile(file, "files", userId);
     }
 
     @Override
-    public ResponseEntity<Object> sendFile(String filePath) throws FileNotFoundException {
-        File file = new File(filePath, filePath);
+    public ResponseEntity<Object> sendFile(String fileName, String prefix) throws FileNotFoundException {
+        String filePath = rootPath + "/" + prefix;
+        File file = new File(filePath, fileName);
         if (!file.isFile()) {
             return  ResponseEntity.ok(null);
         }
