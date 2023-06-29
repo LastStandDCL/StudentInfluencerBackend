@@ -14,4 +14,8 @@ public interface SchoolService extends IService<School> {
     ResponseResult getSchoolByProvince(String province);
 
     ResponseResult addSchool(School school);
+
+    ResponseResult pending(School school);
+
+    ResponseResult getPendingList();
 }
