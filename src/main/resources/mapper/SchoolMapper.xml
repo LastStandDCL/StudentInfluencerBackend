@@ -20,4 +20,17 @@
         where is_check = true
         and province = #{province}
     </select>
+
+    <!-- 根据school_id更新is_check -->
+    <update id="updateIsCheck" parameterType="map">
+        update sys_school
+        set ischeck = #{isCheck}
+        where school_id = #{schoolId}
+    </update>
+
+    <select id="selectPendingList" resultType="com.backend.last_stand.entity.School">
+        SELECT * FROM sys_school WHERE is_check = 2
+    </select>
+
+
 </mapper>

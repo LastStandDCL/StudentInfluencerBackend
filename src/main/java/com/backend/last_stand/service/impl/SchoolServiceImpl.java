@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author chenhong
@@ -24,7 +26,6 @@ public class SchoolServiceImpl  extends ServiceImpl<SchoolMapper, School> implem
 
     private static final int REJECTED = 0;
     private static final int PASSED = 1;
-
     private static final int PENDING = 2;
     @Override
     public ResponseResult getSchoolByName(String schoolName) {
@@ -76,13 +77,18 @@ public class SchoolServiceImpl  extends ServiceImpl<SchoolMapper, School> implem
     }
 
     /**
-     * 修改学校
-     * @param school
+     * 修改正在审核中的学校的状态
+     * @param schoolId
+     * @param pass
      * @return
      */
     @Override
-    public ResponseResult pending(School school) {
-        return null;
+    public ResponseResult pending(Long schoolId, boolean pass) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("schoolId", schoolId);
+        parameters.put("isCheck", pass);
+        baseMapper.updateIsCheck(schoolId, pass);
+        return new ResponseResult(200,"修改状态成功");
     }
 
     /**
@@ -91,6 +97,8 @@ public class SchoolServiceImpl  extends ServiceImpl<SchoolMapper, School> implem
      */
     @Override
     public ResponseResult getPendingList() {
-        return null;
+        List<School> pendingList = baseMapper.selectPendingList();
+        return new ResponseResult(200, "获取正在审核中的学校列表成功", pendingList);
     }
+
 }

@@ -1,6 +1,7 @@
 package com.backend.last_stand.mapper;
 
 import com.alibaba.fastjson.JSON;
+import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.School;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -11,12 +12,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import com.backend.last_stand.service.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author chenhong
@@ -95,4 +96,5 @@ public class SchoolTest {
             }
         }
     }
+
 }

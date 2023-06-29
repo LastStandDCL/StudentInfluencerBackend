@@ -56,4 +56,29 @@ public class SchoolController {
         return schoolService.addSchool(school);
     }
 
+    /**
+     * 修改学校审核状态
+     *
+     * @param schoolId the school id
+     * @param pass     the pass
+     * @return the response result
+     */
+    @PostMapping("/pending")
+    public ResponseResult pending(@RequestParam Long schoolId, @RequestParam boolean pass) {
+        log.info("/school/pending");
+        return schoolService.pending(schoolId, pass);
+    }
+
+    /**
+     * 获取正在审核中的学校列表
+     *
+     * @return the response result
+     */
+    @GetMapping("/getPendingList")
+    public ResponseResult getPendingList() {
+        log.info("/school/getPendingList");
+        return schoolService.getPendingList();
+    }
+
+
 }

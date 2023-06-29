@@ -15,7 +15,7 @@ public interface SchoolService extends IService<School> {
 
     ResponseResult addSchool(School school);
 
-    ResponseResult pending(School school);
+    ResponseResult pending(Long schoolId, boolean pass);
 
     ResponseResult getPendingList();
 }
