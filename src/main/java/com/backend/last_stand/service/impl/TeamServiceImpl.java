@@ -24,6 +24,10 @@ import java.util.*;
 @Service
 public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements TeamService {
 
+    private static final Integer ROLE_CAPTAIN = 1;
+
+    private static final Integer ROLR_MEMBER = 0;
+
     private final TeamMapper teamMapper;
 
     private final SchoolMapper schoolMapper;
@@ -114,15 +118,18 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         int total = teamBySchoolName.size();
         hashMap.put("total", Integer.toString(total));
 
-        List<HashMap<String, String>> list = new ArrayList<>();
+        List<HashMap<String, Object>> list = new ArrayList<>();
         for (Team team : teamBySchoolName) {
-            HashMap<String,String> mp = new HashMap<>();
+            HashMap<String,Object> mp = new HashMap<>();
             School school = teamMapper.getSchool(team.getId());
 
-            mp.put("year", team.getYear());
-            mp.put("province", school.getProvince());
-            mp.put("teamName", team.getTeamName());
-            mp.put("schoolName", school.getSchoolName());
+            mp.put("teamId", team.getId());//队伍ID
+            mp.put("year", team.getYear());//队伍年份
+            mp.put("province", school.getProvince());//队伍省份
+            mp.put("teamName", team.getTeamName());//队伍名称
+            mp.put("schoolName", school.getSchoolName());//队伍的学校名称
+            mp.put("captainId", teamMapper.getTeamCaptainIdByTeamId(team.getId()));//队长ID
+
 
             //队伍成员
             List<User> teamMembers = teamMapper.getTeamMembers(team.getId());
@@ -130,8 +137,9 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
 
             for (User user : teamMembers) {
                 HashMap<String, String> hashMap1 = new HashMap<>();
-                hashMap1.put("name", user.getName());
-                hashMap1.put("avatar", user.getAvatar());
+                hashMap1.put("name", user.getName());//成员名
+                hashMap1.put("avatar", user.getAvatar());//成员头像
+                hashMap1.put("role", getUserTeamRole(user.getId(), team.getId()));//成员的队伍内角色
                 list1.add(hashMap1);
             }
             mp.put("members", list1.toString());
@@ -144,6 +152,21 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         result.setMsg("根据学校返回队伍名称成功");
         result.setData(hashMap);
         return result;
+    }
+
+    /**
+     * 私有方法用于获取队内用户角色
+     * @param userId
+     * @param teamId
+     * @return
+     */
+    private String getUserTeamRole(Long userId, Long teamId) {
+        Integer role = teamMapper.getUserTeamRole(userId, teamId);
+        if(role == ROLE_CAPTAIN){
+            return "captain";
+        }else {
+            return "member";
+        }
     }
 
     @Override
@@ -162,10 +185,12 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         int total = teamByYear.size();
         hashMap.put("total", Integer.toString(total));
         //存储数组结果
-        List<HashMap<String, String>> array = new ArrayList<>();
+        List<HashMap<String, Object>> array = new ArrayList<>();
         for (Team team : teamByYear) {
-            HashMap<String, String> hashMap1 = new HashMap<>();
+            HashMap<String, Object> hashMap1 = new HashMap<>();
             hashMap1.put("teamName", team.getTeamName());
+            hashMap1.put("teamId", team.getId());//队伍ID
+            hashMap1.put("captainId", teamMapper.getTeamCaptainIdByTeamId(team.getId()));//队长ID
 
             Long schoolId = team.getSchoolId();
             //学校信息，省份，年份
@@ -186,6 +211,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
                 HashMap<String, String> student = new HashMap<>();
                 student.put("name", name);
                 student.put("avatar", url);
+                student.put("role", getUserTeamRole(user.getId(), team.getId()));//成员的队伍内角色
                 studentinfos.add(student);
             }
             hashMap1.put("members", studentinfos.toString());
@@ -262,14 +288,16 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         List<Team> teamByYearAndSchoolName = teamMapper.getTeamByYearAndSchoolName(year, newName.toString());
 
         //设置返回信息
-        HashMap<String, String> hashMap = new HashMap<>();
+        HashMap<String, Object> hashMap = new HashMap<>();
         int total = teamByYearAndSchoolName.size();
         hashMap.put("total", Integer.toString(total));
         //存储数组结果
-        List<HashMap<String, String>> array = new ArrayList<>();
+        List<HashMap<String, Object>> array = new ArrayList<>();
         for (Team newTeam : teamByYearAndSchoolName) {
-            HashMap<String, String> hashMap1 = new HashMap<>();
+            HashMap<String, Object> hashMap1 = new HashMap<>();
             hashMap1.put("teamName", newTeam.getTeamName());
+            hashMap1.put("teamId", newTeam.getId());//队伍ID
+            hashMap1.put("captainId", teamMapper.getTeamCaptainIdByTeamId(newTeam.getId()));//队长ID
 
             Long schoolId = newTeam.getSchoolId();
             //学校信息，省份，年份
@@ -281,15 +309,16 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
             //成员信息
             List<User> teamMembers = teamMapper.getTeamMembers(newTeam.getId());
             //存储学生信息的数组
-            List<HashMap<String, String>> studentinfos = new ArrayList<>();
+            List<HashMap<String, Object>> studentinfos = new ArrayList<>();
             for (User user : teamMembers) {
                 //用户姓名
                 String name = user.getName();
                 //用户头像url
                 String url = user.getAvatar();
-                HashMap<String, String> student = new HashMap<>();
+                HashMap<String, Object> student = new HashMap<>();
                 student.put("name", name);
                 student.put("avatar", url);
+                student.put("role", getUserTeamRole(user.getId(), newTeam.getId()));//成员的队伍内角色
                 studentinfos.add(student);
             }
             hashMap1.put("members", studentinfos.toString());

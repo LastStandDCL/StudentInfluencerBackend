@@ -58,4 +58,6 @@ public interface UserMapper extends BaseMapper<User> {
     List<CountUserByYear> getProvinceCountByYear(String year);
 
     Integer countActiveUser(@Param("begin") String begin, @Param("end") String end);
+
+    void exitTeam(Long userId, Long teamId);
 }

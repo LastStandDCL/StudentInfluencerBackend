@@ -68,4 +68,22 @@
         ) AND `year` = #{year}
     </select>
 
+    <select id="getTeamByYearAndUserId" resultType="com.backend.last_stand.entity.Team">
+        SELECT * FROM sys_team
+        WHERE id IN (
+            SELECT team_id FROM sys_ts
+            WHERE user_id = #{userId}
+        ) AND `year` = #{year}
+    </select>
+
+    <select id="getTeamCaptainIdByTeamId" resultType="Long">
+        select user_id from sys_ts
+        where team_id = #{teamId} and role = 1;
+    </select>
+
+    <select id="getUserTeamRole" resultType="Integer">
+        select role from sys_ts
+        where user_id = #{userId} and team_id = #{teamId}
+    </select>
+
 </mapper>
