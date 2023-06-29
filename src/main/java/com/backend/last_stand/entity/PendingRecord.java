@@ -3,6 +3,8 @@ package com.backend.last_stand.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -25,7 +27,7 @@ public class PendingRecord implements Serializable {
 
     private Long pendingId;
 
-    private Long pendingType;
+    private int pendingType;
 
     private Long applicantId;
 
@@ -33,9 +35,9 @@ public class PendingRecord implements Serializable {
 
     private Long teamId;
 
-    private Integer year;
+    private String year;
 
-    private LocalDateTime recordTime;
+    private Date recordTime;
 
     private String message;
 }
