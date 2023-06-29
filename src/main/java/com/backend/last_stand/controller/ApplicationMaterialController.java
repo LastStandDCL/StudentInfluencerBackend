@@ -2,7 +2,7 @@ package com.backend.last_stand.controller;
 
 import com.backend.last_stand.entity.EnhancedUser;
 import com.backend.last_stand.entity.ResponseResult;
-import com.backend.last_stand.service.ApplicationImageService;
+import com.backend.last_stand.service.ApplicationMaterialService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,23 +11,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 
-
 /**
  * <p>
  *  前端控制器
  * </p>
  *
  * @author bowen
- * @since 2023-06-28
+ * @since 2023-06-29
  */
 @RestController
-@RequestMapping("/application-image")
-public class ApplicationImageController {
+@RequestMapping("/application-material")
+public class ApplicationMaterialController {
+    private final ApplicationMaterialService applicationMaterialService;
 
-    private final ApplicationImageService applicationImageService;
-
-    public ApplicationImageController(ApplicationImageService applicationImageService) {
-        this.applicationImageService = applicationImageService;
+    public ApplicationMaterialController(ApplicationMaterialService applicationMaterialService) {
+        this.applicationMaterialService = applicationMaterialService;
     }
     @PostMapping("/upload")
     ResponseResult uploadImage(@RequestParam("file") MultipartFile file){
@@ -36,62 +34,47 @@ public class ApplicationImageController {
         //从authentication中取出用户信息
         EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
         Long userId = enhancedUser.getUser().getId();
-        return applicationImageService.uploadImage(file, userId);
-    }
-
-    @PostMapping("/apply")
-    ResponseResult applyForMerit(@RequestBody Long imageId) {
-        //获取authentication对象
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //从authentication中取出用户信息
-        EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
-        Long userId = enhancedUser.getUser().getId();
-        return applicationImageService.applyForMerit(imageId, userId);
+        return applicationMaterialService.uploadMaterial(file, userId);
     }
 
     @PostMapping("/pending")
-    ResponseResult pendingMerit(@RequestBody Long imageId, boolean pass) {
+    ResponseResult pending(@RequestBody Long materialId, boolean pass) {
         //获取authentication对象
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //从authentication中取出用户信息
         EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
         Long userId = enhancedUser.getUser().getId();
-        return applicationImageService.pendingMerit(imageId, pass, userId);
+        return applicationMaterialService.pending(materialId, pass, userId);
     }
 
-    @GetMapping("/rm-image")
-    ResponseResult deleteImage(Long imageId) {
+    @GetMapping("/rm-material")
+    ResponseResult deleteImage(Long materialId) {
         //获取authentication对象
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //从authentication中取出用户信息
         EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
         Long userId = enhancedUser.getUser().getId();
-        return applicationImageService.deleteImage(imageId, userId);
+        return applicationMaterialService.deleteMaterial(materialId, userId);
     }
 
-    @GetMapping("/team-images")
-    ResponseResult getTeamImages() {
+    @GetMapping("/get-team-material")
+    ResponseResult getTeamMaterial() {
         //获取authentication对象
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //从authentication中取出用户信息
         EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
         Long userId = enhancedUser.getUser().getId();
-        return applicationImageService.getTeamImages(userId);
+        return applicationMaterialService.getTeamMaterial(userId);
     }
 
-    @GetMapping("/public-images")
-    ResponseResult getPublicImages(){
-        return applicationImageService.getPublicImages();
-    }
-
-    @GetMapping("/pending-images")
-    ResponseResult getPendingImages(){
-        return applicationImageService.getPendingImages();
+    @GetMapping("/get-pending-material")
+    ResponseResult getPendingMaterial() {
+        return applicationMaterialService.getPendingMaterial();
     }
 
 
     @GetMapping("/download")
     ResponseEntity<Object> download(String fileName) throws FileNotFoundException {
-        return applicationImageService.download(fileName);
+        return applicationMaterialService.download(fileName);
     }
 }

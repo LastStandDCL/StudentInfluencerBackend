@@ -57,6 +57,8 @@ public interface UserService extends IService<User> {
 
     ResponseResult getUserTeam(User user);
 
+    Team getMostRecentUserTeam(Long userId);
+
     ResponseResult addTeam(String info);
 
     ResponseResult updatePassword(User user);
@@ -69,5 +71,7 @@ public interface UserService extends IService<User> {
     ResponseResult countActiveUser(String year);
 
     ResponseResult getUserCountGroupByProvinceByYear(String year);
+
+    ResponseResult exitTeam(String year);
 }
 
