@@ -37,17 +37,17 @@ public class MybatisGenerator {
                 //包配置
                 .packageConfig(builder -> {
                     builder.parent("com.backend.last_stand") // 设置父包名
-                            //.controller("controller") //生成controller层
+                            .controller("controller") //生成controller层
                             .entity("entity") //生成实体层
-                            //.service("service") //生成服务层
-                            //.mapper("mapper") //生成mapper层
+                            .service("service") //生成服务层
+                            .mapper("mapper") //生成mapper层
                             ;
                     // .moduleName("mybatisplus");
                 })
                 //软件配置
                 .strategyConfig(builder -> {
                     builder
-                            .addInclude("sys_activity")
+                            .addInclude("sys_pending_record", "sys_application_material")
                             .addTablePrefix("sys_")// 设置过滤表前缀
                             .serviceBuilder() //开启service软件配置
                             .formatServiceFileName("%sService") //取消Service前的I
