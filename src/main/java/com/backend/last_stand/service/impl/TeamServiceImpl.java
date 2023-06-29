@@ -267,6 +267,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
             list.add(hashMap);
         }
 
+
         return new ResponseResult(200, "返回参与队伍数量统计成功", list);
     }
 
@@ -327,6 +328,7 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
 
         hashMap.put("info", array.toString());
 
+        System.out.println(hashMap.size());
 
         return new ResponseResult(200,"根据年份和学校名称返回队伍名称成功",hashMap);
     }
