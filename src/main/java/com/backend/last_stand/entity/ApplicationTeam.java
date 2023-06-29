@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -54,7 +56,7 @@ public class ApplicationTeam implements Serializable {
     /**
      * 申请提交时间
      */
-    private LocalDateTime applyDate;
+    private Date applyDate;
 
     /**
      * 审核状态，0为未通过，1为通过，2为审核中
@@ -64,7 +66,7 @@ public class ApplicationTeam implements Serializable {
     /**
      * 上传材料链接
      */
-    private Integer materialUrl;
+    private String materialUrl;
 
     /**
      * 申请的年份
