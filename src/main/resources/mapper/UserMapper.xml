@@ -6,6 +6,11 @@
         VALUES (#{userId}, #{teamId})
     </insert>
 
+    <delete id="exitTeam">
+        delete from sys_ts
+        where user_id = #{userId} and team_id = #{teamId}
+    </delete>
+
 
     <update id="updateRole">
         UPDATE sys_user_role

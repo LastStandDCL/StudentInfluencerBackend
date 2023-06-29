@@ -232,6 +232,16 @@ public class UserController {
         return userService.addTeam(info);
     }
 
+    /**
+     * 用户根据年份退出队伍
+     * @param year
+     * @return
+     */
+    @PostMapping("/exitTeam")
+    public ResponseResult exitTeam(@RequestBody String year){
+        return userService.exitTeam(year);
+    }
+
     @PostMapping("/activitycount")
     public ResponseResult activitycount(@RequestBody String year) {
         return userService.activitycount(year);

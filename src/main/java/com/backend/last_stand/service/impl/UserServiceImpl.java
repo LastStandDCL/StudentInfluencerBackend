@@ -403,7 +403,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return new ResponseResult(200,"返回各省份人数成功",data);
     }
 
-     @Override
+    /**
+     * 用户根据年份退出队伍
+     * @param year
+     * @return
+     */
+    @Override
+    public ResponseResult exitTeam(String year) {
+
+        //获取authentication对象
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //从authentication中取出用户信息
+        EnhancedUser enhancedUser = (EnhancedUser) authentication.getPrincipal();
+        Long userId = enhancedUser.getUser().getId();
+
+        List<Team> teams = teamMapper.getTeamByYearAndUserId(year, userId);
+
+        if(teams == null){
+            throw new RuntimeException("用户该年份尚未加入任何队伍");
+        }
+        Team team = teams.get(0);
+
+        userMapper.exitTeam(userId, team.getId());
+
+        return new ResponseResult(200, "退出队伍成功");
+    }
+
+    @Override
     public ResponseResult countActiveUser(String year) {
          JSONObject jsonObject = JSON.parseObject(year);
          String year1 = jsonObject.get("year").toString();
