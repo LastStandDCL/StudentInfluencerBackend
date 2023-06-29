@@ -17,5 +17,5 @@ public interface SchoolMapper extends BaseMapper<School> {
 
     List<School> selectByProvince(String province);
 
-    int insertSchool(String schoolName, String province, boolean isCheck);
+    int insertSchool(String schoolName, String province, int isCheck);
 }
