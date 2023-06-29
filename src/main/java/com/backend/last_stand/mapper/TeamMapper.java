@@ -31,4 +31,10 @@ public interface TeamMapper extends BaseMapper<Team> {
     List<Team> getTeamByYearAndProvince(String years, String provinceName);
 
     List<Team> getTeamByYearAndSchoolName(String year, String schoolName);
+
+    List<Team> getTeamByYearAndUserId(String year, Long userId);
+
+    Long getTeamCaptainIdByTeamId(Long teamId);
+
+    Integer getUserTeamRole(Long userId, Long teamId);
 }
