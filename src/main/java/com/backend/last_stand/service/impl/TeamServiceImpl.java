@@ -1,8 +1,6 @@
 package com.backend.last_stand.service.impl;
 
-import cn.hutool.core.lang.hash.Hash;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.School;
@@ -12,7 +10,6 @@ import com.backend.last_stand.mapper.TeamMapper;
 import com.backend.last_stand.entity.User;
 import com.backend.last_stand.service.TeamService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.poi.ss.formula.ptg.AreaErrPtg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +24,16 @@ import java.util.*;
 @Service
 public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements TeamService {
 
-    @Autowired
-    private TeamMapper teamMapper;
+    private final TeamMapper teamMapper;
+
+    private final SchoolMapper schoolMapper;
 
     @Autowired
-    private SchoolMapper schoolMapper;
+    @SuppressWarnings("all")
+    public TeamServiceImpl(TeamMapper teamMapper, SchoolMapper schoolMapper){
+        this.schoolMapper = schoolMapper;
+        this.teamMapper = teamMapper;
+    }
 
     @Override
     public ResponseResult getTeamMembers(Long id) {
@@ -100,17 +102,17 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
     public ResponseResult getTeamBySchoolName(String schoolName) {
         JSONObject jsonObject = JSONObject.parseObject(schoolName);
         String string = jsonObject.get("schoolName").toString();
-        String newname = "%";
+        StringBuilder newname = new StringBuilder("%");
         for (int i = 0; i < string.length(); i++) {
-            newname += string.charAt(i) + "%";
+            newname.append(string.charAt(i)).append("%");
         }
-        List<Team> teamBySchoolName = teamMapper.getTeamBySchoolName(newname);
+        List<Team> teamBySchoolName = teamMapper.getTeamBySchoolName(newname.toString());
         if (teamBySchoolName == null) {
             throw new RuntimeException("返回队伍值为空");
         }
         HashMap<String, String> hashMap = new HashMap<>();
-        Integer total = teamBySchoolName.size();
-        hashMap.put("total", total.toString());
+        int total = teamBySchoolName.size();
+        hashMap.put("total", Integer.toString(total));
 
         List<HashMap<String, String>> list = new ArrayList<>();
         for (Team team : teamBySchoolName) {
@@ -157,8 +159,8 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
 
         //设置返回信息
         HashMap<String, Object> hashMap = new HashMap<>();
-        Integer total = teamByYear.size();
-        hashMap.put("total", total.toString());
+        int total = teamByYear.size();
+        hashMap.put("total", Integer.toString(total));
         //存储数组结果
         List<HashMap<String, String>> array = new ArrayList<>();
         for (Team team : teamByYear) {
@@ -232,9 +234,9 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
             JSONObject jsonObject = JSON.parseObject(province);
             String newpro = jsonObject.get("provinceName").toString();
             List<Team> teamByYear = teamMapper.getTeamByYearAndProvince(years, newpro);
-            Integer total = teamByYear.size();
+            int total = teamByYear.size();
             HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put("total", total.toString());
+            hashMap.put("total", Integer.toString(total));
             hashMap.put("province", newpro);
             list.add(hashMap);
         }
@@ -253,16 +255,16 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
         //获取前端传过来的年份和学校名称
         String year = info.get("year").toString();
         String schoolName = info.get("schoolName").toString();
-        String newName = "%";
+        StringBuilder newName = new StringBuilder("%");
         for (int i = 0; i < schoolName.length(); i++) {
-            newName += schoolName.charAt(i) + "%";
+            newName.append(schoolName.charAt(i)).append("%");
         }
-        List<Team> teamByYearAndSchoolName = teamMapper.getTeamByYearAndSchoolName(year, newName);
+        List<Team> teamByYearAndSchoolName = teamMapper.getTeamByYearAndSchoolName(year, newName.toString());
 
         //设置返回信息
         HashMap<String, String> hashMap = new HashMap<>();
-        Integer total = teamByYearAndSchoolName.size();
-        hashMap.put("total", total.toString());
+        int total = teamByYearAndSchoolName.size();
+        hashMap.put("total", Integer.toString(total));
         //存储数组结果
         List<HashMap<String, String>> array = new ArrayList<>();
         for (Team newTeam : teamByYearAndSchoolName) {

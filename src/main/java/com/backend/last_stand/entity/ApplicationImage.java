@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -19,6 +21,7 @@ import lombok.experimental.Accessors;
  */
 @Getter
 @Setter
+@Builder
 @Accessors(chain = true)
 @TableName("sys_application_image")
 public class ApplicationImage implements Serializable {
@@ -50,4 +53,8 @@ public class ApplicationImage implements Serializable {
      * 申请时间
      */
     private LocalDateTime time;
+    /**
+     * 队伍名
+     */
+    private Long teamId;
 }

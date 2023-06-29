@@ -3,10 +3,13 @@ package com.backend.last_stand.controller;
 import com.backend.last_stand.entity.EnhancedUser;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.service.ApplicationImageService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.FileNotFoundException;
 
 
 /**
@@ -82,7 +85,7 @@ public class ApplicationImageController {
     }
 
     @GetMapping("/download")
-    ResponseResult download(String fileName){
+    ResponseEntity<Object> download(String fileName) throws FileNotFoundException {
         return applicationImageService.download(fileName);
     }
 }
