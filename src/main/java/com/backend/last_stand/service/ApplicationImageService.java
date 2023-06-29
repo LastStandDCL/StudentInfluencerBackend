@@ -32,5 +32,7 @@ public interface ApplicationImageService extends IService<ApplicationImage> {
 
     ResponseResult getPublicImages();
 
+    ResponseResult getPendingImages();
+
     ResponseEntity<Object> download(String fileName) throws FileNotFoundException;
 }

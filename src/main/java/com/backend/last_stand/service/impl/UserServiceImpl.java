@@ -250,6 +250,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public Team getMostRecentUserTeam(Long userId) {
+        List<Team> teams = userMapper.getUserTeam(userId);
+        Team team = teams.get(0);
+        for(int i = 1; i < teams.size(); i++){
+            if(Integer.parseInt(team.getYear()) < Integer.parseInt(teams.get(i).getYear())){
+                team = teams.get(i);
+            }
+        }
+        return team;
+    }
+
+    @Override
     public ResponseResult addTeam(String info) {
         JSONObject jsonObject = JSON.parseObject(info);
         //队伍id

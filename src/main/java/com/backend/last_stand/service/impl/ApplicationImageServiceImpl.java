@@ -4,9 +4,9 @@ import com.backend.last_stand.entity.ApplicationImage;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.Team;
 import com.backend.last_stand.mapper.ApplicationImageMapper;
-import com.backend.last_stand.mapper.UserMapper;
 import com.backend.last_stand.service.ApplicationImageService;
 import com.backend.last_stand.service.FileService;
+import com.backend.last_stand.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -42,13 +42,13 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
 
     private final FileService fileService;
 
-    private final UserMapper userMapper;
+    private final UserService userService;
 
     @Autowired
     @SuppressWarnings("all")
-    public ApplicationImageServiceImpl(FileService fileService, UserMapper userMapper){
+    public ApplicationImageServiceImpl(FileService fileService, UserService userService){
         this.fileService = fileService;
-        this.userMapper = userMapper;
+        this.userService = userService;
     }
 
     @Override
@@ -59,13 +59,7 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
             return new ResponseResult(500, "文件上传失败");
         }
 
-        List<Team> teams = userMapper.getUserTeam(userId);
-        Team team = teams.get(0);
-        for(int i = 1; i < teams.size(); i++){
-            if(Integer.parseInt(team.getYear()) < Integer.parseInt(teams.get(i).getYear())){
-                team = teams.get(i);
-            }
-        }
+        Team team = userService.getMostRecentUserTeam(userId);
 
         var row = ApplicationImage.builder()
                 .applicantId(userId)
@@ -118,7 +112,7 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
 
         //TODO: 添加记录
 
-        return new ResponseResult(400, "审批成功");
+        return new ResponseResult(200, "审批成功");
     }
 
     @Override
@@ -129,19 +123,18 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
         if(!fileService.removeFile(image.getImageLink(), FILE_DIR)){
             return new ResponseResult(404, "图片不存在");
         }
-        return new ResponseResult(404, "图片删除成功");
+
+        //TODO：删除所有跟这条记录相关的审批记录
+
+        baseMapper.delete(wrapper);
+
+        return new ResponseResult(200, "图片删除成功");
     }
 
     @Override
     public ResponseResult getTeamImages(Long userId) {
 
-        List<Team> teams = userMapper.getUserTeam(userId);
-        Team team = teams.get(0);
-        for(int i = 1; i < teams.size(); i++){
-            if(Integer.parseInt(team.getYear()) < Integer.parseInt(teams.get(i).getYear())){
-                team = teams.get(i);
-            }
-        }
+        Team team = userService.getMostRecentUserTeam(userId);
 
         QueryWrapper<ApplicationImage> wrapper = new QueryWrapper<>();
         wrapper.eq("team_id", team.getId());
@@ -158,6 +151,16 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
 
         return new ResponseResult(404, "图片获取成功", image);
     }
+
+    @Override
+    public ResponseResult getPendingImages() {
+        QueryWrapper<ApplicationImage> wrapper = new QueryWrapper<>();
+        wrapper.eq("stage", PENDING);
+        List<ApplicationImage> image = baseMapper.selectList(wrapper);
+
+        return new ResponseResult(404, "图片获取成功", image);
+    }
+
 
     @Override
     public ResponseEntity<Object> download(String fileName) throws FileNotFoundException {

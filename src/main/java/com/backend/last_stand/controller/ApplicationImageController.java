@@ -84,6 +84,12 @@ public class ApplicationImageController {
         return applicationImageService.getPublicImages();
     }
 
+    @GetMapping("/pending-images")
+    ResponseResult getPendingImages(){
+        return applicationImageService.getPendingImages();
+    }
+
+
     @GetMapping("/download")
     ResponseEntity<Object> download(String fileName) throws FileNotFoundException {
         return applicationImageService.download(fileName);
