@@ -46,7 +46,7 @@ public class School  implements Serializable {
     /**
      * 学校审核
      */
-    private boolean isCheck;
+    private int isCheck;
 
     private Long applicantId;
 

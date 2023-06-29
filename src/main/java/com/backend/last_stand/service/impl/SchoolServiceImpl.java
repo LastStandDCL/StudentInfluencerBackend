@@ -22,6 +22,10 @@ import java.util.List;
 @Service
 public class SchoolServiceImpl  extends ServiceImpl<SchoolMapper, School> implements SchoolService {
 
+    private static final int REJECTED = 0;
+    private static final int PASSED = 1;
+
+    private static final int PENDING = 2;
     @Override
     public ResponseResult getSchoolByName(String schoolName) {
         JSONObject jsonObject = JSON.parseObject(schoolName);
@@ -62,8 +66,8 @@ public class SchoolServiceImpl  extends ServiceImpl<SchoolMapper, School> implem
         //设置学校创建日期
         school.setCreateTime(LocalDateTime.now());
         //还没有审核，审核后才可以看见
-        school.setCheck(false);
-        int insert = baseMapper.insertSchool(school.getSchoolName(), school.getProvince(), school.isCheck());
+        school.setIsCheck(PENDING);
+        int insert = baseMapper.insertSchool(school.getSchoolName(), school.getProvince(), school.getIsCheck());
         if (insert != 1) {
             return new ResponseResult(208, "添加学校失败,该学校已存在", school);
         }
@@ -71,11 +75,20 @@ public class SchoolServiceImpl  extends ServiceImpl<SchoolMapper, School> implem
         return new ResponseResult(200, "添加学校成功", school);
     }
 
+    /**
+     * 修改学校
+     * @param school
+     * @return
+     */
     @Override
     public ResponseResult pending(School school) {
         return null;
     }
 
+    /**
+     * 获得正在审核中的学校列表
+     * @return
+     */
     @Override
     public ResponseResult getPendingList() {
         return null;
