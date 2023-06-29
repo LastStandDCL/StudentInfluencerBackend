@@ -10,12 +10,14 @@
     <select id="selectBySchoolName" resultType="com.backend.last_stand.entity.School"
             parameterType="java.lang.String">
         select * from sys_school
-        where school_name like #{schoolName}
+        where is_check = true
+        and school_name like #{schoolName}
     </select>
 
     <select id="selectByProvince" resultType="com.backend.last_stand.entity.School"
             parameterType="java.lang.String">
         select * from sys_school
-        where province = #{province}
+        where is_check = true
+        and province = #{province}
     </select>
 </mapper>

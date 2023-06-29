@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -30,18 +31,26 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
         String url = mp.get("url");
         String img = mp.get("img");
         String user = mp.get("userId");
-        Long userId = Long.valueOf(user);
+        String newsTitle = mp.get("newsTitle");
+        int    isShow = Integer.parseInt(mp.get("isShow"));
+        Long   userId = Long.valueOf(user);
 
-        News news = new News();
-        news.setUrl(url);
-        news.setImg(img);
-        news.setCreateBy(userId);
-        news.setCreateTime(new Date());
-        //代表插入的数据没有被删除
-        news.setDelFlag(0);
+        LocalDateTime time = LocalDateTime.now();
 
-        int insert1 = baseMapper.insert(news);
-        if (insert1 != 1) {
+        var news = News.builder()
+                .url(url)
+                .isShow(isShow)
+                .newsTitle(newsTitle)
+                .delFlag(0)
+                .createTime(time)
+                .updateTime(time)
+                .createBy(userId)
+                .updateBy(userId)
+                .img(img)
+                .build();
+
+        int insert = baseMapper.insert(news);
+        if (insert != 1) {
             throw new RuntimeException("插入新闻数据异常");
         }
         return new ResponseResult(200, "新增新闻成功", news);
@@ -58,7 +67,7 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
         news.setUrl(url);
         news.setImg(img);
         news.setCreateBy(userId);
-        news.setCreateTime(new Date());
+        news.setCreateTime(LocalDateTime.now());
         news.setDelFlag(0);
         news.setIsShow(Integer.valueOf(priority));
 
@@ -88,7 +97,7 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
 
     @Override
     public ResponseResult updateNews(News news, Long id) {
-        news.setUpdateTime(new Date());
+        news.setUpdateTime(LocalDateTime.now());
         //设置更新新闻的用户id
         news.setUpdateBy(id);
         int i = baseMapper.updateById(news);
