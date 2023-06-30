@@ -3,6 +3,7 @@ package com.backend.last_stand.service.impl;
 import com.backend.last_stand.entity.*;
 import com.backend.last_stand.mapper.ApplicationTeamMapper;
 import com.backend.last_stand.mapper.TeamMapper;
+import com.backend.last_stand.mapper.UserMapper;
 import com.backend.last_stand.service.ApplicationTeamService;
 import com.backend.last_stand.service.FileService;
 import com.backend.last_stand.service.PendingRecordService;
@@ -16,8 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -34,11 +34,21 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
 
     private static final int TYPE_MIDDLEREPORT = 0;
 
+    private static final int STAGE_FAIL = 0;
+
+    private static final int STAGE_SUCCESS = 1;
+
+    private static final int STAGE_EXAMINING = 2;
+
+
     @Autowired
     private ApplicationTeamMapper applicationTeamMapper;
 
     @Autowired
     private TeamMapper teamMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private FileService fileService;
@@ -150,5 +160,60 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
         pendingRecordService.logMiddleReportApplication(userId, team.getId(), year, time);
 
         return new ResponseResult(200,"团队总结报告提交成功");
+    }
+
+    /**
+     * 审查团队报告
+     * @param info
+     * @return
+     */
+    @Override
+    public ResponseResult examineReport(HashMap<String, Object> info) {
+        Long teamReportId = Long.parseLong(info.get("teamReportId").toString());
+        int stage = Integer.parseInt(info.get("stage").toString());
+        String message = info.get("message").toString();
+
+        ApplicationTeam applicationTeam = applicationTeamMapper.selectById(teamReportId);
+        applicationTeam.setStage(stage);
+        applicationTeamMapper.updateById(applicationTeam);
+
+        pendingRecordService.logReportExamination(applicationTeam, stage, message);
+
+        return new ResponseResult(200, "审核完成");
+
+    }
+
+    /**
+     * 通过年份和审核状态获得团队总结报告申报列表
+     * @param applicationTeam
+     * @return
+     */
+    @Override
+    public ResponseResult getTeamReportByYearAndStage(ApplicationTeam applicationTeam) {
+        String year = applicationTeam.getYear();
+        int stage = applicationTeam.getStage();
+
+        List<ApplicationTeam> applicationTeamList = applicationTeamMapper.getTeamReportByYearAndStage(year, stage);
+
+        List<HashMap<String, Object>> hashMapList = new ArrayList<>();
+        for (ApplicationTeam newApplicationTeam:
+             applicationTeamList) {
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("teamName", teamMapper.selectById(newApplicationTeam.getTeamId()).getTeamName());
+            hashMap.put("updaterName", userMapper.selectById(newApplicationTeam.getUpdaterId()).getName());
+            hashMap.put("updateTime", newApplicationTeam.getApplyDate());
+            hashMap.put("fileURL", newApplicationTeam.getMaterialUrl());
+            hashMap.put("teamReportId", newApplicationTeam.getId());
+            hashMapList.add(hashMap);
+
+        }
+
+        int count = applicationTeamList.size();
+
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("total", count);
+        data.put("info", hashMapList);
+
+        return new ResponseResult(200, "团队总结报告列表返回成功", data);
     }
 }

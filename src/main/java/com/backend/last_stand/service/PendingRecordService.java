@@ -1,5 +1,6 @@
 package com.backend.last_stand.service;
 
+import com.backend.last_stand.entity.ApplicationTeam;
 import com.backend.last_stand.entity.PendingRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -18,4 +19,6 @@ public interface PendingRecordService extends IService<PendingRecord> {
     public boolean logTeamReportApplication(Long applicantId, Long teamId, String year, Date recordTime);
 
     public boolean logMiddleReportApplication(Long applicantId, Long teamId, String year, Date recordTime);
+
+    public boolean logReportExamination(ApplicationTeam applicationTeam, int stage, String message);
 }

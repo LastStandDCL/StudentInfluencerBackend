@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.backend.last_stand.mapper.ApplicationTeamMapper">
+
+
+    <select id="getTeamReportByYearAndStage" resultType="com.backend.last_stand.entity.ApplicationTeam">
+        select * from sys_application_team
+        where `year` = #{year} and stage = #{stage}
+    </select>
+
+
+</mapper>
