@@ -41,15 +41,7 @@ public class TeamReportController {
         return applicationTeamService.getTeamReportByYearAndStage(applicationTeam);
     }
 
-    /**
-     * 管理员通过年份和审核状态获得团队中期报告申报列表
-     * @param applicationTeam
-     * @return
-     */
-    @PostMapping("/getMiddleReportByYearAndStage")
-    public ResponseResult getMiddleReportByYearAndStage(@RequestBody ApplicationTeam applicationTeam){
-        return applicationTeamService.getMiddleReportByYearAndStage(applicationTeam);
-    }
+
 
 
 }
