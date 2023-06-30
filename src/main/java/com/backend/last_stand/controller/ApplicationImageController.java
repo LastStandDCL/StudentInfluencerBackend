@@ -42,7 +42,8 @@ public class ApplicationImageController {
     }
 
     @PostMapping("/apply")
-    ResponseResult applyForMerit(@RequestBody Long imageId, @RequestHeader("Authorization")String token) {
+    ResponseResult applyForMerit(@RequestBody Long imageId,
+                                 @RequestHeader("Authorization")String token) {
         System.out.println(token);
         token = token.split(" ")[1];
         Long userId = JwtUtils.extractUserId(token);
@@ -50,7 +51,9 @@ public class ApplicationImageController {
     }
 
     @PostMapping("/pending")
-    ResponseResult pendingMerit(@RequestBody Long imageId, boolean pass, @RequestHeader("Authorization")String token) {
+    ResponseResult pendingMerit(@RequestParam Long imageId,
+                                @RequestParam boolean pass,
+                                @RequestHeader("Authorization")String token) {
         System.out.println(token);
         token = token.split(" ")[1];
         Long userId = JwtUtils.extractUserId(token);
@@ -58,7 +61,8 @@ public class ApplicationImageController {
     }
 
     @GetMapping("/rm-image")
-    ResponseResult deleteImage(Long imageId, @RequestHeader("Authorization")String token) {
+    ResponseResult deleteImage(Long imageId,
+                               @RequestHeader("Authorization")String token) {
         System.out.println(token);
         token = token.split(" ")[1];
         Long userId = JwtUtils.extractUserId(token);
