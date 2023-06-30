@@ -6,11 +6,13 @@ import com.backend.last_stand.mapper.PendingRecordMapper;
 import com.backend.last_stand.service.ApplicationTeamService;
 import com.backend.last_stand.service.PendingRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,4 +46,13 @@ public class PendingRecordController {
         return applicationTeamService.examineReport(info);
     }
 
+    /**
+     * 管理员下载团队报告
+     * @param fileName
+     * @return
+     */
+    @PostMapping("/downloadTeamReport")
+    public ResponseEntity<Object> downloadTeamReport(@RequestBody String fileName) throws FileNotFoundException {
+        return applicationTeamService.downloadTeamReport(fileName);
+    }
 }
