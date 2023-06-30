@@ -1,6 +1,7 @@
 package com.backend.last_stand.service.impl;
 
 import com.backend.last_stand.entity.ApplicationImage;
+import com.backend.last_stand.entity.News;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.entity.Team;
 import com.backend.last_stand.mapper.ApplicationImageMapper;
@@ -9,6 +10,8 @@ import com.backend.last_stand.service.FileService;
 import com.backend.last_stand.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -92,7 +96,7 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
 
         //TODO: 添加记录
 
-        return new ResponseResult(400, "申请成功");
+        return new ResponseResult(200, "申请成功");
     }
 
     @Override
@@ -132,24 +136,42 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
     }
 
     @Override
-    public ResponseResult getTeamImages(Long userId) {
+    public ResponseResult getTeamImages(Long userId, int pageNum, int pageSize) {
 
-        Team team = userService.getMostRecentUserTeam(userId);
+        Long teamId = userService.getMostRecentUserTeam(userId).getId();
 
-        QueryWrapper<ApplicationImage> wrapper = new QueryWrapper<>();
-        wrapper.eq("team_id", team.getId());
-        List<ApplicationImage> image = baseMapper.selectList(wrapper);
+        Page<ApplicationImage> page = new Page<>(pageNum, pageSize);
 
-        return new ResponseResult(404, "图片获取成功", image);
+        IPage<ApplicationImage> images = baseMapper.getTeamImages(page, teamId);
+
+        return new ResponseResult(200, "图片获取成功", images);
     }
 
     @Override
-    public ResponseResult getPublicImages() {
+    public ResponseResult countTeamImages(Long userId) {
+        Team team = userService.getMostRecentUserTeam(userId);
+        QueryWrapper<ApplicationImage> wrapper = new QueryWrapper<>();
+        wrapper.eq("team_id", team.getId());
+        int count = baseMapper.selectList(wrapper).size();
+        return new ResponseResult(200, "查询成功", count);
+    }
+
+    @Override
+    public ResponseResult getPublicImages(int pageNum, int pageSize) {
+
+        Page<ApplicationImage> page = new Page<>(pageNum, pageSize);
+
+        IPage<ApplicationImage> images = baseMapper.getPublicImages(page);
+
+        return new ResponseResult(404, "图片获取成功", images);
+    }
+
+    @Override
+    public ResponseResult countPublicImages() {
         QueryWrapper<ApplicationImage> wrapper = new QueryWrapper<>();
         wrapper.eq("stage", PUBLIC_IMAGE);
-        List<ApplicationImage> image = baseMapper.selectList(wrapper);
-
-        return new ResponseResult(404, "图片获取成功", image);
+        int count = baseMapper.selectList(wrapper).size();
+        return new ResponseResult(200, "查询成功", count);
     }
 
     @Override

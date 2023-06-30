@@ -44,6 +44,7 @@ public class FileServiceImpl
     public String saveFile(@NotNull MultipartFile file, String prefix, Long userId) {
         // 检查请求中是否有文件
         if (file.isEmpty()) {
+            System.out.println("文件为空");
             return FILE_EMPTY;
         }
 
@@ -61,21 +62,25 @@ public class FileServiceImpl
         if (!dest.getParentFile().exists()) {
             boolean mk = dest.getParentFile().mkdir();
             if(!mk){
+                System.out.println("创建文件夹失败");
                 return INSERTION_ERROR;
             }
         }
         if (dest.exists()) {
+            System.out.println("文件已存在");
             return FILE_EXIST;
         }
         try {
             boolean wf = dest.createNewFile();
             if(!wf){
+                System.out.println("粘贴文件出错");
                 return INSERTION_ERROR;
             }
             file.transferTo(dest);
             return fileName;
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("文件记录插入出错");
             return INSERTION_ERROR;
         }
     }

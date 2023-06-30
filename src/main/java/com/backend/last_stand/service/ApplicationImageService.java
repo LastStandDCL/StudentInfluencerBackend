@@ -28,9 +28,13 @@ public interface ApplicationImageService extends IService<ApplicationImage> {
 
     ResponseResult deleteImage(Long imageId, Long userId);
 
-    ResponseResult getTeamImages(Long userId);
+    ResponseResult getTeamImages(Long userId, int pageNum, int pageSize);
 
-    ResponseResult getPublicImages();
+    ResponseResult countTeamImages(Long userId);
+
+    ResponseResult getPublicImages(int pageNum, int pageSize);
+
+    ResponseResult countPublicImages();
 
     ResponseResult getPendingImages();
 
