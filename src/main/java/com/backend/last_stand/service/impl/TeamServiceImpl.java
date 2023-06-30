@@ -322,11 +322,11 @@ public class TeamServiceImpl  extends ServiceImpl<TeamMapper, Team> implements T
                 student.put("role", getUserTeamRole(user.getId(), newTeam.getId()));//成员的队伍内角色
                 studentinfos.add(student);
             }
-            hashMap1.put("members", studentinfos.toString());
+            hashMap1.put("members", studentinfos);
             array.add(hashMap1);
         }
 
-        hashMap.put("info", array.toString());
+        hashMap.put("info", array);
 
         System.out.println(hashMap.size());
 
