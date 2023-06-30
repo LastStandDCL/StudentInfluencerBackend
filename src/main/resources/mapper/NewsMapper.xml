@@ -24,7 +24,7 @@
     <select id="getNewsCountUndeleted" resultType="Integer">
         SELECT COUNT(sys_news.id)
         FROM sys_news
-        WHERE sys_news.del_flag = 1
+        WHERE sys_news.del_flag = 0
     </select>
 
 </mapper>

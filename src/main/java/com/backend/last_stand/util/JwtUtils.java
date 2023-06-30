@@ -125,7 +125,7 @@ public class JwtUtils {
      * @return
      * @throws Exception
      */
-    public static Claims parseJWT(String jwt) throws Exception {
+    public static Claims parseJWT(String jwt) {
         SecretKey secretKey = generalKey();
         return Jwts.parser()
                 .setSigningKey(secretKey)
@@ -133,5 +133,13 @@ public class JwtUtils {
                 .getBody();
     }
 
-
+    public static Long extractUserId(String jwt) {
+        SecretKey secretKey = generalKey();
+        String idInString =  Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(jwt)
+                .getBody()
+                .getSubject();
+        return Long.parseLong(idInString);
+    }
 }
