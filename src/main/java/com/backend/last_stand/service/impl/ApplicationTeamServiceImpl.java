@@ -199,11 +199,11 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
         for (ApplicationTeam newApplicationTeam:
              applicationTeamList) {
             HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("teamName", teamMapper.selectById(newApplicationTeam.getTeamId()).getTeamName());
-            hashMap.put("updaterName", userMapper.selectById(newApplicationTeam.getUpdaterId()).getName());
-            hashMap.put("updateTime", newApplicationTeam.getApplyDate());
-            hashMap.put("fileURL", newApplicationTeam.getMaterialUrl());
-            hashMap.put("teamReportId", newApplicationTeam.getId());
+            hashMap.put("teamName", teamMapper.selectById(newApplicationTeam.getTeamId()).getTeamName());//队伍名
+            hashMap.put("updaterName", userMapper.selectById(newApplicationTeam.getUpdaterId()).getName());//上传用户名
+            hashMap.put("updateTime", newApplicationTeam.getApplyDate());//上传时间
+            hashMap.put("fileURL", newApplicationTeam.getMaterialUrl());//上传文件路径
+            hashMap.put("teamReportId", newApplicationTeam.getId());//上传报告id
             hashMapList.add(hashMap);
 
         }
@@ -215,5 +215,39 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
         data.put("info", hashMapList);
 
         return new ResponseResult(200, "团队总结报告列表返回成功", data);
+    }
+
+    /**
+     * 通过年份和审核状态获得团队中期报告申报列表
+     * @param applicationTeam
+     * @return
+     */
+    @Override
+    public ResponseResult getMiddleReportByYearAndStage(ApplicationTeam applicationTeam) {
+        String year = applicationTeam.getYear();
+        int stage = applicationTeam.getStage();
+
+        List<ApplicationTeam> applicationTeamList = applicationTeamMapper.getMiddleReportByYearAndStage(year, stage);
+
+        List<HashMap<String, Object>> hashMapList = new ArrayList<>();
+        for (ApplicationTeam newApplicationTeam:
+                applicationTeamList) {
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("teamName", teamMapper.selectById(newApplicationTeam.getTeamId()).getTeamName());//队伍名
+            hashMap.put("updaterName", userMapper.selectById(newApplicationTeam.getUpdaterId()).getName());//上传用户名
+            hashMap.put("updateTime", newApplicationTeam.getApplyDate());//上传时间
+            hashMap.put("fileURL", newApplicationTeam.getMaterialUrl());//上传文件路径
+            hashMap.put("teamReportId", newApplicationTeam.getId());//上传报告id
+            hashMapList.add(hashMap);
+
+        }
+
+        int count = applicationTeamList.size();
+
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("total", count);
+        data.put("info", hashMapList);
+
+        return new ResponseResult(200, "团队中期报告列表返回成功", data);
     }
 }

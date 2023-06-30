@@ -16,4 +16,6 @@ import java.util.List;
 public interface ApplicationTeamMapper extends BaseMapper<ApplicationTeam> {
 
     List<ApplicationTeam> getTeamReportByYearAndStage(String year, int stage);
+
+    List<ApplicationTeam> getMiddleReportByYearAndStage(String year, int stage);
 }

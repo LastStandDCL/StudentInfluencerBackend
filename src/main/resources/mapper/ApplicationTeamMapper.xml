@@ -5,7 +5,12 @@
 
     <select id="getTeamReportByYearAndStage" resultType="com.backend.last_stand.entity.ApplicationTeam">
         select * from sys_application_team
-        where `year` = #{year} and stage = #{stage}
+        where `year` = #{year} and stage = #{stage} and type = 1
+    </select>
+
+    <select id="getMiddleReportByYearAndStage" resultType="com.backend.last_stand.entity.ApplicationTeam">
+        select * from sys_application_team
+        where `year` = #{year} and stage = #{stage} and type = 0
     </select>
 
 

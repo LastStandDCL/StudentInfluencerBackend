@@ -24,4 +24,6 @@ public interface ApplicationTeamService extends IService<ApplicationTeam> {
     ResponseResult examineReport(HashMap<String, Object> info);
 
     ResponseResult getTeamReportByYearAndStage(ApplicationTeam applicationTeam);
+
+    ResponseResult getMiddleReportByYearAndStage(ApplicationTeam applicationTeam);
 }
