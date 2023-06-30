@@ -12,11 +12,13 @@ import com.backend.last_stand.util.RedisCache;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -30,6 +32,7 @@ import java.util.*;
 @Service
 public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMapper, ApplicationTeam> implements ApplicationTeamService {
 
+    private static final String FILE_DIR = "files";
     private static final int TYPE_TEAMREPORT = 1;
 
     private static final int TYPE_MIDDLEREPORT = 0;
@@ -83,7 +86,7 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
             throw new RuntimeException("用户尚未加入队伍");
         }
         Team team = teams.get(0);
-        String fileURL = fileService.saveFile(file, userId);
+        String fileURL = fileService.saveFile(file, FILE_DIR, userId);
 
         //判断该年份总结报告是否重复提交
         QueryWrapper<ApplicationTeam> wrapper = new QueryWrapper<>();
@@ -133,7 +136,7 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
             throw new RuntimeException("用户尚未加入队伍");
         }
         Team team = teams.get(0);
-        String fileURL = fileService.saveFile(file, userId);
+        String fileURL = fileService.saveFile(file, FILE_DIR, userId);
 
         //判断该年份总结报告是否重复提交
         QueryWrapper<ApplicationTeam> wrapper = new QueryWrapper<>();
@@ -202,7 +205,7 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
             hashMap.put("teamName", teamMapper.selectById(newApplicationTeam.getTeamId()).getTeamName());//队伍名
             hashMap.put("updaterName", userMapper.selectById(newApplicationTeam.getUpdaterId()).getName());//上传用户名
             hashMap.put("updateTime", newApplicationTeam.getApplyDate());//上传时间
-            hashMap.put("fileURL", newApplicationTeam.getMaterialUrl());//上传文件路径
+            hashMap.put("fileName", newApplicationTeam.getMaterialUrl());//上传文件名
             hashMap.put("teamReportId", newApplicationTeam.getId());//上传报告id
             hashMapList.add(hashMap);
 
@@ -236,7 +239,7 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
             hashMap.put("teamName", teamMapper.selectById(newApplicationTeam.getTeamId()).getTeamName());//队伍名
             hashMap.put("updaterName", userMapper.selectById(newApplicationTeam.getUpdaterId()).getName());//上传用户名
             hashMap.put("updateTime", newApplicationTeam.getApplyDate());//上传时间
-            hashMap.put("fileURL", newApplicationTeam.getMaterialUrl());//上传文件路径
+            hashMap.put("fileName", newApplicationTeam.getMaterialUrl());//上传文件名
             hashMap.put("teamReportId", newApplicationTeam.getId());//上传报告id
             hashMapList.add(hashMap);
 
@@ -249,5 +252,10 @@ public class ApplicationTeamServiceImpl extends ServiceImpl<ApplicationTeamMappe
         data.put("info", hashMapList);
 
         return new ResponseResult(200, "团队中期报告列表返回成功", data);
+    }
+
+    @Override
+    public ResponseEntity<Object> downloadTeamReport(String fileName) throws FileNotFoundException {
+        return fileService.sendFile(fileName, FILE_DIR);
     }
 }

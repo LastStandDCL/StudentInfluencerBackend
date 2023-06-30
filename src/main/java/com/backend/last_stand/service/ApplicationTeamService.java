@@ -3,8 +3,10 @@ package com.backend.last_stand.service;
 import com.backend.last_stand.entity.ApplicationTeam;
 import com.backend.last_stand.entity.ResponseResult;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,4 +28,6 @@ public interface ApplicationTeamService extends IService<ApplicationTeam> {
     ResponseResult getTeamReportByYearAndStage(ApplicationTeam applicationTeam);
 
     ResponseResult getMiddleReportByYearAndStage(ApplicationTeam applicationTeam);
+
+    ResponseEntity<Object> downloadTeamReport(String fileName) throws FileNotFoundException;
 }
