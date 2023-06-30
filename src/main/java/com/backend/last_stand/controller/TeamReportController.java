@@ -1,5 +1,6 @@
 package com.backend.last_stand.controller;
 
+import com.backend.last_stand.entity.ApplicationTeam;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.service.ApplicationTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,18 @@ public class TeamReportController {
     public ResponseResult uploadTeamReport(@RequestParam("file") MultipartFile file, @RequestParam("year") String year){
         return applicationTeamService.uploadTeamReport(file, year);
     }
+
+    /**
+     * 管理员通过年份和审核状态获得团队总结报告申报列表
+     * @param applicationTeam
+     * @return
+     */
+    @PostMapping("/getTeamReportByYearAndStage")
+    public ResponseResult getTeamReportByYearAndStage(@RequestBody ApplicationTeam applicationTeam){
+        return applicationTeamService.getTeamReportByYearAndStage(applicationTeam);
+    }
+
+
 
 
 }
