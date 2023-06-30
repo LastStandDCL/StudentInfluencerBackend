@@ -1,6 +1,7 @@
 package com.backend.last_stand.controller;
 
 import com.backend.last_stand.entity.EnhancedUser;
+import com.backend.last_stand.entity.PageParam;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.service.ApplicationImageService;
 import com.backend.last_stand.util.JwtUtils;
@@ -34,9 +35,9 @@ public class ApplicationImageController {
 
     }
     @PostMapping("/upload")
-    ResponseResult uploadImage(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization")String token){
+    ResponseResult uploadImage(@RequestParam("file") MultipartFile file,
+                               @RequestParam("userToken") String token){
         System.out.println(token);
-        token = token.split(" ")[1];
         Long userId = JwtUtils.extractUserId(token);
         return applicationImageService.uploadImage(file, userId);
     }
@@ -69,18 +70,31 @@ public class ApplicationImageController {
         return applicationImageService.deleteImage(imageId, userId);
     }
 
-    @GetMapping("/team-images")
-    ResponseResult getTeamImages(@RequestHeader("Authorization")String token) {
+    @PostMapping("/team-images-by-page")
+    ResponseResult getTeamImages(@RequestHeader("Authorization")String token,
+                                 @RequestBody PageParam param) {
         System.out.println(token);
         token = token.split(" ")[1];
         Long userId = JwtUtils.extractUserId(token);
-        applicationImageService.getTeamImages(userId);
-        return null;
+        return applicationImageService.getTeamImages(userId, param.getPageNum(), param.getPageSize());
     }
 
-    @GetMapping("/public-images")
-    ResponseResult getPublicImages(){
-        return applicationImageService.getPublicImages();
+    @GetMapping("count-team-images")
+    ResponseResult countTeamImages(@RequestHeader("Authorization")String token) {
+        System.out.println(token);
+        token = token.split(" ")[1];
+        Long userId = JwtUtils.extractUserId(token);
+        return applicationImageService.countTeamImages(userId);
+    }
+
+    @PostMapping("/public-images-by-page")
+    ResponseResult getPublicImages(@RequestBody PageParam param){
+        return applicationImageService.getPublicImages(param.getPageNum(), param.getPageSize());
+    }
+
+    @GetMapping("/count-public-images")
+    ResponseResult countPublicImages(){
+        return applicationImageService.countPublicImages();
     }
 
     @GetMapping("/pending-images")
@@ -89,8 +103,9 @@ public class ApplicationImageController {
     }
 
 
-    @GetMapping("/download")
-    ResponseEntity<Object> download(String fileName) throws FileNotFoundException {
+    @GetMapping("/download/{fileName}")
+    ResponseEntity<Object> download(
+            @PathVariable(name = "fileName")String fileName) throws FileNotFoundException {
         return applicationImageService.download(fileName);
     }
 }

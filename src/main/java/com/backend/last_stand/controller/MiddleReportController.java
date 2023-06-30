@@ -1,12 +1,10 @@
 package com.backend.last_stand.controller;
 
+import com.backend.last_stand.entity.ApplicationTeam;
 import com.backend.last_stand.entity.ResponseResult;
 import com.backend.last_stand.service.ApplicationTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -31,5 +29,15 @@ public class MiddleReportController {
     @PostMapping("/uploadMiddleReport")
     public ResponseResult uploadMiddleReport(@RequestParam("file") MultipartFile file, @RequestParam("year") String year){
         return applicationTeamService.uploadMiddleReport(file, year);
+    }
+
+    /**
+     * 管理员通过年份和审核状态获得团队中期报告申报列表
+     * @param applicationTeam
+     * @return
+     */
+    @PostMapping("/getMiddleReportByYearAndStage")
+    public ResponseResult getMiddleReportByYearAndStage(@RequestBody ApplicationTeam applicationTeam){
+        return applicationTeamService.getMiddleReportByYearAndStage(applicationTeam);
     }
 }
