@@ -177,7 +177,7 @@ public class ApplicationImageServiceImpl extends ServiceImpl<ApplicationImageMap
     @Override
     public ResponseResult getPendingImages() {
         QueryWrapper<ApplicationImage> wrapper = new QueryWrapper<>();
-        wrapper.eq("stage", PENDING);
+        wrapper.ne("stage", PRIVATE_IMAGE);
         List<ApplicationImage> image = baseMapper.selectList(wrapper);
 
         return new ResponseResult(404, "图片获取成功", image);
