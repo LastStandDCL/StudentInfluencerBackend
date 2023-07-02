@@ -1,5 +1,6 @@
 package com.backend.last_stand.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Role {
-    @TableId
+    @TableId(value = "id", type = IdType.AUTO)
     Long Id;
 
     /**

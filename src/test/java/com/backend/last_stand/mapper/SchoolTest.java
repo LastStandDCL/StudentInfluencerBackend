@@ -1,7 +1,6 @@
 package com.backend.last_stand.mapper;
 
-import com.alibaba.fastjson.JSON;
-import com.backend.last_stand.entity.ResponseResult;
+
 import com.backend.last_stand.entity.School;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -56,7 +55,7 @@ public class SchoolTest {
                 School school1 = new School();
                 school1.setProvince(b);
                 school1.setSchoolName(cell.getStringCellValue());
-                school1.setCreateTime(new Date());
+//                school1.setCreateTime(new Date());
                 System.out.println(school1);
                 //加入到集合中
                 schoolArrayList.add(school1);

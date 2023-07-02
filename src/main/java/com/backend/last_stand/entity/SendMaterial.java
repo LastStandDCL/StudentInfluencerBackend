@@ -1,6 +1,8 @@
 package com.backend.last_stand.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +28,7 @@ public class SendMaterial implements Serializable {
     /**
      *发材料表id
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
 

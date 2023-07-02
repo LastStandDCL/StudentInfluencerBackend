@@ -30,12 +30,12 @@ public class UserTest {
     @Test
     public void testInsertUser() {
         User user = new User();
-        user.setUserName("2020300945");
-        user.setNickName("小明");
+        user.setUserName("1875423458@qq.com");
+        user.setNickName("小明同学");
         user.setPassword("1234567890");
-        user.setEmail("1875435468@qq.com");
+        user.setEmail("1875423458@qq.com");
         user.setProvince("陕西省");
-        user.setCity("西安市");
+        user.setCity("咸阳市");
         userMapper.insert(user);
     }
 

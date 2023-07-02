@@ -1,5 +1,8 @@
 package com.backend.last_stand.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -13,6 +16,7 @@ public class MiddleReport implements Serializable {
     @Serial
     private static final long serialVersionUID = -54979071104113736L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
 
